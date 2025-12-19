@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+/* ================= MODAL ================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  perspective: 1500px;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= CONTAINER ================= */
+
+#container {
+  width: 800px;
+  max-width: 95vw;
+  height: 500px;
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.1),
+    0 10px 10px -10px rgba(0, 0, 0, 0.02);
+  transform-style: preserve-3d;
+  overflow: hidden;
+  will-change: transform;
+  font-family: Montserrat, sans-serif;
+}
+
+#container > div {
+  position: absolute;
+  width: 50%;
+  min-width: 350px;
+  height: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+  width: 100%;
+  padding: 2em 4em;
+  text-align: center;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 3em;
+}
+
+form input {
+  background: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  font-size: 1em;
+}
+
+button {
+  margin-top: 1em;
+  border-radius: 40px;
+  border: 1px solid #ff4b2b;
+  background: #ff4b2b;
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 0.8em 2em;
+  cursor: pointer;
+}
+
+/* ================= LOGIN ================= */
+
+.login {
+  left: 0;
+  background: #fafafa;
+  border-radius: 20px 0 0 20px;
+  z-index: 2;
+}
+
+/* ================= REGISTER ================= */
+
+.register {
+  right: 0;
+  background: #fafafa;
+  border-radius: 0 20px 20px 0;
+  z-index: 1;
+}
+
+/* ================= FLIP PAGES ================= */
+
+.page {
+  right: 0;
+  color: #fff;
+  transform-origin: left center;
+  border-radius: 0 20px 20px 0;
+}
+
+.front {
+  background: linear-gradient(-45deg, #34729C, #1e21b4);
+  z-index: 3;
+}
+
+.back {
+  background: linear-gradient(135deg, #1e21b4, #34729C);
+  z-index: 2;
+}
+
+.back .content {
+  transform: rotateY(180deg);
+}
+
+/* ================= ANIMATIONS ================= */
+
+.active .front {
+  animation: rot-front 0.6s ease-in-out forwards;
+}
+
+.active .back {
+  animation: rot-back 0.6s ease-in-out forwards;
+}
+
+@keyframes rot-front {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes rot-back {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-180deg);
+  }
+}
+
+/* ================= UTIL ================= */
+
+span.remember {
+  float: left;
+  font-size: 0.9em;
+}
+
+span.forget {
+  float: right;
+  font-size: 0.9em;
+}
+
+span.clearfix {
+  clear: both;
+  display: table;
+}
