@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import AuthModal from "../components/AuthModal/AuthModal";
+import Router from "./Router";
 
 function App() {
   const [authOpen, setAuthOpen] = useState(false);
@@ -10,6 +11,8 @@ function App() {
   return (
     <>
       <Navbar onAuthOpen={() => setAuthOpen(true)} />
+
+        <Router />
 
       <AuthModal
         isOpen={authOpen}

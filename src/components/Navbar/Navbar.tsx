@@ -8,11 +8,11 @@ export default function Navbar({ onAuthOpen }: Props) {
   return (
     <div className="navbar">
       <div className="nav-left">
-        <img src="/logo.png" className="logo" />
+        <img src="./src/assets/logo.jpg" className="logo" />
         <div className="nav-links">
-          <a>Home</a>
-          <a>Explore</a>
-          <a>Map</a>
+          <a href="/home">Home</a>
+          <a href="/explore">Explore</a>
+          <a href="/map">Map</a>
           <a>Contact</a>
         </div>
       </div>
