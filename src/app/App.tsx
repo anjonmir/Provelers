@@ -1,27 +1,10 @@
-// src/app/App.tsx
-import { useState } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import AuthModal from "../components/AuthModal/AuthModal";
-import Router from "./Router";
+import Layout from "../components/Layout/Layout";
+import AppRoutes from "./routes";
 
-function App() {
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "register">("login");
-
+export default function App() {
   return (
-    <>
-      <Navbar onAuthOpen={() => setAuthOpen(true)} />
-
-        <Router />
-
-      <AuthModal
-        isOpen={authOpen}
-        mode={authMode}
-        onClose={() => setAuthOpen(false)}
-        onModeChange={setAuthMode}
-      />
-    </>
+    <Layout>
+      <AppRoutes />
+    </Layout>
   );
 }
-
-export default App;

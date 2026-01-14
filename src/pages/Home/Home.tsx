@@ -1,9 +1,10 @@
-function Home() {
+import "./Home.css";
+
+export default function Home() {
   return (
-    <div>
-      <h1></h1>
-    </div>
+    <section className="home-hero2">
+      <h1>Provelers</h1>
+      <p>Explore hidden gems with real travelers</p>
+    </section>
   );
 }
-
-export default Home;
