@@ -10,9 +10,13 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    login(email, password);
-    navigate("/profile");
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+      navigate("/profile");
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (

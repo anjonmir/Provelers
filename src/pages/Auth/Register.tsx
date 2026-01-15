@@ -11,9 +11,13 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
-    register(name, email, password);
-    navigate("/profile");
+  const handleRegister = async () => {
+    try {
+      await register(name, email, password);
+      navigate("/profile");
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
