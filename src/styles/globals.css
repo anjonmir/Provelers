@@ -1,4 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: url("/background.jpg") no-repeat center center / cover;
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+.main-content {
+  padding-top: 90px;
   min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }

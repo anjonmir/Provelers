@@ -1,20 +1,27 @@
 import type { ReactNode } from "react";
-import { AuthProvider } from "../context/AuthContext";
-// import { MapProvider } from "../context/MapContext";
 
-export default function Providers({ children }: { children: ReactNode }) {
+import { Toaster } from "react-hot-toast";
+
+import { AuthProvider } from "../context/AuthContext";
+import { MapProvider } from "../context/MapContext";
+
+type Props = {
+  children: ReactNode;
+};
+
+function Providers({ children }: Props) {
   return (
     <AuthProvider>
-      {children}
+      <MapProvider>
+        {children}
+
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+        />
+      </MapProvider>
     </AuthProvider>
   );
 }
 
-
-{/* <AuthProvider>
-  <MapProvider>
-    <QueryClientProvider>
-      {children}
-    </QueryClientProvider>
-  </MapProvider>
-</AuthProvider> */}
+export default Providers;

@@ -1,0 +1,21 @@
+.section-padding {
+  padding: 100px 0;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.section-subtitle {
+  color: var(--text2);
+  max-width: 700px;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.4);
+}

@@ -1,0 +1,68 @@
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+
+import { Container, Navbar as BSNavbar, Nav } from "react-bootstrap";
+
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+
+import "./Navbar.css";
+
+function Navbar() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <BSNavbar
+      expand="lg"
+      fixed="top"
+      expanded={expanded}
+      className="custom-navbar"
+    >
+      <Container>
+        <Link to="/" className="navbar-logo">
+          Provelers
+        </Link>
+
+        <BSNavbar.Toggle
+          aria-controls="basic-navbar-nav"
+          onClick={() => setExpanded(!expanded)}
+        >
+          <HiOutlineMenuAlt3 />
+        </BSNavbar.Toggle>
+
+        <BSNavbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto nav-links">
+            <NavLink to="/" onClick={() => setExpanded(false)}>
+              Home
+            </NavLink>
+
+            <NavLink to="/map" onClick={() => setExpanded(false)}>
+              Smart Map
+            </NavLink>
+
+            <NavLink to="/trip" onClick={() => setExpanded(false)}>
+              Trip Planner
+            </NavLink>
+
+            <NavLink to="/qa" onClick={() => setExpanded(false)}>
+              Q&A
+            </NavLink>
+
+            <NavLink to="/leaderboard" onClick={() => setExpanded(false)}>
+              Leaderboard
+            </NavLink>
+
+            <NavLink to="/profile" onClick={() => setExpanded(false)}>
+              Profile
+            </NavLink>
+
+            <Link to="/login" className="login-btn">
+              Login
+            </Link>
+          </Nav>
+        </BSNavbar.Collapse>
+      </Container>
+    </BSNavbar>
+  );
+}
+
+export default Navbar;
