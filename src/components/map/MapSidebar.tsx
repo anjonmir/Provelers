@@ -8,9 +8,14 @@ type Place = {
 
 type Props = {
   places: Place[];
+
+  onPlaceClick?: (place: Place) => void;
 };
 
-function MapSidebar({ places }: Props) {
+function MapSidebar({
+  places,
+  onPlaceClick,
+}: Props) {
   return (
     <div className="map-sidebar">
       <div className="sidebar-header">
@@ -27,6 +32,9 @@ function MapSidebar({ places }: Props) {
           <div
             className="sidebar-place-card"
             key={place.id}
+            onClick={() =>
+              onPlaceClick?.(place)
+            }
           >
             <img
               src={place.image}
