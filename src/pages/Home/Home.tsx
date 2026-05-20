@@ -1,8 +1,22 @@
+import Hero from "../../components/home/Hero";
+import FeatureSection from "../../components/home/FeatureSection";
+import PopularDestinations from "../../components/home/PopularDestinations";
+import Testimonials from "../../components/home/Testimonials";
+import CTASection from "../../components/home/CTASection";
+
 function Home() {
   return (
-    <div className="container py-5">
-      <h1>Home Page</h1>
-    </div>
+    <>
+      <Hero />
+
+      <FeatureSection />
+
+      <PopularDestinations />
+
+      <Testimonials />
+
+      <CTASection />
+    </>
   );
 }
 
