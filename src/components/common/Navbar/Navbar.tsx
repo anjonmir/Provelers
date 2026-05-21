@@ -19,7 +19,12 @@ function Navbar() {
     >
       <Container>
         <Link to="/" className="navbar-logo">
-          Provelers
+          <img
+            src="/favicon.ico"
+            alt="logo"
+            className="navbar-logo-img"
+          />
+          <span>Provelers</span>
         </Link>
 
         <BSNavbar.Toggle

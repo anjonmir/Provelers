@@ -1,0 +1,157 @@
+.qa-section {
+  padding: 120px 0;
+}
+
+.qa-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.qa-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.qa-header p {
+  color: var(--text2);
+}
+
+.qa-form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+}
+
+.qa-form-card textarea {
+  width: 100%;
+  height: 140px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  padding: 20px;
+
+  resize: none;
+
+  margin-top: 20px;
+}
+
+.answer-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.answer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.answer-top h4 {
+  margin-bottom: 12px;
+}
+
+.answer-top p {
+  color: var(--text2);
+}
+
+.vote-btn {
+  border: none;
+
+  width: 70px;
+  height: 70px;
+
+  border-radius: 20px;
+
+  background: var(--surface2);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 6px;
+
+  transition: 0.3s;
+}
+
+.vote-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.answer-footer {
+  margin-top: 24px;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: var(--text2);
+
+  font-size: 0.95rem;
+}
+
+.answer-footer span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popular-topics-card {
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+
+  position: sticky;
+  top: 100px;
+}
+
+.popular-topics-card h4 {
+  margin-bottom: 24px;
+}
+
+.topics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.topics-grid button {
+  border: none;
+
+  background: var(--surface2);
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  transition: 0.3s;
+}
+
+.topics-grid button:hover {
+  background: var(--primary);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .qa-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .answer-top {
+    flex-direction: column;
+  }
+
+  .answer-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

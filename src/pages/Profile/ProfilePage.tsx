@@ -1,9 +1,7 @@
+import UserProfile from "../../components/profile/UserProfile";
+
 function ProfilePage() {
-  return (
-    <div className="container py-5">
-      <h1>Profile Page</h1>
-    </div>
-  );
+  return <UserProfile />;
 }
 
 export default ProfilePage;

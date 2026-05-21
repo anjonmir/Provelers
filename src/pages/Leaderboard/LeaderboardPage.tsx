@@ -1,9 +1,7 @@
+import LeaderboardTable from "../../components/leaderboard/LeaderboardTable";
+
 function LeaderboardPage() {
-  return (
-    <div className="container py-5">
-      <h1>Leaderboard Page</h1>
-    </div>
-  );
+  return <LeaderboardTable />;
 }
 
 export default LeaderboardPage;

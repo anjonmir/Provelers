@@ -1,70 +1,139 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import type { ReactNode } from "react";
 import {
+  createContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+
+import {
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
+  sendPasswordResetEmail,
   updateProfile,
+  type User,
 } from "firebase/auth";
+
 import { auth } from "../services/firebase";
-import type { User } from "../types/user";
 
 type AuthContextType = {
   user: User | null;
+
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+
+  login: (
+    email: string,
+    password: string
+  ) => Promise<void>;
+
+  register: (
+    name: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
+
   logout: () => Promise<void>;
+
+  resetPassword: (
+    email: string
+  ) => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext =
+  createContext<AuthContextType>(
+    {} as AuthContextType
+  );
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+type Props = {
+  children: ReactNode;
+};
 
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser({
-          id: 0, // backend will replace this later
-          email: firebaseUser.email || "",
-          displayName: firebaseUser.displayName || "Traveler",
-        });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
+export function AuthProvider({
+  children,
+}: Props) {
+  const [user, setUser] =
+    useState<User | null>(null);
 
-    return () => unsub();
-  }, []);
+  const [loading, setLoading] =
+    useState(true);
 
-  const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+  // LOGIN
+  const login = async (
+    email: string,
+    password: string
+  ) => {
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
   };
 
-  const register = async (name: string, email: string, password: string) => {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(res.user, { displayName: name });
+  // REGISTER
+  const register = async (
+    name: string,
+    email: string,
+    password: string
+  ) => {
+    const result =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+    if (result.user) {
+      await updateProfile(
+        result.user,
+        {
+          displayName: name,
+        }
+      );
+    }
   };
 
+  // LOGOUT
   const logout = async () => {
     await signOut(auth);
   };
 
+  // RESET PASSWORD
+  const resetPassword = async (
+    email: string
+  ) => {
+    await sendPasswordResetEmail(
+      auth,
+      email
+    );
+  };
+
+  useEffect(() => {
+    const unsubscribe =
+      onAuthStateChanged(
+        auth,
+        (currentUser) => {
+          setUser(currentUser);
+
+          setLoading(false);
+        }
+      );
+
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
-      {!loading && children}
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        register,
+        logout,
+        resetPassword,
+      }}
+    >
+      {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuthContext() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error("useAuthContext must be used inside AuthProvider");
-  }
-  return ctx;
 }

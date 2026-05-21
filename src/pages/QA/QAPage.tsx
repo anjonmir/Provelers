@@ -1,9 +1,7 @@
+import QAFeed from "../../components/qa/QAFeed";
+
 function QAPage() {
-  return (
-    <div className="container py-5">
-      <h1>Q&A Page</h1>
-    </div>
-  );
+  return <QAFeed />;
 }
 
 export default QAPage;
