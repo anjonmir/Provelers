@@ -1,0 +1,21 @@
+.dashboard-shell {
+  min-height: 100vh;
+
+  background: var(--background);
+
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1500px;
+
+  margin: 0 auto;
+
+  padding: 24px;
+}
+
+.main-content {
+  min-height: 100vh;
+}

@@ -1,13 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 
-import Home from "../pages/Home/Home";
+import LandingPage from "../pages/Landing/LandingPage";
+
+import FeedPage from "../pages/Feed/FeedPage";
 import MapPage from "../pages/Map/MapPage";
+import CommunityPage from "../pages/Community/CommunityPage";
 import TripPage from "../pages/Trip/TripPage";
-import QAPage from "../pages/QA/QAPage";
-import ProfilePage from "../pages/Profile/ProfilePage";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
+import ProfilePage from "../pages/Profile/ProfilePage";
+import ChatPage from "../pages/Chat/ChatPage";
 
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
@@ -18,18 +22,29 @@ import NotFound from "../pages/NotFound/NotFound";
 function AppRoutes() {
   return (
     <Routes>
+      {/* Public */}
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/trip" element={<TripPage />} />
-        <Route path="/qa" element={<QAPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/" element={<LandingPage />} />
       </Route>
 
+      {/* Dashboard */}
+      <Route element={<DashboardLayout />}>
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/map" element={<MapPage />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/trips" element={<TripPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/chat" element={<ChatPage />} />
+      </Route>
+
+      {/* Auth */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route
+        path="/forgot-password"
+        element={<ForgotPassword />}
+      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

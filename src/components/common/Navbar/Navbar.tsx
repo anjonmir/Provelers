@@ -37,11 +37,11 @@ function Navbar() {
         <BSNavbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto nav-links">
             <NavLink to="/" onClick={() => setExpanded(false)}>
-              Home
+             
             </NavLink>
 
             <NavLink to="/map" onClick={() => setExpanded(false)}>
-              Smart Map
+              
             </NavLink>
 
             <NavLink to="/trip" onClick={() => setExpanded(false)}>
@@ -49,15 +49,17 @@ function Navbar() {
             </NavLink>
 
             <NavLink to="/qa" onClick={() => setExpanded(false)}>
-              Q&A
+              
             </NavLink>
 
             <NavLink to="/leaderboard" onClick={() => setExpanded(false)}>
-              Leaderboard
+              
+              
             </NavLink>
 
             <NavLink to="/profile" onClick={() => setExpanded(false)}>
-              Profile
+              
+              
             </NavLink>
 
             <Link to="/login" className="login-btn">

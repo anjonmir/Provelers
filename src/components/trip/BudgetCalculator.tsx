@@ -1,36 +1,64 @@
+const preferences = [
+  "Beach",
+  "Historical",
+  "Food",
+  "Adventure",
+  "Nature",
+  "Luxury",
+];
+
 type Props = {
-  budget: number;
-  setBudget: (value: number) => void;
+  selected: string[];
+  setSelected: (
+    value: string[]
+  ) => void;
 };
 
-function BudgetCalculator({
-  budget,
-  setBudget,
+function TravelPreferences({
+  selected,
+  setSelected,
 }: Props) {
+  const togglePreference = (
+    item: string
+  ) => {
+    if (selected.includes(item)) {
+      setSelected(
+        selected.filter(
+          (pref) => pref !== item
+        )
+      );
+    } else {
+      setSelected([...selected, item]);
+    }
+  };
+
   return (
     <div className="planner-card">
-      <h4>Budget Calculator</h4>
+      <h4>Travel Preferences</h4>
 
       <p>
-        Estimate your travel expenses.
+        Select your favorite travel styles.
       </p>
 
-      <input
-        type="range"
-        min="1000"
-        max="50000"
-        value={budget}
-        onChange={(e) =>
-          setBudget(Number(e.target.value))
-        }
-        className="form-range mt-4"
-      />
-
-      <div className="budget-amount">
-        ৳ {budget.toLocaleString()}
+      <div className="preference-grid">
+        {preferences.map((item) => (
+          <button
+            key={item}
+            onClick={() =>
+              togglePreference(item)
+            }
+            className={
+              selected.includes(item)
+                ? "active-preference"
+                : ""
+            }
+          >
+            {item}
+          </button>
+        ))}
       </div>
     </div>
   );
 }
 
-export default BudgetCalculator;
+export default TravelPreferences;

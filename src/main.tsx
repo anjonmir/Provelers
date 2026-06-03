@@ -13,7 +13,9 @@ import "./styles/utilities.css";
 import "./styles/animations.css";
 import "./styles/responsive.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(
+  document.getElementById("root")!
+).render(
   <React.StrictMode>
     <BrowserRouter>
       <Providers>
