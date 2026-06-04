@@ -1,7 +1,8 @@
 import { Container } from "react-bootstrap";
 
-import RankCard from "./RankCard";
 import TopTraveler from "./TopTraveler";
+import RankCard from "./RankCard";
+import AchievementGrid from "./AchievementGrid";
 
 import "./leaderboard.css";
 
@@ -10,40 +11,48 @@ function LeaderboardTable() {
     {
       rank: 1,
       name: "Anjon Mir",
-      points: 4850,
+      points: 4820,
     },
-
     {
       rank: 2,
-      name: "Traveler Rahim",
-      points: 4320,
+      name: "Sadia Islam",
+      points: 4510,
     },
-
     {
       rank: 3,
+      name: "Traveler Rahim",
+      points: 4300,
+    },
+    {
+      rank: 4,
       name: "Nafis Ahmed",
       points: 3980,
     },
-
     {
-      rank: 4,
-      name: "Sadia Islam",
-      points: 3750,
+      rank: 5,
+      name: "Mitu Akter",
+      points: 3720,
     },
   ];
 
   return (
     <section className="leaderboard-section">
       <Container>
+
         <div className="leaderboard-header">
-          <h1>Traveler Leaderboard</h1>
+          <h1>
+            Traveler Leaderboard
+          </h1>
 
           <p>
-            Top explorers across Bangladesh.
+            Top explorers across
+            Bangladesh.
           </p>
         </div>
 
         <TopTraveler />
+
+        <AchievementGrid />
 
         <div className="leaderboard-list">
           {users.map((user) => (
@@ -55,6 +64,7 @@ function LeaderboardTable() {
             />
           ))}
         </div>
+
       </Container>
     </section>
   );

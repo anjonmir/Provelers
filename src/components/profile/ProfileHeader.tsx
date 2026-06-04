@@ -1,31 +1,28 @@
-const activities = [
-  "Visited Cox's Bazar",
-  "Posted a new travel question",
-  "Completed a Sylhet trip",
-  "Earned Explorer Badge",
-];
+import "./profile.css";
 
-function ActivityFeed() {
+function ProfileHeader() {
   return (
-    <div className="activity-feed-card">
-      <h4>Recent Activity</h4>
+    <div className="profile-header">
 
-      <div className="activity-list">
-        {activities.map(
-          (activity, index) => (
-            <div
-              key={index}
-              className="activity-item"
-            >
-              <div className="activity-dot"></div>
-
-              <span>{activity}</span>
-            </div>
-          )
-        )}
+      <div className="profile-avatar">
+        A
       </div>
+
+      <div>
+        <h1>Anjon Mir</h1>
+
+        <p>
+          Explorer • Community Helper •
+          Hidden Gem Hunter
+        </p>
+
+        <span className="profile-rank">
+          Explorer Rank #12
+        </span>
+      </div>
+
     </div>
   );
 }
 
-export default ActivityFeed;
+export default ProfileHeader;

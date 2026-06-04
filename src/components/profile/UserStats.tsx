@@ -1,38 +1,32 @@
 function UserStats() {
-  const stats = [
-    {
-      label: "Trips",
-      value: 24,
-    },
-
-    {
-      label: "Places Visited",
-      value: 68,
-    },
-
-    {
-      label: "Reviews",
-      value: 142,
-    },
-
-    {
-      label: "Points",
-      value: 4850,
-    },
-  ];
-
   return (
-    <div className="profile-stats-grid">
-      {stats.map((item, index) => (
-        <div
-          key={index}
-          className="profile-stat-card"
-        >
-          <h3>{item.value}</h3>
+    <div className="glass-card p-4">
 
-          <span>{item.label}</span>
+      <h4>Statistics</h4>
+
+      <div className="stats-grid">
+
+        <div>
+          <span>Trips</span>
+          <h3>24</h3>
         </div>
-      ))}
+
+        <div>
+          <span>Places</span>
+          <h3>68</h3>
+        </div>
+
+        <div>
+          <span>Followers</span>
+          <h3>321</h3>
+        </div>
+
+        <div>
+          <span>Points</span>
+          <h3>4,820</h3>
+        </div>
+
+      </div>
     </div>
   );
 }

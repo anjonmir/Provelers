@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 import {
   FaHome,
   FaMapMarkedAlt,
-  FaUsers,
-  FaTrophy,
+  FaCalendarAlt,
+  FaComments,
   FaUser,
 } from "react-icons/fa";
 
@@ -12,27 +12,34 @@ import "./MobileBottomNav.css";
 
 function MobileBottomNav() {
   return (
-    <nav className="mobile-bottom-nav">
+    <div className="mobile-bottom-nav">
+
       <NavLink to="/feed">
         <FaHome />
+        <span>Home</span>
       </NavLink>
 
       <NavLink to="/map">
         <FaMapMarkedAlt />
+        <span>Map</span>
       </NavLink>
 
-      <NavLink to="/community">
-        <FaUsers />
+      <NavLink to="/trips">
+        <FaCalendarAlt />
+        <span>Trips</span>
       </NavLink>
 
-      <NavLink to="/leaderboard">
-        <FaTrophy />
+      <NavLink to="/chat">
+        <FaComments />
+        <span>Chat</span>
       </NavLink>
 
       <NavLink to="/profile">
         <FaUser />
+        <span>Profile</span>
       </NavLink>
-    </nav>
+
+    </div>
   );
 }
 

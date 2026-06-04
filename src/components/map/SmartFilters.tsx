@@ -1,10 +1,3 @@
-const filters = [
-  "All",
-  "Historical",
-  "Beach",
-  "Museum",
-];
-
 type Props = {
   selected: string;
   onSelect: (value: string) => void;
@@ -14,16 +7,26 @@ function SmartFilters({
   selected,
   onSelect,
 }: Props) {
+  const filters = [
+    "All",
+    "Nature",
+    "Beach",
+    "Food",
+    "Adventure",
+  ];
+
   return (
-    <div className="smart-filters">
+    <div className="filter-wrapper">
       {filters.map((filter) => (
         <button
           key={filter}
-          onClick={() => onSelect(filter)}
+          onClick={() =>
+            onSelect(filter)
+          }
           className={
             selected === filter
-              ? "active-filter"
-              : ""
+              ? "filter-chip active"
+              : "filter-chip"
           }
         >
           {filter}

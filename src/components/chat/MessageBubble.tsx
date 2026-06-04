@@ -1,10 +1,23 @@
-function NotFound() {
+type Props = {
+  text: string;
+  sender: boolean;
+};
+
+function MessageBubble({
+  text,
+  sender,
+}: Props) {
   return (
-    <div className="container py-5">
-      <h1>404 Not Found</h1>
+    <div
+      className={
+        sender
+          ? "message sender"
+          : "message receiver"
+      }
+    >
+      {text}
     </div>
   );
 }
 
-export default NotFound;
-
+export default MessageBubble;

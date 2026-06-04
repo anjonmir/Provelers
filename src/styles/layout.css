@@ -19,3 +19,27 @@
 .main-content {
   min-height: 100vh;
 }
+
+
+.dashboard-shell {
+  min-height: 100vh;
+
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+
+.dashboard-container {
+  width: 100%;
+
+  max-width: 1500px;
+
+  margin: 0 auto;
+
+  padding: 0 20px;
+}
+
+@media (max-width: 992px) {
+  .dashboard-shell {
+    padding-bottom: 100px;
+  }
+}

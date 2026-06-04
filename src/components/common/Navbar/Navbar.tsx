@@ -1,46 +1,24 @@
-import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 import {
-  Container,
-  Navbar as BSNavbar,
-  Nav,
-  Form,
-} from "react-bootstrap";
-
-import {
-  Link,
-  NavLink,
-} from "react-router-dom";
-
-import {
-  HiOutlineMenuAlt3,
   HiOutlineSearch,
 } from "react-icons/hi";
 
-import {
-  FaBell,
-} from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 
 import useAuth from "../../../hooks/useAuth";
 
 import "./Navbar.css";
 
 function Navbar() {
-  const [expanded, setExpanded] =
-    useState(false);
-
   const auth = useAuth();
 
   const user = auth?.user;
 
   return (
-    <BSNavbar
-      expand="lg"
-      fixed="top"
-      expanded={expanded}
-      className="custom-navbar"
-    >
-      <Container>
+    <nav className="custom-navbar">
+
+      <div className="navbar-left">
 
         <Link
           to="/"
@@ -54,87 +32,87 @@ function Navbar() {
           <span>Provelers</span>
         </Link>
 
-        <BSNavbar.Toggle
-          onClick={() =>
-            setExpanded(!expanded)
-          }
-        >
-          <HiOutlineMenuAlt3 />
-        </BSNavbar.Toggle>
+        {user && (
+          <div className="navbar-search">
+            <HiOutlineSearch />
 
-        <BSNavbar.Collapse>
+            <input
+              type="text"
+              placeholder="Search places, travelers..."
+            />
+          </div>
+        )}
 
-          <Nav className="ms-auto nav-links">
+      </div>
 
-            {user && (
-              <>
-                <NavLink to="/feed">
-                  Feed
-                </NavLink>
+      {user ? (
+        <>
+          <div className="navbar-center">
 
-                <NavLink to="/map">
-                  Map
-                </NavLink>
+            <NavLink to="/feed">
+              Home
+            </NavLink>
 
-                <NavLink to="/community">
-                  Community
-                </NavLink>
+            <NavLink to="/map">
+              Smart Map
+            </NavLink>
 
-                <NavLink to="/trips">
-                  Trips
-                </NavLink>
+            <NavLink to="/trips">
+              Trips
+            </NavLink>
 
-                <NavLink to="/leaderboard">
-                  Leaderboard
-                </NavLink>
+            <NavLink to="/community">
+              Community
+            </NavLink>
 
-                <Form className="navbar-search">
-                  <HiOutlineSearch />
+            <NavLink to="/leaderboard">
+              Leaderboard
+            </NavLink>
 
-                  <input
-                    placeholder="Search..."
-                  />
-                </Form>
+            <NavLink to="/chat">
+              Chat
+            </NavLink>
 
-                <button className="icon-btn">
-                  <FaBell />
-                </button>
+          </div>
 
-                <Link
-                  to="/profile"
-                  className="avatar-btn"
-                >
-                  {user.displayName
-                    ?.charAt(0)
-                    ?.toUpperCase() || "U"}
-                </Link>
-              </>
-            )}
+          <div className="navbar-right">
 
-            {!user && (
-              <>
-                <Link
-                  to="/login"
-                  className="login-btn"
-                >
-                  Login
-                </Link>
+            <button className="icon-btn">
+              <FaBell />
+            </button>
 
-                <Link
-                  to="/register"
-                  className="register-btn"
-                >
-                  Register
-                </Link>
-              </>
-            )}
+            <Link
+              to="/profile"
+              className="avatar-btn"
+            >
+              {user.displayName
+                ?.charAt(0)
+                ?.toUpperCase() || "U"}
+            </Link>
 
-          </Nav>
+          </div>
+        </>
+      ) : (
+        <div className="navbar-right">
 
-        </BSNavbar.Collapse>
+          <Link
+            to="/login"
+            className="login-btn"
+          >
+            Login
+          </Link>
 
-      </Container>
-    </BSNavbar>
+          <Link
+            to="/register"
+            className="register-btn"
+          >
+            Register
+          </Link>
+
+        </div>
+      )}
+
+    </nav>
   );
 }
 

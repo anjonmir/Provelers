@@ -1,10 +1,27 @@
-function NotFound() {
+import "./chat.css";
+
+function ChatSidebar() {
+  const chats = [
+    "Sadia Islam",
+    "Traveler Rahim",
+    "Nafis Ahmed",
+    "Bandarban Group",
+  ];
+
   return (
-    <div className="container py-5">
-      <h1>404 Not Found</h1>
+    <div className="glass-card p-4">
+      <h5>Messages</h5>
+
+      {chats.map((chat) => (
+        <div
+          key={chat}
+          className="chat-user"
+        >
+          {chat}
+        </div>
+      ))}
     </div>
   );
 }
 
-export default NotFound;
-
+export default ChatSidebar;

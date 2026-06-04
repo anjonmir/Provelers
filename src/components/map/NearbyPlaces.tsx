@@ -1,36 +1,25 @@
-const filters = [
-  "All",
-  "Historical",
-  "Beach",
-  "Museum",
-];
+function NearbyPlaces() {
+  const places = [
+    "Sajek Valley",
+    "Nilgiri",
+    "Saint Martin",
+    "Sundarbans",
+  ];
 
-type Props = {
-  selected: string;
-  onSelect: (value: string) => void;
-};
-
-function SmartFilters({
-  selected,
-  onSelect,
-}: Props) {
   return (
-    <div className="smart-filters">
-      {filters.map((filter) => (
-        <button
-          key={filter}
-          onClick={() => onSelect(filter)}
-          className={
-            selected === filter
-              ? "active-filter"
-              : ""
-          }
+    <div className="glass-card p-3">
+      <h5>Nearby Places</h5>
+
+      {places.map((place) => (
+        <div
+          key={place}
+          className="place-item"
         >
-          {filter}
-        </button>
+          {place}
+        </div>
       ))}
     </div>
   );
 }
 
-export default SmartFilters;
+export default NearbyPlaces;

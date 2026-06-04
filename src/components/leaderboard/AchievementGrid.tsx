@@ -1,22 +1,35 @@
-function TopTraveler() {
+function AchievementGrid() {
+  const badges = [
+    "Explorer",
+    "Guide",
+    "Reviewer",
+    "Helper",
+    "Photographer",
+    "Local Expert",
+  ];
+
   return (
-    <div className="top-traveler-card">
-      <img
-        src="/images/user-avatar.png"
-        alt="Top Traveler"
-      />
+    <div className="glass-card p-4 mb-4">
 
-      <h3>Anjon Mir</h3>
+      <h4>
+        Achievement Badges
+      </h4>
 
-      <p>
-        Bangladesh Top Explorer 2026
-      </p>
+      <div className="achievement-grid">
 
-      <div className="top-points">
-        4850 Points
+        {badges.map((badge) => (
+          <span
+            key={badge}
+            className="tag"
+          >
+            {badge}
+          </span>
+        ))}
+
       </div>
+
     </div>
   );
 }
 
-export default TopTraveler;
+export default AchievementGrid;

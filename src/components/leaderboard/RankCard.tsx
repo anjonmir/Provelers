@@ -11,17 +11,21 @@ function RankCard({
 }: Props) {
   return (
     <div className="rank-card">
-      <div className="rank-number">
-        #{rank}
+
+      <div>
+        <strong>
+          #{rank}
+        </strong>
       </div>
 
       <div>
-        <h5>{name}</h5>
-
-        <span>
-          {points} Points
-        </span>
+        {name}
       </div>
+
+      <div>
+        {points} pts
+      </div>
+
     </div>
   );
 }

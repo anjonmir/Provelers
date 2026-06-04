@@ -1,36 +1,25 @@
-const filters = [
-  "All",
-  "Historical",
-  "Beach",
-  "Museum",
-];
+function NearbyTravelers() {
+  const travelers = [
+    "Sadia Islam",
+    "Rahim Explorer",
+    "Traveler Nafis",
+    "Hidden Gem Hunter",
+  ];
 
-type Props = {
-  selected: string;
-  onSelect: (value: string) => void;
-};
-
-function SmartFilters({
-  selected,
-  onSelect,
-}: Props) {
   return (
-    <div className="smart-filters">
-      {filters.map((filter) => (
-        <button
-          key={filter}
-          onClick={() => onSelect(filter)}
-          className={
-            selected === filter
-              ? "active-filter"
-              : ""
-          }
+    <div className="glass-card p-3">
+      <h5>Nearby Travelers</h5>
+
+      {travelers.map((traveler) => (
+        <div
+          key={traveler}
+          className="traveler-item"
         >
-          {filter}
-        </button>
+          {traveler}
+        </div>
       ))}
     </div>
   );
 }
 
-export default SmartFilters;
+export default NearbyTravelers;

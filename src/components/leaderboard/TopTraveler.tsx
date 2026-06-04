@@ -1,20 +1,29 @@
 function TopTraveler() {
   return (
     <div className="top-traveler-card">
-      <img
-        src="/images/user-avatar.png"
-        alt="Top Traveler"
-      />
 
-      <h3>Anjon Mir</h3>
+      <div className="podium">
 
-      <p>
-        Bangladesh Top Explorer 2026
-      </p>
+        <div className="podium-user second">
+          <h3>🥈</h3>
+          <p>Sadia</p>
+          <span>4510</span>
+        </div>
 
-      <div className="top-points">
-        4850 Points
+        <div className="podium-user first">
+          <h2>🥇</h2>
+          <p>Anjon</p>
+          <span>4820</span>
+        </div>
+
+        <div className="podium-user third">
+          <h3>🥉</h3>
+          <p>Rahim</p>
+          <span>4300</span>
+        </div>
+
       </div>
+
     </div>
   );
 }

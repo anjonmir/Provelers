@@ -1,31 +1,31 @@
-const activities = [
-  "Visited Cox's Bazar",
-  "Posted a new travel question",
-  "Completed a Sylhet trip",
-  "Earned Explorer Badge",
-];
+function BadgeGrid() {
+  const badges = [
+    "Explorer",
+    "Helper",
+    "Guide",
+    "Traveler",
+    "Photographer",
+    "Local Expert",
+  ];
 
-function ActivityFeed() {
   return (
-    <div className="activity-feed-card">
-      <h4>Recent Activity</h4>
+    <div className="glass-card p-4">
 
-      <div className="activity-list">
-        {activities.map(
-          (activity, index) => (
-            <div
-              key={index}
-              className="activity-item"
-            >
-              <div className="activity-dot"></div>
+      <h4>Achievements</h4>
 
-              <span>{activity}</span>
-            </div>
-          )
-        )}
+      <div className="badge-grid">
+        {badges.map((badge) => (
+          <span
+            key={badge}
+            className="tag"
+          >
+            {badge}
+          </span>
+        ))}
       </div>
+
     </div>
   );
 }
 
-export default ActivityFeed;
+export default BadgeGrid;
