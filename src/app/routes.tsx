@@ -15,38 +15,86 @@ import ChatPage from "../pages/Chat/ChatPage";
 
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
-import ForgotPassword from "../pages/Auth/ForgotPassword";
+
+import ProtectedRoute from "./ProtectedRoute";
 
 import NotFound from "../pages/NotFound/NotFound";
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public */}
+      {/* Landing */}
+
       <Route element={<MainLayout />}>
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={<LandingPage />}
+        />
       </Route>
 
-      {/* Dashboard */}
-      <Route element={<DashboardLayout />}>
-        <Route path="/feed" element={<FeedPage />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/community" element={<CommunityPage />} />
-        <Route path="/trips" element={<TripPage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/chat" element={<ChatPage />} />
+      {/* Protected Dashboard */}
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route
+          path="/feed"
+          element={<FeedPage />}
+        />
+
+        <Route
+          path="/map"
+          element={<MapPage />}
+        />
+
+        <Route
+          path="/community"
+          element={<CommunityPage />}
+        />
+
+        <Route
+          path="/trips"
+          element={<TripPage />}
+        />
+
+        <Route
+          path="/leaderboard"
+          element={<LeaderboardPage />}
+        />
+
+        <Route
+          path="/profile"
+          element={<ProfilePage />}
+        />
+
+        <Route
+          path="/chat"
+          element={<ChatPage />}
+        />
       </Route>
 
       {/* Auth */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+
       <Route
-        path="/forgot-password"
-        element={<ForgotPassword />}
+        path="/login"
+        element={<Login />}
       />
 
-      <Route path="*" element={<NotFound />} />
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      {/* 404 */}
+
+      <Route
+        path="*"
+        element={<NotFound />}
+      />
     </Routes>
   );
 }

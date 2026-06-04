@@ -1,4 +1,6 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
+import { AuthProvider } from "../context/AuthContext";
 
 type ProvidersProps = {
   children: ReactNode;
@@ -7,7 +9,11 @@ type ProvidersProps = {
 function Providers({
   children,
 }: ProvidersProps) {
-  return <>{children}</>;
+  return (
+    <AuthProvider>
+      {children}
+    </AuthProvider>
+  );
 }
 
 export default Providers;

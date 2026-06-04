@@ -58,7 +58,7 @@ function Register() {
         password
       );
 
-      navigate("/");
+      navigate("/feed");
     } catch (err: any) {
       setError(
         err.message ||

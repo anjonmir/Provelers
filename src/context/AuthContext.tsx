@@ -137,3 +137,5 @@ export function AuthProvider({
     </AuthContext.Provider>
   );
 }
+
+export default AuthProvider;

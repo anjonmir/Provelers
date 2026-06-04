@@ -1,10 +1,26 @@
-function NotFound() {
+function PopularTopics() {
+  const topics = [
+    "Sajek",
+    "Bandarban",
+    "Hidden Gems",
+    "Budget Travel",
+    "Solo Travel",
+  ];
+
   return (
-    <div className="container py-5">
-      <h1>404 Not Found</h1>
+    <div className="glass-card p-4">
+      <h5>Popular Topics</h5>
+
+      {topics.map((topic) => (
+        <div
+          key={topic}
+          className="tag mt-2"
+        >
+          #{topic}
+        </div>
+      ))}
     </div>
   );
 }
 
-export default NotFound;
-
+export default PopularTopics;

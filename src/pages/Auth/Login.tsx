@@ -28,7 +28,7 @@ function Login() {
     try {
       setLoading(true);
       await login(email, password);
-      navigate("/");
+      navigate("/feed");
     } catch (err: any) {
       setError(err.message || "Login failed.");
     } finally {

@@ -1,14 +1,37 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
 
-import { Container, Navbar as BSNavbar, Nav } from "react-bootstrap";
+import {
+  Container,
+  Navbar as BSNavbar,
+  Nav,
+  Form,
+} from "react-bootstrap";
 
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import {
+  Link,
+  NavLink,
+} from "react-router-dom";
+
+import {
+  HiOutlineMenuAlt3,
+  HiOutlineSearch,
+} from "react-icons/hi";
+
+import {
+  FaBell,
+} from "react-icons/fa";
+
+import useAuth from "../../../hooks/useAuth";
 
 import "./Navbar.css";
 
 function Navbar() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] =
+    useState(false);
+
+  const auth = useAuth();
+
+  const user = auth?.user;
 
   return (
     <BSNavbar
@@ -18,55 +41,98 @@ function Navbar() {
       className="custom-navbar"
     >
       <Container>
-        <Link to="/" className="navbar-logo">
+
+        <Link
+          to="/"
+          className="navbar-logo"
+        >
           <img
             src="/favicon.ico"
             alt="logo"
-            className="navbar-logo-img"
           />
+
           <span>Provelers</span>
         </Link>
 
         <BSNavbar.Toggle
-          aria-controls="basic-navbar-nav"
-          onClick={() => setExpanded(!expanded)}
+          onClick={() =>
+            setExpanded(!expanded)
+          }
         >
           <HiOutlineMenuAlt3 />
         </BSNavbar.Toggle>
 
-        <BSNavbar.Collapse id="basic-navbar-nav">
+        <BSNavbar.Collapse>
+
           <Nav className="ms-auto nav-links">
-            <NavLink to="/" onClick={() => setExpanded(false)}>
-             
-            </NavLink>
 
-            <NavLink to="/map" onClick={() => setExpanded(false)}>
-              
-            </NavLink>
+            {user && (
+              <>
+                <NavLink to="/feed">
+                  Feed
+                </NavLink>
 
-            <NavLink to="/trip" onClick={() => setExpanded(false)}>
-              Trip Planner
-            </NavLink>
+                <NavLink to="/map">
+                  Map
+                </NavLink>
 
-            <NavLink to="/qa" onClick={() => setExpanded(false)}>
-              
-            </NavLink>
+                <NavLink to="/community">
+                  Community
+                </NavLink>
 
-            <NavLink to="/leaderboard" onClick={() => setExpanded(false)}>
-              
-              
-            </NavLink>
+                <NavLink to="/trips">
+                  Trips
+                </NavLink>
 
-            <NavLink to="/profile" onClick={() => setExpanded(false)}>
-              
-              
-            </NavLink>
+                <NavLink to="/leaderboard">
+                  Leaderboard
+                </NavLink>
 
-            <Link to="/login" className="login-btn">
-              Login
-            </Link>
+                <Form className="navbar-search">
+                  <HiOutlineSearch />
+
+                  <input
+                    placeholder="Search..."
+                  />
+                </Form>
+
+                <button className="icon-btn">
+                  <FaBell />
+                </button>
+
+                <Link
+                  to="/profile"
+                  className="avatar-btn"
+                >
+                  {user.displayName
+                    ?.charAt(0)
+                    ?.toUpperCase() || "U"}
+                </Link>
+              </>
+            )}
+
+            {!user && (
+              <>
+                <Link
+                  to="/login"
+                  className="login-btn"
+                >
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="register-btn"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+
           </Nav>
+
         </BSNavbar.Collapse>
+
       </Container>
     </BSNavbar>
   );
