@@ -1,105 +1,186 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { Container, Row, Col } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 
-import BudgetCalculator from "./BudgetCalculator";
-import TripTimeline from "./TripTimeline";
-import TravelPreferences from "./TravelPreferences";
+import TripSidebar from "./TripSidebar";
+import TripCreateModal from "./TripCreateModal";
+import TripStats from "./TripStats";
+import MiniMapPreview from "./MiniMapPreview";
 
 import "./trip.css";
 
 function TripPlanner() {
-  const [budget, setBudget] =
-    useState(5000);
-
-  const [days, setDays] =
-    useState(3);
-
-  const [preferences, setPreferences] =
-    useState<string[]>([]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "tripPlanner",
-      JSON.stringify({
-        budget,
-        days,
-        preferences,
-      })
-    );
-  }, [budget, days, preferences]);
+  const [showModal, setShowModal] =
+    useState(false);
 
   return (
-    <section className="trip-section">
-      <Container>
-        <div className="planner-header">
-          <h1>Smart Trip Planner</h1>
+    <section className="trip-page">
 
-          <p>
-            Create and customize your
-            perfect travel plan.
-          </p>
+      <Container fluid>
+
+        <div className="trip-header">
+
+          <div>
+            <h1>
+              Bangladesh Highlights '25
+            </h1>
+
+            <p>
+              Mar 15 – Mar 22, 2025
+              • 7 Days • Public
+            </p>
+          </div>
+
+          <button
+            className="primary-btn"
+            onClick={() =>
+              setShowModal(true)
+            }
+          >
+            Create Trip
+          </button>
+
         </div>
 
         <Row className="g-4">
-          <Col lg={4}>
-            <BudgetCalculator
-              budget={budget}
-              setBudget={setBudget}
-            />
-          </Col>
 
-          <Col lg={4}>
-            <TripTimeline
-              days={days}
-              setDays={setDays}
-            />
-          </Col>
+          {/* LEFT */}
 
-          <Col lg={4}>
-            <TravelPreferences
-              selected={preferences}
-              setSelected={
-                setPreferences
+          <Col lg={3}>
+            <TripSidebar
+              onCreateTrip={() =>
+                setShowModal(true)
               }
             />
           </Col>
+
+          {/* CENTER */}
+
+          <Col lg={6}>
+
+            <div className="trip-editor glass-card">
+
+              <h3>
+                Day 1 – March 15
+              </h3>
+
+              <div className="trip-stop">
+                <h5>
+                  Lalbagh Fort
+                </h5>
+
+                <span>
+                  10:00 AM
+                </span>
+              </div>
+
+              <div className="trip-stop">
+                <h5>
+                  Old Town Biryani
+                </h5>
+
+                <span>
+                  1:00 PM
+                </span>
+              </div>
+
+              <div className="trip-stop">
+                <h5>
+                  Ahsan Manzil Museum
+                </h5>
+
+                <span>
+                  3:30 PM
+                </span>
+              </div>
+
+              <hr />
+
+              <h3>
+                Day 2 – March 16
+              </h3>
+
+              <div className="trip-stop">
+                <h5>
+                  Sadarghat River Cruise
+                </h5>
+
+                <span>
+                  9:00 AM
+                </span>
+              </div>
+
+              <div className="trip-stop">
+                <h5>
+                  Star Mosque
+                </h5>
+
+                <span>
+                  2:00 PM
+                </span>
+              </div>
+
+            </div>
+
+          </Col>
+
+          {/* RIGHT */}
+
+          <Col lg={3}>
+
+            <div className="trip-right-panel">
+
+              <MiniMapPreview />
+
+              <TripStats />
+
+            </div>
+
+          </Col>
+
         </Row>
 
-        <div className="trip-summary-card">
-          <h2>Your Trip Summary</h2>
+        {/* PHOTOS */}
 
-          <div className="summary-grid">
-            <div>
-              <span>Budget</span>
+        <div className="trip-photos glass-card">
 
-              <h4>
-                ৳ {budget.toLocaleString()}
-              </h4>
-            </div>
+          <h3>
+            Trip Photos
+          </h3>
 
-            <div>
-              <span>Timeline</span>
-
-              <h4>{days} Days</h4>
-            </div>
-
-            <div>
-              <span>Preferences</span>
-
-              <h4>
-                {preferences.length > 0
-                  ? preferences.join(", ")
-                  : "None"}
-              </h4>
-            </div>
+          <div className="photo-upload-box">
+            Upload travel photos
           </div>
 
-          <button className="primary-btn mt-4">
-            Save Trip Plan
-          </button>
         </div>
+
+        {/* ACTIONS */}
+
+        <div className="trip-actions">
+
+          <button className="secondary-btn">
+            Save Draft
+          </button>
+
+          <button className="primary-btn">
+            Publish Trip
+          </button>
+
+        </div>
+
       </Container>
+
+      <TripCreateModal
+        isOpen={showModal}
+        onClose={() =>
+          setShowModal(false)
+        }
+      />
+
     </section>
   );
 }

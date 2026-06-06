@@ -1,0 +1,328 @@
+/* ===========================
+   TRIP SIDEBAR
+=========================== */
+
+.trip-sidebar {
+  padding: 24px;
+
+  height: 100%;
+}
+
+.trip-sidebar-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.trip-sidebar-header h4 {
+  margin: 0;
+
+  font-weight: 700;
+}
+
+.trip-create-btn {
+  border: none;
+
+  background: transparent;
+
+  color: var(--primary);
+
+  font-size: 1.3rem;
+}
+
+.trip-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.trip-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.trip-item:hover {
+  background: rgba(15, 76, 117, 0.08);
+}
+
+.active-trip {
+  background: rgba(15, 76, 117, 0.12);
+
+  color: var(--primary);
+
+  font-weight: 600;
+}
+/* ===========================
+   TRIP MODAL
+=========================== */
+
+.trip-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0,0,0,0.45);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.trip-modal {
+  width: 100%;
+  max-width: 700px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 30px;
+}
+
+.trip-modal-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.trip-modal-close {
+  border: none;
+
+  background: transparent;
+
+  font-size: 1.5rem;
+}
+
+.trip-modal-body {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.trip-form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.trip-form-group label {
+  font-weight: 600;
+}
+
+.trip-form-group input,
+.trip-form-group select,
+.trip-form-group textarea {
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  padding: 12px;
+}
+/* ===========================
+   TRIP PAGE
+=========================== */
+
+.trip-page {
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+.trip-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 32px;
+}
+
+.trip-header h1 {
+  font-weight: 700;
+
+  margin-bottom: 6px;
+}
+
+.trip-header p {
+  color: #6b7280;
+
+  margin: 0;
+}
+
+/* ===========================
+   CENTER EDITOR
+=========================== */
+
+.trip-editor {
+  padding: 28px;
+}
+
+.trip-stop {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 0;
+}
+
+.trip-stop h5 {
+  margin: 0;
+}
+
+.trip-stop span {
+  color: #6b7280;
+}
+
+/* ===========================
+   RIGHT PANEL
+=========================== */
+
+.trip-right-panel {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+/* ===========================
+   PHOTOS
+=========================== */
+
+.trip-photos {
+  margin-top: 30px;
+
+  padding: 24px;
+}
+
+.photo-upload-box {
+  height: 180px;
+
+  border: 2px dashed
+    rgba(15,76,117,.25);
+
+  border-radius: 20px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+}
+
+/* ===========================
+   ACTION BUTTONS
+=========================== */
+
+.trip-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 14px;
+
+  margin-top: 24px;
+}
+
+.secondary-btn {
+  border: none;
+
+  padding: 12px 24px;
+
+  border-radius: 999px;
+
+  background: #eef2f7;
+}
+/* ===========================
+   MINI MAP
+=========================== */
+
+.mini-map-preview {
+  padding: 24px;
+}
+
+.mini-map-placeholder {
+  height: 220px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(15,76,117,.08),
+      rgba(50,130,184,.08)
+    );
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  gap: 12px;
+}
+
+.mini-map-placeholder svg {
+  font-size: 2rem;
+
+  color: var(--primary);
+}
+
+/* ===========================
+   TRIP STATS
+=========================== */
+
+.trip-stats {
+  padding: 24px;
+}
+
+.trip-stats h4 {
+  margin-bottom: 20px;
+
+  font-weight: 700;
+}
+
+.trip-stat-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 14px 0;
+
+  border-bottom:
+    1px solid rgba(0,0,0,.05);
+}
+
+.trip-stat-item:last-child {
+  border-bottom: none;
+}
