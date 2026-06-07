@@ -19,6 +19,7 @@ import Register from "../pages/Auth/Register";
 import ProtectedRoute from "./ProtectedRoute";
 
 import NotFound from "../pages/NotFound/NotFound";
+import CompleteProfilePage from "../pages/CompleteProfile/CompleteProfilePage";
 
 function AppRoutes() {
   return (
@@ -88,6 +89,10 @@ function AppRoutes() {
         path="/register"
         element={<Register />}
       />
+      <Route
+  path="/complete-profile"
+  element={<CompleteProfilePage />}
+/>
 
       {/* 404 */}
 

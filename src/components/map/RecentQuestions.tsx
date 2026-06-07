@@ -1,22 +1,26 @@
 function RecentQuestions() {
   const questions = [
-    "Best time to visit Sajek?",
-    "Budget for Bandarban trip?",
-    "Safe solo travel places?",
+    "Best food near Lalbagh Fort?",
+    "Any hidden gems in Rajshahi?",
+    "Safe places for solo travelers?",
   ];
 
   return (
-    <div className="glass-card p-3">
+    <div className="map-card glass-card">
+
       <h5>Recent Questions</h5>
 
-      {questions.map((question) => (
-        <div
-          key={question}
-          className="question-item"
-        >
-          {question}
-        </div>
-      ))}
+      {questions.map(
+        (question, index) => (
+          <div
+            key={index}
+            className="question-item"
+          >
+            {question}
+          </div>
+        )
+      )}
+
     </div>
   );
 }

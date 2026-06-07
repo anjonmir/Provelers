@@ -1,23 +1,35 @@
 function NearbyPlaces() {
   const places = [
-    "Sajek Valley",
-    "Nilgiri",
-    "Saint Martin",
-    "Sundarbans",
+    {
+      name: "Lalbagh Fort",
+      type: "Hidden Gem",
+    },
+    {
+      name: "Old Town Biryani",
+      type: "Food Spot",
+    },
+    {
+      name: "Ahsan Manzil",
+      type: "Historic Place",
+    },
   ];
 
   return (
-    <div className="glass-card p-3">
+    <div className="map-card glass-card">
+
       <h5>Nearby Places</h5>
 
-      {places.map((place) => (
+      {places.map((place, index) => (
         <div
-          key={place}
-          className="place-item"
+          key={index}
+          className="map-list-item"
         >
-          {place}
+          <strong>{place.name}</strong>
+
+          <span>{place.type}</span>
         </div>
       ))}
+
     </div>
   );
 }

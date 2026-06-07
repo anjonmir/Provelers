@@ -1,61 +1,406 @@
-.map-layout {
+/* ==================================
+   PROVELERS SMART MAP
+================================== */
+
+.map-page {
   display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  gap: 24px;
 
-  grid-template-columns:
-    320px
-    1fr
-    320px;
+  padding: 110px 24px 40px;
 
-  gap: 20px;
+  min-height: 100vh;
+}
 
-  height: calc(100vh - 120px);
+/* ==================================
+   LEFT SIDEBAR
+================================== */
+
+.map-left {
+  display: flex;
+  flex-direction: column;
 }
 
 .map-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.05);
 }
 
-.map-right-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.sidebar-section h5 {
+  font-weight: 700;
+  margin-bottom: 18px;
 }
 
-.traveler-item,
-.place-item,
+.sidebar-links,
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-link,
+.category-item {
+  border: none;
+
+  background: transparent;
+
+  padding: 12px 14px;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  transition: .25s;
+
+  text-align: left;
+}
+
+.sidebar-link:hover,
+.category-item:hover {
+  background:
+    rgba(15,76,117,.08);
+}
+
+.sidebar-link.active {
+  background:
+    rgba(15,76,117,.12);
+
+  color: var(--primary);
+
+  font-weight: 600;
+}
+
+/* ==================================
+   CENTER
+================================== */
+
+.map-center {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.map-floating-search {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.map-floating-search input {
+  width: 100%;
+
+  height: 58px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 999px;
+
+  padding: 0 22px;
+
+  background: white;
+
+  font-size: 15px;
+}
+
+.map-floating-search input:focus {
+  outline: none;
+}
+
+/* ==================================
+   MAP
+================================== */
+
+.map-wrapper {
+  height: calc(100vh - 220px);
+
+  min-height: 720px;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background: white;
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.08);
+}
+
+.mapboxgl-map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==================================
+   MAP PIN
+================================== */
+
+.marker-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.map-pin {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  border: 3px solid white;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.2);
+}
+
+/* ==================================
+   RIGHT SIDEBAR
+================================== */
+
+.map-right {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.map-card {
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 22px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.05);
+}
+
+.map-card h5 {
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+.follow-btn {
+  margin-left: auto;
+}
+
+/* ==================================
+   PLACES
+================================== */
+
+.map-list-item {
+  padding: 12px 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  border-bottom:
+    1px solid rgba(0,0,0,.05);
+}
+
+.map-list-item:last-child {
+  border-bottom: none;
+}
+
+.map-list-item span {
+  color: #6b7280;
+  font-size: .9rem;
+}
+
+/* ==================================
+   TRAVELERS
+================================== */
+
+.traveler-item {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 10px 0;
+}
+
+.traveler-avatar {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-light)
+    );
+}
+
+/* ==================================
+   QUESTIONS
+================================== */
+
 .question-item {
   padding: 12px 0;
 
   border-bottom:
-    1px solid var(--border);
+    1px solid rgba(0,0,0,.05);
+
+  transition: .25s;
+
+  cursor: pointer;
 }
 
-.filter-wrapper {
+.question-item:hover {
+  color: var(--primary);
+}
+
+.question-item:last-child {
+  border-bottom: none;
+}
+
+/* ==================================
+   RESPONSIVE
+================================== */
+
+@media (max-width: 1400px) {
+  .map-page {
+    grid-template-columns:
+      240px 1fr 280px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .map-page {
+    grid-template-columns: 1fr;
+  }
+
+  .map-left {
+    order: 2;
+  }
+
+  .map-center {
+    order: 1;
+  }
+
+  .map-right {
+    order: 3;
+  }
+
+  .map-wrapper {
+    min-height: 600px;
+  }
+}
+/* ==================================
+   FILTER PILLS
+================================== */
+
+.smart-filters {
   display: flex;
+
   gap: 10px;
-  flex-wrap: wrap;
+
+  overflow-x: auto;
+
+  padding-bottom: 4px;
+
+  scrollbar-width: none;
 }
 
-.filter-chip {
+.smart-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-pill {
   border: none;
 
-  padding: 10px 16px;
+  padding: 10px 18px;
 
   border-radius: 999px;
 
   background: white;
+
+  white-space: nowrap;
+
+  font-weight: 500;
+
+  transition: .25s;
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,.04);
 }
 
-.filter-chip.active {
+.filter-pill:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.08);
+}
+
+.filter-pill.active {
   background: var(--primary);
 
   color: white;
 }
+/* ==================================
+   FLOATING MAP OVERLAY
+================================== */
 
-@media (max-width: 1200px) {
-  .map-layout {
-    grid-template-columns: 1fr;
-  }
+.map-wrapper {
+  position: relative;
 }
+
+.map-overlay {
+  position: absolute;
+
+  top: 18px;
+  left: 18px;
+  right: 18px;
+
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.map-search-input {
+  width: 100%;
+
+  height: 56px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  padding: 0 22px;
+
+  background: rgba(255,255,255,.95);
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.08);
+}
+
+.map-search-input:focus {
+  outline: none;
+}
+

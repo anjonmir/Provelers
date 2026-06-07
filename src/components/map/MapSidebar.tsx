@@ -1,56 +1,85 @@
-type Place = {
-  id: number;
-  name: string;
-  location: string;
-  category: string;
-  image: string;
-};
+import {
+  FaMapMarkedAlt,
+  FaBookmark,
+  FaQuestionCircle,
+  FaRoute,
+  FaTrophy,
+  FaUtensils,
+  FaMountain,
+  FaGem,
+} from "react-icons/fa";
 
-type Props = {
-  places: Place[];
-
-  onPlaceClick?: (place: Place) => void;
-};
-
-function MapSidebar({
-  places,
-  onPlaceClick,
-}: Props) {
+function MapSidebar() {
   return (
-    <div className="map-sidebar">
-      <div className="sidebar-header">
-        <h3>Explore Places</h3>
+    <div className="map-sidebar glass-card">
 
-        <p>
-          Discover amazing tourist spots
-          across Bangladesh.
-        </p>
+      <div className="sidebar-section">
+
+        <h5>Navigation</h5>
+
+        <div className="sidebar-links">
+
+          <button className="sidebar-link active">
+            <FaMapMarkedAlt />
+            <span>Explore Map</span>
+          </button>
+
+          <button className="sidebar-link">
+            <FaBookmark />
+            <span>Saved Places</span>
+          </button>
+
+          <button className="sidebar-link">
+            <FaQuestionCircle />
+            <span>Nearby Q&A</span>
+          </button>
+
+          <button className="sidebar-link">
+            <FaRoute />
+            <span>My Trips</span>
+          </button>
+
+          <button className="sidebar-link">
+            <FaTrophy />
+            <span>Leaderboard</span>
+          </button>
+
+        </div>
+
       </div>
 
-      <div className="sidebar-places">
-        {places.map((place) => (
-          <div
-            className="sidebar-place-card"
-            key={place.id}
-            onClick={() =>
-              onPlaceClick?.(place)
-            }
-          >
-            <img
-              src={place.image}
-              alt={place.name}
-            />
+      <hr />
 
-            <div>
-              <h5>{place.name}</h5>
+      <div className="sidebar-section">
 
-              <span>{place.location}</span>
+        <h5>Categories</h5>
 
-              <p>{place.category}</p>
-            </div>
-          </div>
-        ))}
+        <div className="category-list">
+
+          <button className="category-item">
+            <FaUtensils />
+            Food Spots
+          </button>
+
+          <button className="category-item">
+            <FaMountain />
+            Hiking Trails
+          </button>
+
+          <button className="category-item">
+            <FaGem />
+            Hidden Gems
+          </button>
+
+          <button className="category-item">
+            <FaQuestionCircle />
+            Q&A Spots
+          </button>
+
+        </div>
+
       </div>
+
     </div>
   );
 }

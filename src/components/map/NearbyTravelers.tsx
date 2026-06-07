@@ -1,23 +1,37 @@
 function NearbyTravelers() {
   const travelers = [
-    "Sadia Islam",
-    "Rahim Explorer",
-    "Traveler Nafis",
-    "Hidden Gem Hunter",
+    "Rafiq K.",
+    "Tania A.",
+    "Minhaj S.",
   ];
 
   return (
-    <div className="glass-card p-3">
-      <h5>Nearby Travelers</h5>
+    <div className="map-card glass-card">
 
-      {travelers.map((traveler) => (
-        <div
-          key={traveler}
-          className="traveler-item"
-        >
-          {traveler}
-        </div>
-      ))}
+      <h5>
+        Active Nearby Travelers
+      </h5>
+
+      {travelers.map(
+        (traveler, index) => (
+          <div
+            key={index}
+            className="traveler-item"
+          >
+            <div className="traveler-avatar">
+              {traveler.charAt(0)}
+            </div>
+
+
+            <span>{traveler}</span>
+            <button type="button"
+              className="btn btn-info follow-btn">
+              Follow
+            </button>
+          </div>
+        )
+      )}
+
     </div>
   );
 }

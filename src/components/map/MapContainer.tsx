@@ -1,135 +1,159 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import TripCreateModal from "../trip/TripCreateModal";
 
 import Map, {
-    Marker,
-    Popup,
-    NavigationControl,
+  Marker,
+  NavigationControl,
 } from "react-map-gl/mapbox";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import {
-    touristPlaces,
-} from "../../services/mapService";
-
-import MarkerPopup from "./MarkerPopup";
-import SmartFilters from "./SmartFilters";
 import MapSidebar from "./MapSidebar";
-import PlaceDetailModal from "./PlaceDetailModal";
+import NearbyPlaces from "./NearbyPlaces";
+import NearbyTravelers from "./NearbyTravelers";
+import RecentQuestions from "./RecentQuestions";
+import SmartFilters from "./SmartFilters";
+
+
+
+import { getPlaces } from "../../services/mapService";
 
 import "./map.css";
 
+
 function MapContainer() {
-    const [selectedPlace, setSelectedPlace] =
-        useState<any>(null);
 
-    const [modalPlace, setModalPlace] =
-        useState<any>(null);
+  const [selectedFilter, setSelectedFilter] =
+    useState("All");
 
-    const [filter, setFilter] =
-        useState("All");
+  const places = getPlaces();
 
-    const filteredPlaces =
-        filter === "All"
-            ? touristPlaces
-            : touristPlaces.filter(
-                (place) =>
-                    place.category === filter
-            );
+  const filteredPlaces = useMemo(() => {
+    if (selectedFilter === "All") {
+      return places;
+    }
 
-    return (
-        <div className="map-layout">
-            <MapSidebar
-                places={filteredPlaces}
-                onPlaceClick={(place) =>
-                    setModalPlace(place)
-                }
+    return places.filter(
+      (place) =>
+        place.category === selectedFilter
+    );
+  }, [places, selectedFilter]);
+
+  const getPinColor = (
+    category: string
+  ) => {
+    switch (category) {
+      case "Beach":
+        return "#f97316";
+
+      case "Hiking":
+        return "#22c55e";
+
+      case "Hidden Gem":
+        return "#eab308";
+
+      case "Historical":
+        return "#3b82f6";
+
+      default:
+        return "#ef4444";
+    }
+  };
+
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <section className="map-page">
+
+      <aside className="map-left">
+        <MapSidebar />
+      </aside>
+
+      <main className="map-center">
+
+        <div className="map-wrapper">
+
+          <div className="map-overlay">
+
+            <input
+              className="map-search-input"
+              placeholder="Search places, cities, categories..."
             />
 
-            <div className="map-wrapper">
-                <div className="map-overlay">
-                    <div>
-                        <h2>Smart Travel Map</h2>
+            <SmartFilters
+              selected={selectedFilter}
+              onSelect={setSelectedFilter}
+            />
 
-                        <p>
-                            Discover places interactively
-                            with live maps.
-                        </p>
-                    </div>
+          </div>
 
-                    <SmartFilters
-                        selected={filter}
-                        onSelect={setFilter}
-                    />
-                </div>
+          <Map
+            initialViewState={{
+              longitude: 90.4125,
+              latitude: 23.8103,
+              zoom: 6,
+            }}
+            mapStyle="mapbox://styles/mapbox/navigation-day-v1"
+            mapboxAccessToken={
+              import.meta.env
+                .VITE_MAPBOX_TOKEN
+            }
+          >
+            <NavigationControl />
 
-                <Map
-                    initialViewState={{
-                        longitude: 90.4125,
-                        latitude: 23.8103,
-                        zoom: 6,
-                    }}
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                    }}
-                    mapStyle="mapbox://styles/mapbox/streets-v12"
-                    mapboxAccessToken={
-                        import.meta.env.VITE_MAPBOX_TOKEN
-                    }
+            {filteredPlaces.map(
+              (place) => (
+                <Marker
+                  key={place.id}
+                  longitude={place.lng}
+                  latitude={place.lat}
                 >
-                    <NavigationControl position="top-right" />
+                  <button className="marker-btn">
+                    <div
+                      className="map-pin"
+                      style={{
+                        background:
+                          getPinColor(
+                            place.category
+                          ),
+                      }}
+                    />
+                  </button>
+                </Marker>
+              )
+            )}
+          </Map>
 
-                    {filteredPlaces.map((place) => (
-                        <Marker
-                            key={place.id}
-                            longitude={place.lng}
-                            latitude={place.lat}
-                            anchor="bottom"
-                        >
-                            <button
-                                className="marker-btn"
-                                onClick={() =>
-                                    setSelectedPlace(place)
-                                }
-                            >
-                                📍
-                            </button>
-                        </Marker>
-                    ))}
-
-                    {selectedPlace && (
-                        <Popup
-                            longitude={selectedPlace.lng}
-                            latitude={selectedPlace.lat}
-                            anchor="top"
-                            onClose={() =>
-                                setSelectedPlace(null)
-                            }
-                        >
-                            <div
-                                onClick={() =>
-                                    setModalPlace(selectedPlace)
-                                }
-                            >
-                                <MarkerPopup
-                                    place={selectedPlace}
-                                />
-                            </div>
-                        </Popup>
-                    )}
-                </Map>
-
-                <PlaceDetailModal
-                    isOpen={!!modalPlace}
-                    onClose={() =>
-                        setModalPlace(null)
-                    }
-                    place={modalPlace}
-                />
-            </div>
         </div>
-    );
+
+      </main>
+
+      <aside className="map-right">
+
+        <NearbyPlaces />
+
+        <NearbyTravelers />
+
+        <RecentQuestions />
+
+
+        <button
+          className="primary-btn"
+          onClick={() =>
+            setShowModal(true)
+          }
+        >
+          Create Your Trip
+        </button>
+
+      </aside>
+      <TripCreateModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
+
+
+    </section>
+  );
 }
 
 export default MapContainer;

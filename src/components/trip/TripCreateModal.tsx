@@ -156,7 +156,7 @@ function TripCreateModal({
             </select>
           </div>
 
-          <div className="trip-form-group">
+          <div className="trip-form-group full-width">
             <label>Add Photos</label>
 
             <input
