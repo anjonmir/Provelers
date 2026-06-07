@@ -1,0 +1,267 @@
+/* ====================================
+   COMPLETE PROFILE PAGE
+==================================== */
+
+.complete-profile-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 120px 20px 60px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8fafc,
+      #eef6ff
+    );
+}
+
+/* ====================================
+   CONTAINER
+==================================== */
+
+.profile-container {
+  width: 100%;
+  max-width: 900px;
+
+  background: white;
+
+  border-radius: 30px;
+
+  padding: 40px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.08);
+}
+
+/* ====================================
+   HEADER
+==================================== */
+
+.profile-header {
+  text-align: center;
+
+  margin-bottom: 32px;
+}
+
+.profile-header h1 {
+  font-size: 2rem;
+
+  font-weight: 800;
+
+  color: var(--primary);
+}
+
+.profile-header p {
+  color: #64748b;
+
+  margin-top: 10px;
+}
+
+/* ====================================
+   STEP PROGRESS
+==================================== */
+
+.step-progress {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 35px;
+}
+
+.step-dot {
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  background: #dbe4ef;
+
+  transition: .3s;
+}
+
+.step-dot.active {
+  background: var(--primary);
+
+  transform: scale(1.1);
+}
+
+/* ====================================
+   CARD
+==================================== */
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.step-card h2 {
+  font-size: 1.4rem;
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
+}
+
+/* ====================================
+   INPUTS
+==================================== */
+
+.step-card input,
+.step-card select,
+.step-card textarea {
+  width: 100%;
+
+  border: 1px solid #dbe4ef;
+
+  border-radius: 16px;
+
+  padding: 14px 16px;
+
+  font-size: 15px;
+
+  transition: .25s;
+}
+
+.step-card input:focus,
+.step-card select:focus,
+.step-card textarea:focus {
+  outline: none;
+
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(15,76,117,.08);
+}
+
+.step-card textarea {
+  min-height: 120px;
+
+  resize: vertical;
+}
+
+/* ====================================
+   PHOTO UPLOAD
+==================================== */
+
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.photo-preview {
+  width: 140px;
+  height: 140px;
+
+  border-radius: 50%;
+
+  border: 2px dashed
+    var(--primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: .9rem;
+
+  color: var(--primary);
+
+  background:
+    rgba(15,76,117,.04);
+}
+
+/* ====================================
+   CHECKBOX
+==================================== */
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  font-weight: 500;
+}
+
+/* ====================================
+   BUTTONS
+==================================== */
+
+.step-actions {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 30px;
+}
+
+.primary-btn,
+.secondary-btn,
+.submit-btn {
+  border: none;
+
+  border-radius: 14px;
+
+  padding: 12px 24px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.primary-btn,
+.submit-btn {
+  background: var(--primary);
+
+  color: white;
+}
+
+.primary-btn:hover,
+.submit-btn:hover {
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background: #eef2f7;
+
+  color: #334155;
+}
+
+.secondary-btn:hover {
+  background: #e2e8f0;
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 24px;
+  }
+
+  .step-actions {
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .submit-btn {
+    width: 100%;
+  }
+}

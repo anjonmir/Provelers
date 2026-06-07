@@ -1,12 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { useState } from "react";
+import {
+  signInWithGoogle,
+} from "../../services/authService";
 
 import useAuth from "../../hooks/useAuth";
 
 import "./auth.css";
 
 function Register() {
+  const handleGoogleSignup =
+    async () => {
+      try {
+        await signInWithGoogle();
+
+        navigate(
+          "/complete-profile"
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
   const { register } = useAuth();
 
   const navigate = useNavigate();
@@ -58,11 +73,11 @@ function Register() {
         password
       );
 
-      navigate("/feed");
+      navigate("/complete-profile");
     } catch (err: any) {
       setError(
         err.message ||
-          "Registration failed."
+        "Registration failed."
       );
     } finally {
       setLoading(false);
@@ -72,9 +87,8 @@ function Register() {
   return (
     <div className="auth-page">
       <div
-        className={`auth-card ${
-          loading ? "auth-loading" : ""
-        }`}
+        className={`auth-card ${loading ? "auth-loading" : ""
+          }`}
       >
         <button
           className="auth-close-btn"
@@ -153,6 +167,17 @@ function Register() {
             {loading
               ? "Creating Account..."
               : "Sign Up"}
+          </button>
+          <div className="auth-divider">
+            <span>OR</span>
+          </div>
+
+          <button
+            type="button"
+            className="google-btn"
+            onClick={handleGoogleSignup}
+          >
+            Continue with Google
           </button>
         </form>
 

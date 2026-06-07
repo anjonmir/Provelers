@@ -1,7 +1,12 @@
-import { Routes, Route } from "react-router-dom";
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
+
+import ProtectedRoute from "./ProtectedRoute";
 
 import LandingPage from "../pages/Landing/LandingPage";
 
@@ -15,25 +20,39 @@ import ChatPage from "../pages/Chat/ChatPage";
 
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import ForgotPassword from "../pages/Auth/ForgotPassword";
 
-import ProtectedRoute from "./ProtectedRoute";
+import CompleteProfilePage from "../pages/CompleteProfile/CompleteProfilePage";
 
 import NotFound from "../pages/NotFound/NotFound";
-import CompleteProfilePage from "../pages/CompleteProfile/CompleteProfilePage";
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* Landing */}
 
-      <Route element={<MainLayout />}>
+      {/* LANDING */}
+
+      <Route
+        element={<MainLayout />}
+      >
         <Route
           path="/"
           element={<LandingPage />}
         />
       </Route>
 
-      {/* Protected Dashboard */}
+      {/* COMPLETE PROFILE */}
+
+      <Route
+        path="/complete-profile"
+        element={
+          <ProtectedRoute>
+            <CompleteProfilePage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* DASHBOARD */}
 
       <Route
         element={
@@ -54,7 +73,9 @@ function AppRoutes() {
 
         <Route
           path="/community"
-          element={<CommunityPage />}
+          element={
+            <CommunityPage />
+          }
         />
 
         <Route
@@ -64,7 +85,9 @@ function AppRoutes() {
 
         <Route
           path="/leaderboard"
-          element={<LeaderboardPage />}
+          element={
+            <LeaderboardPage />
+          }
         />
 
         <Route
@@ -78,7 +101,7 @@ function AppRoutes() {
         />
       </Route>
 
-      {/* Auth */}
+      {/* AUTH */}
 
       <Route
         path="/login"
@@ -89,10 +112,11 @@ function AppRoutes() {
         path="/register"
         element={<Register />}
       />
+
       <Route
-  path="/complete-profile"
-  element={<CompleteProfilePage />}
-/>
+        path="/forgot-password"
+        element={<ForgotPassword />}
+      />
 
       {/* 404 */}
 
@@ -100,6 +124,7 @@ function AppRoutes() {
         path="*"
         element={<NotFound />}
       />
+
     </Routes>
   );
 }

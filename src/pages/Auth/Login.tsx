@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { signInWithGoogle } from "../../services/authService";
 import ForgotPassword from "./ForgotPassword";
 import useAuth from "../../hooks/useAuth";
 
@@ -15,6 +15,16 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showForgot, setShowForgot] = useState(false);
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      navigate("/complete-profile");
+    } catch (error) {
+      console.error(error);
+      setError("Google sign-in failed.");
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +49,11 @@ function Login() {
   return (
     <div className="auth-page">
       <div className={`auth-card ${loading ? "auth-loading" : ""}`}>
-        <button className="auth-close-btn" onClick={() => navigate(-1)}>
+        <button
+          className="auth-close-btn"
+          onClick={() => navigate(-1)}
+          type="button"
+        >
           ✕
         </button>
 
@@ -73,14 +87,33 @@ function Login() {
             />
           </div>
 
-          <button type="submit" className="auth-submit-btn">
+          <button
+            type="submit"
+            className="auth-submit-btn"
+            disabled={loading}
+          >
             {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <div className="auth-divider">
+            <span>OR</span>
+          </div>
+
+          <button
+            type="button"
+            className="google-btn"
+            onClick={handleGoogleLogin}
+            disabled={loading}
+          >
+            Continue with Google
           </button>
         </form>
 
-        {/* Forgot password button (MOVED INSIDE COMPONENT) */}
         <div className="forgot-password">
-          <button type="button" onClick={() => setShowForgot(true)}>
+          <button
+            type="button"
+            onClick={() => setShowForgot(true)}
+          >
             Forgot Password?
           </button>
         </div>
@@ -90,9 +123,10 @@ function Login() {
         </div>
       </div>
 
-      {/* Modal / Component rendering */}
       {showForgot && (
-        <ForgotPassword onClose={() => setShowForgot(false)} />
+        <ForgotPassword
+          onClose={() => setShowForgot(false)}
+        />
       )}
     </div>
   );

@@ -1,32 +1,27 @@
-import type { ReactNode } from "react";
-
 import { Navigate } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 
-type ProtectedRouteProps = {
-  children: ReactNode;
+type Props = {
+  children: React.ReactNode;
 };
 
 function ProtectedRoute({
   children,
-}: ProtectedRouteProps) {
-  const auth = useAuth();
-
-  if (!auth) {
-    return (
-      <Navigate
-        to="/login"
-        replace
-      />
-    );
-  }
-
-  const { user, loading } = auth;
+}: Props) {
+  const { user, loading } =
+    useAuth();
 
   if (loading) {
     return (
-      <div className="container py-5">
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         Loading...
       </div>
     );
