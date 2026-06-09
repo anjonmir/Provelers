@@ -1,10 +1,21 @@
-import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
+
+import {
+  Link,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 
 import {
   HiOutlineSearch,
 } from "react-icons/hi";
 
-import { FaBell } from "react-icons/fa";
+import {
+  FaBell,
+  FaEllipsisV,
+  FaCog,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 import useAuth from "../../../hooks/useAuth";
 
@@ -13,10 +24,29 @@ import "./Navbar.css";
 function Navbar() {
   const auth = useAuth();
 
+  const navigate = useNavigate();
+
   const user = auth?.user;
+
+  const logout = auth?.logout;
+
+  const [showMenu, setShowMenu] =
+    useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logout?.();
+
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <nav className="custom-navbar">
+
+      {/* LEFT */}
 
       <div className="navbar-left">
 
@@ -34,48 +64,57 @@ function Navbar() {
 
         {user && (
           <div className="navbar-search">
+
             <HiOutlineSearch />
 
             <input
               type="text"
               placeholder="Search places, travelers..."
             />
+
           </div>
         )}
 
       </div>
 
-      {user ? (
-        <>
-          <div className="navbar-center">
+      {/* CENTER */}
 
-            <NavLink to="/feed">
-              Home
-            </NavLink>
+      {user && (
+        <div className="navbar-center">
 
-            <NavLink to="/map">
-              Smart Map
-            </NavLink>
+          <NavLink to="/feed">
+            Home
+          </NavLink>
 
-            <NavLink to="/trips">
-              Trips
-            </NavLink>
+          <NavLink to="/map">
+            Smart Map
+          </NavLink>
 
-            <NavLink to="/community">
-              Community
-            </NavLink>
+          <NavLink to="/trips">
+            Trips
+          </NavLink>
 
-            <NavLink to="/leaderboard">
-              Leaderboard
-            </NavLink>
+          <NavLink to="/community">
+            Community
+          </NavLink>
 
-            <NavLink to="/chat">
-              Chat
-            </NavLink>
+          <NavLink to="/leaderboard">
+            Leaderboard
+          </NavLink>
 
-          </div>
+          <NavLink to="/chat">
+            Chat
+          </NavLink>
 
-          <div className="navbar-right">
+        </div>
+      )}
+
+      {/* RIGHT */}
+
+      <div className="navbar-right">
+
+        {user ? (
+          <>
 
             <button className="icon-btn">
               <FaBell />
@@ -90,27 +129,65 @@ function Navbar() {
                 ?.toUpperCase() || "U"}
             </Link>
 
-          </div>
-        </>
-      ) : (
-        <div className="navbar-right">
+            <div className="menu-wrapper">
 
-          <Link
-            to="/login"
-            className="login-btn"
-          >
-            Login
-          </Link>
+              <button
+                className="icon-btn"
+                onClick={() =>
+                  setShowMenu(!showMenu)
+                }
+              >
+                <FaEllipsisV />
+              </button>
 
-          <Link
-            to="/register"
-            className="register-btn"
-          >
-            Register
-          </Link>
+              {showMenu && (
+                <div className="menu-dropdown">
 
-        </div>
-      )}
+                  <Link
+                    to="/settings"
+                    className="menu-item"
+                  >
+                    <FaCog />
+
+                    Settings
+                  </Link>
+
+                  <button
+                    className="menu-item logout-btn"
+                    onClick={handleLogout}
+                  >
+                    <FaSignOutAlt />
+
+                    Logout
+                  </button>
+
+                </div>
+              )}
+
+            </div>
+
+          </>
+        ) : (
+          <>
+
+            <Link
+              to="/login"
+              className="login-btn"
+            >
+              Login
+            </Link>
+
+            <Link
+              to="/register"
+              className="register-btn"
+            >
+              Register
+            </Link>
+
+          </>
+        )}
+
+      </div>
 
     </nav>
   );

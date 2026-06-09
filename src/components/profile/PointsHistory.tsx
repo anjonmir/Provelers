@@ -1,24 +1,56 @@
+import "./profile.css";
+
 function PointsHistory() {
-  const history = [
-    "+120 Answered Question",
-    "+250 Completed Trip",
-    "+90 New Review",
-    "+60 Community Help",
-  ];
-
   return (
-    <div className="glass-card p-4">
+    <div className="profile-card">
 
-      <h4>Points History</h4>
+      <h2>
+        Points History
+      </h2>
 
-      {history.map((item) => (
-        <div
-          key={item}
-          className="points-item"
-        >
-          {item}
+      <div className="points-list">
+
+        <div>
+          <span>
+            Published Trip
+          </span>
+
+          <strong>
+            +40
+          </strong>
         </div>
-      ))}
+
+        <div>
+          <span>
+            Added Place
+          </span>
+
+          <strong>
+            +30
+          </strong>
+        </div>
+
+        <div>
+          <span>
+            Answered Question
+          </span>
+
+          <strong>
+            +20
+          </strong>
+        </div>
+
+        <div>
+          <span>
+            Asked Question
+          </span>
+
+          <strong>
+            +10
+          </strong>
+        </div>
+
+      </div>
 
     </div>
   );

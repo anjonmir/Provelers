@@ -1,10 +1,11 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import "./completeProfile.css";
 
 function CompleteProfilePage() {
   const [step, setStep] = useState(1);
 
+  const navigate = useNavigate();
   const nextStep = () => {
     setStep((prev) => prev + 1);
   };
@@ -26,7 +27,7 @@ function CompleteProfilePage() {
         </div>
 
         <div className="step-progress">
-          {[1,2,3,4,5,6,7,8].map((item) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
             <div
               key={item}
               className={
@@ -250,7 +251,7 @@ function CompleteProfilePage() {
             </select>
 
             <input
-              placeholder="Favorite Destination"
+              placeholder="NID Card Number"
             />
 
           </div>
@@ -292,6 +293,7 @@ function CompleteProfilePage() {
 
             <button
               className="submit-btn"
+              onClick={() => navigate("/feed")}
             >
               Complete Profile
             </button>

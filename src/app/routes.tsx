@@ -25,6 +25,7 @@ import ForgotPassword from "../pages/Auth/ForgotPassword";
 import CompleteProfilePage from "../pages/CompleteProfile/CompleteProfilePage";
 
 import NotFound from "../pages/NotFound/NotFound";
+import SettingsPage from "../pages/Settings/SettingsPage";
 
 function AppRoutes() {
   return (
@@ -96,6 +97,11 @@ function AppRoutes() {
         />
 
         <Route
+          path="/settings"
+          element={<SettingsPage />}
+        />
+
+        <Route
           path="/chat"
           element={<ChatPage />}
         />
@@ -124,6 +130,7 @@ function AppRoutes() {
         path="*"
         element={<NotFound />}
       />
+
 
     </Routes>
   );

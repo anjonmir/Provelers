@@ -1,23 +1,30 @@
+import "./profile.css";
+
 function RecentTrips() {
-  const trips = [
-    "Sajek Valley Adventure",
-    "Saint Martin Weekend",
-    "Bandarban Expedition",
-  ];
-
   return (
-    <div className="glass-card p-4">
+    <div className="profile-card">
 
-      <h4>Recent Trips</h4>
+      <h2>
+        Recent Trips
+      </h2>
 
-      {trips.map((trip) => (
-        <div
-          key={trip}
-          className="trip-item"
-        >
-          {trip}
-        </div>
-      ))}
+      <div className="trip-card">
+
+        <img
+          src="/images/default-cover.jpg"
+          alt=""
+        />
+
+        <h3>
+          Sylhet Adventure
+        </h3>
+
+        <p>
+          Exploring tea gardens
+          and waterfalls.
+        </p>
+
+      </div>
 
     </div>
   );

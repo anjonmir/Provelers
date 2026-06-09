@@ -2,23 +2,47 @@ import "./profile.css";
 
 function ProfileHeader() {
   return (
-    <div className="profile-header">
+    <div className="profile-header-card">
 
-      <div className="profile-avatar">
-        A
+      <h1>
+        Anjon Kabir
+      </h1>
+
+      <span className="username">
+        @anjon
+      </span>
+
+      <p className="profile-location">
+        Rajshahi, Bangladesh
+      </p>
+
+      <p className="profile-bio">
+        Explorer of hidden gems,
+        local food and travel stories
+        across Bangladesh.
+      </p>
+
+      <div className="traveler-tags">
+
+        <span>
+          📸 Photographer
+        </span>
+
+        <span>
+          🍜 Food Explorer
+        </span>
+
+        <span>
+          🥾 Adventurer
+        </span>
+
       </div>
 
-      <div>
-        <h1>Anjon Mir</h1>
+      <div className="profile-actions">
 
-        <p>
-          Explorer • Community Helper •
-          Hidden Gem Hunter
-        </p>
 
-        <span className="profile-rank">
-          Explorer Rank #12
-        </span>
+        
+
       </div>
 
     </div>

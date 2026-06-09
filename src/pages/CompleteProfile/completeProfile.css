@@ -52,11 +52,11 @@
 
   font-weight: 800;
 
-  color: var(--primary);
+  color: #e9ebed;
 }
 
 .profile-header p {
-  color: #64748b;
+  color: #e9ebed;
 
   margin-top: 10px;
 }
