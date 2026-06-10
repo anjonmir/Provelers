@@ -5,56 +5,44 @@ import {
 } from "react-bootstrap";
 
 import CreatePostCard from "../../components/feed/CreatePostCard";
-import PostCard from "../../components/feed/PostCard";
-import TrendingTopics from "../../components/feed/TrendingTopics";
-import FollowSuggestions from "../../components/feed/FollowSuggestions";
+import FeedPostCard from "../../components/feed/FeedPostCard";
+
+import FeedLeftSidebar from "../../components/feed/FeedLeftSidebar";
+import FeedRightSidebar from "../../components/feed/FeedRightSidebar";
+
+import { mockFeed } from "../../data/mockFeed";
 
 function FeedPage() {
-  const posts = [
-    {
-      id: 1,
-      author: "Anjon Mir",
-      location: "Sajek Valley",
-      content:
-        "Just discovered an amazing hidden viewpoint in Sajek. Highly recommended!",
-      likes: 42,
-      comments: 8,
-    },
-    {
-      id: 2,
-      author: "Sadia Islam",
-      location: "Cox's Bazar",
-      content:
-        "Sunrise at Cox's Bazar was absolutely beautiful today.",
-      likes: 27,
-      comments: 5,
-    },
-  ];
-
   return (
     <Container fluid>
+
       <Row className="g-4">
 
-        <Col lg={3}>
-          <TrendingTopics />
+        <Col lg={2}>
+          <FeedLeftSidebar />
         </Col>
 
-        <Col lg={6}>
+        <Col lg={7}>
+
           <CreatePostCard />
 
-          {posts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-            />
-          ))}
+          {mockFeed.map(
+            (post) => (
+              <FeedPostCard
+                key={post.id}
+                post={post}
+              />
+            )
+          )}
+
         </Col>
 
         <Col lg={3}>
-          <FollowSuggestions />
+          <FeedRightSidebar />
         </Col>
 
       </Row>
+
     </Container>
   );
 }

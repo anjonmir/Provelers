@@ -1,26 +1,68 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import useAuth from "../../hooks/useAuth";
+
+import "./feed.css";
 
 function CreatePostCard() {
-  const [text, setText] =
-    useState("");
+  const navigate = useNavigate();
+
+  const auth = useAuth();
+
+  const user = auth?.user;
 
   return (
-    <div className="glass-card mb-4 p-4">
-      <h5>Create Post</h5>
+    <div className="create-post-card">
 
-      <textarea
-        className="form-control mt-3"
-        rows={4}
-        placeholder="Share your travel experience..."
-        value={text}
-        onChange={(e) =>
-          setText(e.target.value)
-        }
-      />
+      <div className="create-post-top">
 
-      <button className="primary-btn mt-3">
-        Post
-      </button>
+        <div className="create-post-avatar">
+          {user?.displayName
+            ?.charAt(0)
+            ?.toUpperCase() || "U"}
+        </div>
+
+        <button
+          className="create-post-input"
+          onClick={() =>
+            navigate("/trips")
+          }
+        >
+          Where are you planning to go next?
+        </button>
+
+      </div>
+
+      <div className="create-post-divider" />
+
+      <div className="create-post-actions">
+
+        <button
+          onClick={() =>
+            navigate("/trips")
+          }
+        >
+          ✈️ Create Trip
+        </button>
+
+        <button
+          onClick={() =>
+            navigate("/map")
+          }
+        >
+          📍 Discover Places
+        </button>
+
+        <button
+          onClick={() =>
+            navigate("/community")
+          }
+        >
+          ❓ Ask Community
+        </button>
+
+      </div>
+
     </div>
   );
 }
