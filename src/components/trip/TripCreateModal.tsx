@@ -2,13 +2,51 @@ import { useState } from "react";
 
 type Props = {
   isOpen: boolean;
+
   onClose: () => void;
+
+  onCreateTrip: (
+    trip: any
+  ) => void;
 };
 
 function TripCreateModal({
   isOpen,
   onClose,
+  onCreateTrip,
 }: Props) {
+  const handleSubmit = () => {
+    if (!tripName.trim()) return;
+
+    const newTrip = {
+      id: Date.now(),
+
+      title: tripName,
+
+      category,
+
+      description,
+
+      location,
+
+      privacy,
+
+      date,
+
+      days: [],
+    };
+
+    onCreateTrip(newTrip);
+
+    setTripName("");
+    setCategory("");
+    setDescription("");
+    setLocation("");
+    setPrivacy("Public");
+    setDate("");
+
+    onClose();
+  };
   const [tripName, setTripName] =
     useState("");
 
@@ -165,7 +203,10 @@ function TripCreateModal({
             />
           </div>
 
-          <button className="primary-btn w-100">
+          <button
+            className="primary-btn w-100"
+            onClick={handleSubmit}
+          >
             Submit Trip
           </button>
 

@@ -11,11 +11,189 @@ import TripCreateModal from "./TripCreateModal";
 import TripStats from "./TripStats";
 import MiniMapPreview from "./MiniMapPreview";
 
+import TripEditor from "./TripEditor";
+
+import { mockTrips } from "../../data/mockTrips";
+
 import "./trip.css";
 
 function TripPlanner() {
   const [showModal, setShowModal] =
     useState(false);
+
+  const [trips, setTrips] =
+    useState(mockTrips);
+
+  const [selectedTripId, setSelectedTripId] =
+    useState(mockTrips[0].id);
+
+  const selectedTrip =
+    trips.find(
+      (trip) =>
+        trip.id === selectedTripId
+    );
+  const handleCreateTrip = (
+    newTrip: any
+  ) => {
+    setTrips((prev) => [
+      newTrip,
+      ...prev,
+    ]);
+
+    setSelectedTripId(
+      newTrip.id
+    );
+  };
+
+  const handleEditStop = (
+    dayId: number,
+    updatedStop: any
+  ) => {
+    setTrips((prevTrips) =>
+      prevTrips.map((trip) => {
+        if (
+          trip.id !== selectedTripId
+        ) {
+          return trip;
+        }
+
+        return {
+          ...trip,
+
+          days: trip.days.map(
+            (day: any) => {
+              if (
+                day.id !== dayId
+              ) {
+                return day;
+              }
+
+              return {
+                ...day,
+
+                stops:
+                  day.stops.map(
+                    (
+                      stop: any
+                    ) =>
+                      stop.id ===
+                        updatedStop.id
+                        ? updatedStop
+                        : stop
+                  ),
+              };
+            }
+          ),
+        };
+      })
+    );
+  };
+
+  const handleAddDay = () => {
+    setTrips((prevTrips) =>
+      prevTrips.map((trip) => {
+        if (
+          trip.id !== selectedTripId
+        ) {
+          return trip;
+        }
+
+        const newDay = {
+          id: Date.now(),
+
+          title: `Day ${trip.days.length + 1
+            }`,
+
+          stops: [],
+        };
+
+        return {
+          ...trip,
+
+          days: [
+            ...trip.days,
+            newDay,
+          ],
+        };
+      })
+    );
+  };
+  const handleAddStop = (
+    dayId: number,
+    newStop: any
+  ) => {
+    setTrips((prevTrips) =>
+      prevTrips.map((trip) => {
+        if (
+          trip.id !== selectedTripId
+        ) {
+          return trip;
+        }
+
+        return {
+          ...trip,
+
+          days: trip.days.map(
+            (day: any) => {
+              if (
+                day.id !== dayId
+              ) {
+                return day;
+              }
+
+              return {
+                ...day,
+
+                stops: [
+                  ...day.stops,
+                  newStop,
+                ],
+              };
+            }
+          ),
+        };
+      })
+    );
+  };
+
+  const handleDeleteStop = (
+    dayId: number,
+    stopId: number
+  ) => {
+    setTrips((prevTrips) =>
+      prevTrips.map((trip) => {
+        if (
+          trip.id !== selectedTripId
+        ) {
+          return trip;
+        }
+
+        return {
+          ...trip,
+
+          days: trip.days.map(
+            (day: any) => {
+              if (
+                day.id !== dayId
+              ) {
+                return day;
+              }
+
+              return {
+                ...day,
+
+                stops:
+                  day.stops.filter(
+                    (stop: any) =>
+                      stop.id !== stopId
+                  ),
+              };
+            }
+          ),
+        };
+      })
+    );
+  };
 
   return (
     <section className="trip-page">
@@ -25,14 +203,16 @@ function TripPlanner() {
         <div className="trip-header">
 
           <div>
+
             <h1>
-              Bangladesh Highlights '25
+              {selectedTrip?.title}
             </h1>
 
             <p>
               Mar 15 – Mar 22, 2025
               • 7 Days • Public
             </p>
+
           </div>
 
           <button
@@ -51,80 +231,39 @@ function TripPlanner() {
           {/* LEFT */}
 
           <Col lg={3}>
+
             <TripSidebar
+              trips={trips}
+              selectedTripId={
+                selectedTripId
+              }
+              onSelectTrip={
+                setSelectedTripId
+              }
               onCreateTrip={() =>
                 setShowModal(true)
               }
             />
+
           </Col>
 
           {/* CENTER */}
 
           <Col lg={6}>
 
-            <div className="trip-editor glass-card">
-
-              <h3>
-                Day 1 – March 15
-              </h3>
-
-              <div className="trip-stop">
-                <h5>
-                  Lalbagh Fort
-                </h5>
-
-                <span>
-                  10:00 AM
-                </span>
-              </div>
-
-              <div className="trip-stop">
-                <h5>
-                  Old Town Biryani
-                </h5>
-
-                <span>
-                  1:00 PM
-                </span>
-              </div>
-
-              <div className="trip-stop">
-                <h5>
-                  Ahsan Manzil Museum
-                </h5>
-
-                <span>
-                  3:30 PM
-                </span>
-              </div>
-
-              <hr />
-
-              <h3>
-                Day 2 – March 16
-              </h3>
-
-              <div className="trip-stop">
-                <h5>
-                  Sadarghat River Cruise
-                </h5>
-
-                <span>
-                  9:00 AM
-                </span>
-              </div>
-
-              <div className="trip-stop">
-                <h5>
-                  Star Mosque
-                </h5>
-
-                <span>
-                  2:00 PM
-                </span>
-              </div>
-
-            </div>
+            {selectedTrip && (
+              <TripEditor
+                trip={selectedTrip}
+                onAddDay={handleAddDay}
+                onAddStop={handleAddStop}
+                onDeleteStop={
+                  handleDeleteStop
+                }
+                onEditStop={
+                  handleEditStop
+                }
+              />
+            )}
 
           </Col>
 
@@ -144,8 +283,6 @@ function TripPlanner() {
 
         </Row>
 
-        {/* PHOTOS */}
-
         <div className="trip-photos glass-card">
 
           <h3>
@@ -157,8 +294,6 @@ function TripPlanner() {
           </div>
 
         </div>
-
-        {/* ACTIONS */}
 
         <div className="trip-actions">
 
@@ -178,6 +313,9 @@ function TripPlanner() {
         isOpen={showModal}
         onClose={() =>
           setShowModal(false)
+        }
+        onCreateTrip={
+          handleCreateTrip
         }
       />
 

@@ -5,9 +5,13 @@
 .feed-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
 
+  gap: 20px;
+
+  position: sticky;
+
+  top: 100px;
+}
 .feed-sidebar-card,
 .right-card {
   background: white;
@@ -61,6 +65,10 @@
   flex-direction: column;
 
   gap: 20px;
+
+  position: sticky;
+
+  top: 100px;
 }
 
 .right-card ul {
@@ -79,6 +87,14 @@
 
 .right-card li:last-child {
   border-bottom: none;
+}
+/* ==========================
+   STICKY SIDEBAR FIX
+========================== */
+
+.feed-sidebar,
+.feed-right-sidebar {
+  align-self: start;
 }
 
 

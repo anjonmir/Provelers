@@ -6,6 +6,12 @@
   padding: 24px;
 
   height: 100%;
+
+  position: sticky;
+
+  top: 110px;
+
+  align-self: start;
 }
 
 .trip-sidebar-header {
@@ -84,7 +90,7 @@
 
 .trip-modal {
   width: 100%;
-  max-width: 720px;
+  max-width: 760px;
   max-height: 85vh;
   overflow-y: auto;
   background: white;
@@ -102,14 +108,33 @@
 
 .trip-modal-close {
   border: none;
+
   background: transparent;
+
   font-size: 1.5rem;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.trip-modal-close:hover {
+  background: rgba(0,0,0,.05);
 }
 
 .trip-modal-body {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 18px;
+
+  min-height: 260px;
 }
 
 .trip-form-group {
@@ -203,7 +228,14 @@
   flex-direction: column;
 
   gap: 20px;
+
+  position: sticky;
+
+  top: 110px;
+
+  align-self: flex-start;
 }
+
 
 /* ===========================
    PHOTOS
@@ -319,4 +351,237 @@
 
 .trip-stat-item:last-child {
   border-bottom: none;
+}
+
+/* ===========================
+   TRIP EDITOR V2
+=========================== */
+
+.trip-editor-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.day-card {
+  margin-top: 24px;
+
+  padding-top: 24px;
+
+  border-top:
+    1px solid rgba(0,0,0,.08);
+}
+
+.day-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+/* ===========================
+   STOP CARD
+=========================== */
+
+.stop-card {
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  margin-bottom: 14px;
+
+  border:
+    1px solid rgba(0,0,0,.06);
+}
+
+.stop-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.stop-header h5 {
+  margin: 0;
+}
+
+.stop-location {
+  color: var(--primary);
+
+  margin-top: 10px;
+}
+
+.stop-description {
+  margin-top: 10px;
+
+  color: #6b7280;
+}
+
+.stop-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 16px;
+}
+
+.trip-icon-btn {
+  width: 38px;
+  height: 38px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(15,76,117,.08);
+
+  color: var(--primary);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.trip-icon-btn:hover {
+  background: var(--primary);
+
+  color: white;
+
+  transform: scale(1.05);
+}
+
+.trip-icon-btn.danger:hover {
+  background: #ef4444;
+}
+
+/* ===========================
+   ADD STOP TABS
+=========================== */
+
+.stop-tabs {
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+
+  padding-bottom: 16px;
+
+  border-bottom:
+    1px solid rgba(0,0,0,.08);
+}
+
+.stop-tabs button {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border: none;
+
+  background: #f3f6fa;
+
+  color: #64748b;
+
+  padding: 12px 20px;
+
+  border-radius: 999px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.stop-tabs button:hover {
+  background:
+    rgba(15,76,117,.08);
+
+  color: var(--primary);
+}
+
+.stop-tabs .active-tab {
+  background: var(--primary);
+
+  color: white;
+
+  box-shadow:
+    0 8px 20px
+    rgba(15,76,117,.18);
+}
+/* ===========================
+   PLACE SEARCH
+=========================== */
+
+.place-results {
+  margin-top: 12px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.place-result {
+  border: none;
+
+  background: #f5f7fb;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.place-result:hover {
+  background:
+    rgba(15,76,117,.08);
+
+  color: var(--primary);
+}
+
+/* ===========================
+   HIDDEN GEM
+=========================== */
+
+.hidden-gem-form {
+  margin-top: 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.hidden-gem-form input,
+.hidden-gem-form textarea {
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  padding: 12px;
 }

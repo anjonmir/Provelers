@@ -58,4 +58,13 @@ export const mockPlaces = [
     description:
       "A unique mosque known for stunning star mosaics.",
   },
+  {
+    id: 6,
+    name: "Star Mosque",
+    location: "Dhaka",
+    category: "Historical",
+    lat: 23.711,
+    lng: 90.401,
+  },
+
 ];
