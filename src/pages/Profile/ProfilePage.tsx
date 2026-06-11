@@ -28,14 +28,13 @@ function ProfilePage() {
 
         <div className="profile-sidebar">
 
-          <FriendsList />
-
-          <BadgeGrid />
-
           <ExplorerRankCard />
 
+          <BadgeGrid />
+          
           <PointsHistory />
 
+          <FriendsList />
 
 
         </div>

@@ -14,6 +14,8 @@ import MiniMapPreview from "./MiniMapPreview";
 import TripEditor from "./TripEditor";
 
 import { mockTrips } from "../../data/mockTrips";
+import { mockFeed }
+  from "../../data/mockFeed";
 
 import "./trip.css";
 
@@ -275,7 +277,9 @@ function TripPlanner() {
 
               <MiniMapPreview />
 
-              <TripStats />
+              <TripStats
+                trip={selectedTrip}
+              />
 
             </div>
 
@@ -283,14 +287,39 @@ function TripPlanner() {
 
         </Row>
 
+        {/* GALLERY */}
+
         <div className="trip-photos glass-card">
 
           <h3>
-            Trip Photos
+            Trip Gallery
           </h3>
 
-          <div className="photo-upload-box">
-            Upload travel photos
+          <div className="trip-gallery">
+
+            {selectedTrip?.days
+              ?.flatMap(
+                (day: any) =>
+                  day.stops
+              )
+              ?.flatMap(
+                (stop: any) =>
+                  stop.media || []
+              )
+              ?.map(
+                (
+                  image: string,
+                  index: number
+                ) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt=""
+                    className="trip-gallery-image"
+                  />
+                )
+              )}
+
           </div>
 
         </div>
@@ -301,7 +330,59 @@ function TripPlanner() {
             Save Draft
           </button>
 
-          <button className="primary-btn">
+          <button
+            className="primary-btn"
+            onClick={() => {
+
+              if (!selectedTrip) return;
+
+              selectedTrip.days.forEach(
+                (day: any) => {
+
+                  day.stops.forEach(
+                    (stop: any) => {
+
+                      mockFeed.unshift({
+                        id:
+                          Date.now() +
+                          Math.random(),
+
+                        user: {
+                          name:
+                            "Anjon Mir",
+
+                          avatar: "",
+                        },
+
+                        location:
+                          stop.location,
+
+                        createdAt:
+                          "Just now",
+
+                        description:
+                          stop.description,
+
+                        images:
+                          stop.media || [],
+
+                        reactions: 0,
+
+                        comments: [],
+                      });
+
+                    }
+                  );
+
+                }
+              );
+
+              alert(
+                "Trip Published!"
+              );
+
+            }}
+          >
             Publish Trip
           </button>
 

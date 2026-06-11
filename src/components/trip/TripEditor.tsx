@@ -33,9 +33,49 @@ function TripEditor({
     return (
         <div className="trip-editor glass-card">
 
-            <div className="trip-editor-header">
+            <div className="trip-hero">
 
-                <h2>{trip.title}</h2>
+                <img
+                    src={
+                        trip.coverImage ||
+                        "/images/default-cover.jpg"
+                    }
+                    alt=""
+                    className="trip-hero-image"
+                />
+
+                <div className="trip-hero-overlay">
+
+                    <div className="trip-hero-content">
+
+                        <div>
+
+                            <h1>{trip.title}</h1>
+
+                            <p>
+                                {trip.category}
+                                {" • "}
+                                {trip.privacy}
+                                {" • "}
+                                {trip.location}
+                            </p>
+
+                        </div>
+
+                        {/* <button
+                            className="trip-hero-btn"
+                            onClick={onAddDay}
+                        >
+                            + Day
+                        </button> */}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div className="trip-editor-header">
 
                 <button
                     className="primary-btn"

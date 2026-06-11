@@ -317,41 +317,80 @@
   border-radius: 999px;
 }
 
-/* ===========================
+/* ==========================
    BADGES
-=========================== */
+========================== */
 
-.badge-grid {
+.profile-badge-grid {
   display: grid;
 
   grid-template-columns:
-    repeat(5,1fr);
+    repeat(2, 1fr);
 
-  gap: 15px;
+  gap: 14px;
+
+  margin-top: 16px;
 }
 
-.badge {
+.profile-badge {
   display: flex;
-
-  flex-direction: column;
 
   align-items: center;
 
-  gap: 10px;
+  gap: 14px;
 
-  padding: 18px;
+  padding: 16px;
 
-  border-radius: 16px;
+  border-radius: 18px;
 
-  background: #649fda;
+  background: white;
+
+  border:
+    1px solid rgba(15,76,117,.08);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.04);
+
+  transition: .25s;
 }
 
-.badge.unlocked {
+.profile-badge:hover {
+  transform:
+    translateY(-3px);
+}
+
+.profile-badge-icon {
+  font-size: 2rem;
+
+  width: 50px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.profile-badge-content {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.profile-badge-name {
+  font-size: .95rem;
+
+  font-weight: 600;
+
+  color: #111827;
+}
+
+.profile-badge.unlocked {
   opacity: 1;
 }
 
-.badge.locked {
-  opacity: .35;
+.profile-badge.locked {
+  opacity: .45;
 }
 
 /* ===========================

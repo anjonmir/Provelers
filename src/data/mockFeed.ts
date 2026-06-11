@@ -1,4 +1,4 @@
-export const mockFeed = [
+export const mockFeed: any[] = [
   {
     id: 1,
 

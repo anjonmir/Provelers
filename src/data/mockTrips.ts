@@ -3,11 +3,11 @@ export const mockTrips = [
     id: 1,
 
     title: "Bangladesh Highlights",
+    coverImage: "/images/default-cover.jpg",
 
     category: "Adventure",
 
-    description:
-      "Explore Bangladesh",
+    description: "Explore Bangladesh",
 
     location: "Dhaka",
 
@@ -29,8 +29,7 @@ export const mockTrips = [
 
             time: "10:00 AM",
 
-            description:
-              "Historic Mughal fort.",
+            description: "Historic Mughal fort.",
 
             media: [],
           },
@@ -38,16 +37,13 @@ export const mockTrips = [
           {
             id: 2,
 
-            title:
-              "Old Town Biryani",
+            title: "Old Town Biryani",
 
-            location:
-              "Old Dhaka",
+            location: "Old Dhaka",
 
             time: "1:00 PM",
 
-            description:
-              "Famous biryani spot.",
+            description: "Famous biryani spot.",
 
             media: [],
           },

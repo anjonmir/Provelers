@@ -52,13 +52,49 @@ function AddStopModal({
 
     const [hiddenGemName, setHiddenGemName] =
         useState("");
+    const [media, setMedia] =
+        useState<string[]>([]);
 
     const [hiddenGemDescription,
         setHiddenGemDescription] =
         useState("");
+    useEffect(() => {
+        if (!editingStop) return;
+
+        setTitle(
+            editingStop.title || ""
+        );
+
+        setTime(
+            editingStop.time || ""
+        );
+
+        setDescription(
+            editingStop.description || ""
+        );
+
+        setLocationName(
+            editingStop.location || ""
+        );
+    }, [editingStop]);
+
 
     const handleSave = () => {
         if (!title.trim()) return;
+        if (!locationName.trim()) {
+            alert(
+                "Please select a location."
+            );
+
+            return;
+        }
+        if (!locationName.trim()) {
+            alert(
+                "Please select a location."
+            );
+
+            return;
+        }
 
         const newStop = {
             id:
@@ -88,27 +124,8 @@ function AddStopModal({
                     ? "pending"
                     : "approved",
 
-            media: [],
+            media,
         };
-        useEffect(() => {
-            if (!editingStop) return;
-
-            setTitle(
-                editingStop.title || ""
-            );
-
-            setTime(
-                editingStop.time || ""
-            );
-
-            setDescription(
-                editingStop.description || ""
-            );
-
-            setLocationName(
-                editingStop.location || ""
-            );
-        }, [editingStop]);
 
 
 
@@ -265,7 +282,63 @@ function AddStopModal({
                                 <input
                                     type="file"
                                     multiple
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const files =
+                                            Array.from(
+                                                e.target.files || []
+                                            );
+
+                                        const previews =
+                                            files.map((file) =>
+                                                URL.createObjectURL(
+                                                    file
+                                                )
+                                            );
+
+                                        setMedia(previews);
+                                    }}
                                 />
+                                {media.length > 0 && (
+                                    <div className="media-preview-grid">
+
+                                        {media.map(
+                                            (
+                                                image: string,
+                                                index: number
+                                            ) => (
+                                                <img
+                                                    key={index}
+                                                    src={image}
+                                                    alt=""
+                                                    className="media-preview"
+                                                />
+                                            )
+                                        )}
+
+                                    </div>
+                                )}
+                                <div className="trip-actions">
+
+                                    <button
+                                        className="secondary-btn"
+                                        onClick={onClose}
+                                    >
+                                        Cancel
+                                    </button>
+
+                                    <button
+                                        className="primary-btn"
+                                        onClick={() =>
+                                            setActiveTab(
+                                                "location"
+                                            )
+                                        }
+                                    >
+                                        Next
+                                    </button>
+
+                                </div>
 
                             </div>
 
@@ -346,7 +419,7 @@ function AddStopModal({
                                         )
                                     }
                                 >
-                                    + Create Hidden Gem
+                                    + Declare a Hidden Gem
                                 </button>
 
                                 {showHiddenGem && (
@@ -387,29 +460,33 @@ function AddStopModal({
 
                                     </div>
                                 )}
+                                <div className="trip-actions">
 
+                                    <button
+                                        className="secondary-btn"
+                                        onClick={() =>
+                                            setActiveTab(
+                                                "details"
+                                            )
+                                        }
+                                    >
+                                        Back
+                                    </button>
+
+                                    <button
+                                        className="primary-btn"
+                                        onClick={handleSave}
+                                    >
+                                        Save Stop
+                                    </button>
+
+                                </div>
                             </div>
 
                         </div>
                     )}
 
-                <div className="trip-actions">
 
-                    <button
-                        className="secondary-btn"
-                        onClick={onClose}
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        className="primary-btn"
-                        onClick={handleSave}
-                    >
-                        Save Stop
-                    </button>
-
-                </div>
 
             </div>
 

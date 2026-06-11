@@ -1,4 +1,23 @@
-function TripStats() {
+type Props = {
+  trip: any;
+};
+
+function TripStats({
+  trip,
+}: Props) {
+  const totalDays =
+    trip.days.length;
+
+  const totalStops =
+    trip.days.reduce(
+      (
+        total: number,
+        day: any
+      ) =>
+        total +
+        day.stops.length,
+      0
+    );
   return (
     <div className="trip-stats glass-card">
 
@@ -6,12 +25,16 @@ function TripStats() {
 
       <div className="trip-stat-item">
         <span>Total Stops</span>
-        <strong>5</strong>
+        <strong>
+          {totalStops}
+        </strong>
       </div>
 
       <div className="trip-stat-item">
         <span>Days</span>
-        <strong>7</strong>
+        <strong>
+          {totalDays}
+        </strong>
       </div>
 
       <div className="trip-stat-item">

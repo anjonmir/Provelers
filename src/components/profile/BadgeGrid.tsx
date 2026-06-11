@@ -1,27 +1,91 @@
+import "./profile.css";
+
 function BadgeGrid() {
   const badges = [
-    "Explorer",
-    "Helper",
-    "Guide",
-    "Traveler",
-    "Photographer",
-    "Local Expert",
+    {
+      icon: "🍜",
+      name: "Food Explorer",
+      unlocked: true,
+    },
+    {
+      icon: "🥾",
+      name: "Adventurer",
+      unlocked: true,
+    },
+    {
+      icon: "📍",
+      name: "Hidden Gem Hunter",
+      unlocked: true,
+    },
+    {
+      icon: "📸",
+      name: "Photographer",
+      unlocked: true,
+    },
+    {
+      icon: "🏞️",
+      name: "Scenic Collector",
+      unlocked: true,
+    },
+        {
+      icon: "🧭",
+      name: "Pathfinder",
+      unlocked: false,
+    },
+    {
+      icon: "🏛️",
+      name: "Heritage Seeker",
+      unlocked: false,
+    },
+    {
+      icon: "🕌",
+      name: "Spiritual Journey",
+      unlocked: false,
+    },
+    {
+      icon: "⛰️",
+      name: "Mountain Master",
+      unlocked: false,
+    },
+    {
+      icon: "🌍",
+      name: "World Explorer",
+      unlocked: false,
+    },
   ];
 
   return (
-    <div className="glass-card p-4">
+    <div className="profile-card">
 
-      <h4>Achievements</h4>
+      <h2>Unlock Badges</h2>
 
-      <div className="badge-grid">
+      <div className="profile-badge-grid">
+
         {badges.map((badge) => (
-          <span
-            key={badge}
-            className="tag"
+          <div
+            key={badge.name}
+            className={`profile-badge ${
+              badge.unlocked
+                ? "unlocked"
+                : "locked"
+            }`}
           >
-            {badge}
-          </span>
+
+            <div className="profile-badge-icon">
+              {badge.icon}
+            </div>
+
+            <div className="profile-badge-content">
+
+              <span className="profile-badge-name">
+                {badge.name}
+              </span>
+
+            </div>
+
+          </div>
         ))}
+
       </div>
 
     </div>

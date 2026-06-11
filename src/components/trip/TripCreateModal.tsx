@@ -9,6 +9,52 @@ type Props = {
     trip: any
   ) => void;
 };
+const tripCategories = [
+  "Major Tourist Attractions",
+  "Historical Sites",
+  "Religious Sites",
+  "Local Landmarks",
+  "Beaches",
+  "Islands",
+  "Waterfalls",
+  "Hills & Mountains",
+  "Forests",
+  "National Parks",
+  "Wildlife Sanctuaries",
+  "Rivers",
+  "Lakes",
+  "Wetlands & Haors",
+  "Scenic Viewpoints",
+  "Historical Monuments",
+  "Archaeological Sites",
+  "Museums",
+  "Memorials",
+  "Forts",
+  "Palaces & Zamindar Houses",
+  "Mosques",
+  "Temples",
+  "Churches",
+  "Buddhist Monasteries",
+  "Shrines & Mazars",
+  "Universities & Campuses",
+  "Parks & Gardens",
+  "Zoos",
+  "Eco Parks",
+  "Bridges",
+  "Lighthouses",
+  "Markets & Bazaars",
+  "Cultural Centers",
+  "Art Galleries",
+  "Traditional Villages",
+  "Tea Gardens",
+  "Char Areas",
+  "Adventure Tourism Spots",
+  "Festival Venues",
+  "Urban Landmarks",
+  "Government Buildings",
+  "Sports Venues",
+  "Local Points of Interest",
+];
 
 function TripCreateModal({
   isOpen,
@@ -23,6 +69,8 @@ function TripCreateModal({
 
       title: tripName,
 
+      coverImage,
+
       category,
 
       description,
@@ -35,6 +83,7 @@ function TripCreateModal({
 
       days: [],
     };
+
 
     onCreateTrip(newTrip);
 
@@ -52,6 +101,12 @@ function TripCreateModal({
 
   const [category, setCategory] =
     useState("");
+
+  const [coverImage,
+    setCoverImage] =
+    useState(
+      "/images/default-cover.jpg"
+    );
 
   const [description, setDescription] =
     useState("");
@@ -72,7 +127,16 @@ function TripCreateModal({
       <div className="trip-modal">
 
         <div className="trip-modal-header">
-          <h3>Create New Trip</h3>
+          <div>
+
+            <h3>Create Your Trip</h3>
+
+            <p className="trip-modal-subtitle">
+              Plan your journey and share it
+              with fellow travelers.
+            </p>
+
+          </div>
 
           <button
             className="trip-modal-close"
@@ -101,34 +165,29 @@ function TripCreateModal({
           <div className="trip-form-group">
             <label>Category</label>
 
-            <select
+            <input
+              type="text"
               value={category}
+              placeholder="Search category..."
+              list="trip-categories"
               onChange={(e) =>
                 setCategory(
                   e.target.value
                 )
               }
-            >
-              <option>
-                Select Category
-              </option>
+            />
 
-              <option>
-                Adventure
-              </option>
+            <datalist id="trip-categories">
+              {tripCategories.map(
+                (item) => (
+                  <option
+                    key={item}
+                    value={item}
+                  />
+                )
+              )}
+            </datalist>
 
-              <option>
-                Beach
-              </option>
-
-              <option>
-                Food Tour
-              </option>
-
-              <option>
-                Hidden Gems
-              </option>
-            </select>
           </div>
 
           <div className="trip-form-group">
@@ -176,31 +235,70 @@ function TripCreateModal({
           <div className="trip-form-group">
             <label>Privacy</label>
 
-            <select
-              value={privacy}
-              onChange={(e) =>
-                setPrivacy(
-                  e.target.value
-                )
-              }
-            >
-              <option>
-                Public
-              </option>
+            <div className="privacy-pills">
 
-              <option>
+              <button
+                type="button"
+                className={
+                  privacy === "Public"
+                    ? "active-pill"
+                    : ""
+                }
+                onClick={() =>
+                  setPrivacy("Public")
+                }
+              >
+                Public
+              </button>
+
+              <button
+                type="button"
+                className={
+                  privacy === "Private"
+                    ? "active-pill"
+                    : ""
+                }
+                onClick={() =>
+                  setPrivacy("Private")
+                }
+              >
                 Private
-              </option>
-            </select>
+              </button>
+
+            </div>
+
           </div>
 
+
           <div className="trip-form-group full-width">
-            <label>Add Photos</label>
+
+            <label>
+              Trip Cover
+            </label>
 
             <input
               type="file"
-              multiple
+              accept="image/*"
+              onChange={(e) => {
+
+                const file =
+                  e.target.files?.[0];
+
+                if (!file) return;
+
+                setCoverImage(
+                  URL.createObjectURL(
+                    file
+                  )
+                );
+              }}
             />
+            <img
+              src={coverImage}
+              alt=""
+              className="trip-cover-preview"
+            />
+
           </div>
 
           <button

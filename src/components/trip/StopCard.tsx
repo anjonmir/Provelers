@@ -40,6 +40,25 @@ function StopCard({
             <p className="stop-description">
                 {stop.description}
             </p>
+            {stop.media?.length > 0 && (
+                <div className="stop-media-preview">
+
+                    {stop.media.map(
+                        (
+                            image: string,
+                            index: number
+                        ) => (
+                            <img
+                                key={index}
+                                src={image}
+                                alt=""
+                                className="stop-media-image"
+                            />
+                        )
+                    )}
+
+                </div>
+            )}
 
             <div className="stop-actions">
 

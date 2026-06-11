@@ -104,7 +104,7 @@ function FeedPostCard({
         >
 
           {post.images
-            .slice(0, 4)
+            .slice(0, 3)
             .map(
               (
                 image: string,
@@ -118,7 +118,7 @@ function FeedPostCard({
               )
             )}
 
-          {post.images.length > 4 && (
+          {post.images.length > 3 && (
             <div className="more-images">
               +{post.images.length - 4}
             </div>

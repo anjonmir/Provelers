@@ -1,5 +1,6 @@
-import { FaMapMarkedAlt, FaPlusCircle } from "react-icons/fa";
-
+import {
+  FaPlusCircle,
+} from "react-icons/fa";
 import "./trip.css";
 
 type Props = {
@@ -41,21 +42,33 @@ function TripSidebar({
         {trips.map((trip) => (
           <div
             key={trip.id}
-            className={`trip-item ${
-              trip.id === selectedTripId
+            className={`trip-item ${trip.id === selectedTripId
                 ? "active-trip"
                 : ""
-            }`}
+              }`}
             onClick={() =>
               onSelectTrip(trip.id)
             }
           >
-            <FaMapMarkedAlt />
+            <img
+              src={
+                trip.coverImage ||
+                "/images/default-cover.jpg"
+              }
+              alt=""
+              className="trip-thumb"
+            />
 
             <div>
+
               <strong>
                 {trip.title}
               </strong>
+
+              <small>
+                {trip.category}
+              </small>
+
             </div>
 
           </div>
