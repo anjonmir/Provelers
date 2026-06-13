@@ -5,7 +5,7 @@ function ProfileCover() {
     <div className="profile-cover">
 
       <img
-        src="public/images/map-preview.jpg"
+        src="/images/map-preview.jpg"
         alt="cover"
         className="cover-image"
       />

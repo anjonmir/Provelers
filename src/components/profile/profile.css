@@ -429,3 +429,125 @@
     grid-template-columns: 1fr;
   }
 }
+
+.trip-list-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 20px;
+
+  margin-top: 20px;
+}
+
+.trip-card {
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background: white;
+
+  border:
+    1px solid #eee;
+}
+
+.trip-card img {
+  width: 100%;
+
+  height: 180px;
+
+  object-fit: cover;
+}
+
+.trip-card h3 {
+  padding:
+    14px 14px 0;
+}
+
+.trip-card p {
+  padding:
+    0 14px;
+
+  color: #64748b;
+}
+
+.trip-card small {
+  display: block;
+
+  padding: 0 14px 14px;
+
+  color: #94a3b8;
+}
+
+
+.trip-status {
+  margin: 12px 14px;
+
+  display: inline-block;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: .8rem;
+
+  font-weight: 600;
+}
+
+.trip-status.published {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.trip-status.draft {
+  background: #fef3c7;
+
+  color: #92400e;
+}
+
+
+.saved-posts {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+
+  margin-top: 20px;
+}
+
+.saved-place-card {
+  display: flex;
+
+  gap: 16px;
+
+  padding: 16px;
+
+  border-radius: 16px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e5e7eb;
+}
+
+.saved-place-card img {
+  width: 120px;
+
+  height: 90px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+}
+
+.saved-place-card h4 {
+  margin-bottom: 8px;
+}
+
+.saved-place-card p {
+  color: #64748b;
+
+  margin: 0;
+}

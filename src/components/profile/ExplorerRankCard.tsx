@@ -1,5 +1,8 @@
 import "./profile.css";
 
+import { mockUserProfile }
+  from "../../data/mockUserProfile";
+
 function ExplorerRankCard() {
   return (
     <div className="profile-card">
@@ -10,21 +13,25 @@ function ExplorerRankCard() {
 
         <h3>Traveler</h3>
 
-        <p>Level 4</p>
+        <p>
+          Level {mockUserProfile.level}
+        </p>
 
         <div className="xp-bar">
 
           <div
             className="xp-progress"
             style={{
-              width: "72%",
+              width:
+                `${mockUserProfile.xpProgress}%`,
             }}
           />
 
         </div>
 
         <span>
-          240 XP to next level
+          {mockUserProfile.xpRemaining}
+          XP to next level
         </span>
 
       </div>

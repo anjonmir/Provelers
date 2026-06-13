@@ -68,6 +68,7 @@ function TripCreateModal({
       id: Date.now(),
 
       title: tripName,
+      status: "draft",
 
       coverImage,
 

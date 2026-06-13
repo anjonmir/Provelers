@@ -26,8 +26,20 @@ function TripPlanner() {
   const [trips, setTrips] =
     useState(mockTrips);
 
-  const [selectedTripId, setSelectedTripId] =
-    useState(mockTrips[0].id);
+  const storedTripId =
+    localStorage.getItem(
+      "selectedTripId"
+    );
+
+  const [selectedTripId,
+    setSelectedTripId] =
+    useState(
+      storedTripId
+        ? Number(
+          storedTripId
+        )
+        : mockTrips[0].id
+    );
 
   const selectedTrip =
     trips.find(
@@ -196,6 +208,77 @@ function TripPlanner() {
       })
     );
   };
+  const handlePublishTrip = () => {
+
+    if (!selectedTrip) return;
+
+    setTrips((prevTrips) =>
+      prevTrips.map((trip) =>
+        trip.id === selectedTripId
+          ? {
+            ...trip,
+            status: "published",
+          }
+          : trip
+      )
+    );
+
+    selectedTrip.days.forEach(
+      (day: any) => {
+
+        day.stops.forEach(
+          (stop: any) => {
+
+            mockFeed.unshift({
+              id:
+                Date.now() +
+                Math.random(),
+
+              user: {
+                name:
+                  "Anjon Mir",
+
+                avatar: "",
+              },
+              tripId:
+                selectedTrip.id,
+
+              tripTitle:
+                selectedTrip.title,
+
+              tripCover:
+                selectedTrip.coverImage,
+
+
+              location:
+                stop.location,
+
+              createdAt:
+                new Date().toISOString(),
+
+              description:
+                stop.description,
+
+              images:
+                stop.media || [],
+
+              reactions: 0,
+
+              comments: [],
+
+              saves: 0,
+            });
+
+          }
+        );
+
+      }
+    );
+
+    alert(
+      "Trip Published!"
+    );
+  };
 
   return (
     <section className="trip-page">
@@ -332,56 +415,9 @@ function TripPlanner() {
 
           <button
             className="primary-btn"
-            onClick={() => {
-
-              if (!selectedTrip) return;
-
-              selectedTrip.days.forEach(
-                (day: any) => {
-
-                  day.stops.forEach(
-                    (stop: any) => {
-
-                      mockFeed.unshift({
-                        id:
-                          Date.now() +
-                          Math.random(),
-
-                        user: {
-                          name:
-                            "Anjon Mir",
-
-                          avatar: "",
-                        },
-
-                        location:
-                          stop.location,
-
-                        createdAt:
-                          "Just now",
-
-                        description:
-                          stop.description,
-
-                        images:
-                          stop.media || [],
-
-                        reactions: 0,
-
-                        comments: [],
-                      });
-
-                    }
-                  );
-
-                }
-              );
-
-              alert(
-                "Trip Published!"
-              );
-
-            }}
+            onClick={
+              handlePublishTrip
+            }
           >
             Publish Trip
           </button>

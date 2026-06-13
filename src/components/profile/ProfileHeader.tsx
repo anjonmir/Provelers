@@ -1,47 +1,44 @@
 import "./profile.css";
+import { mockUserProfile }
+  from "../../data/mockUserProfile";
 
 function ProfileHeader() {
   return (
     <div className="profile-header-card">
 
       <h1>
-        Anjon Kabir
+        {mockUserProfile.firstName}
+        {" "}
+        {mockUserProfile.lastName}
       </h1>
 
       <span className="username">
-        @anjon
+        {mockUserProfile.username}
       </span>
 
       <p className="profile-location">
-        Rajshahi, Bangladesh
+        {mockUserProfile.location}
       </p>
 
       <p className="profile-bio">
-        Explorer of hidden gems,
-        local food and travel stories
-        across Bangladesh.
+        {mockUserProfile.bio}
       </p>
 
       <div className="traveler-tags">
 
-        <span>
-          📸 Photographer
-        </span>
-
-        <span>
-          🍜 Food Explorer
-        </span>
-
-        <span>
-          🥾 Adventurer
-        </span>
+        {mockUserProfile.travelerTypes.map(
+          (type) => (
+            <span key={type}>
+              {type}
+            </span>
+          )
+        )}
 
       </div>
 
       <div className="profile-actions">
 
 
-        
 
       </div>
 

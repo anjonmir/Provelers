@@ -3,6 +3,7 @@ export const mockTrips = [
     id: 1,
 
     title: "Bangladesh Highlights",
+    status: "published",
     coverImage: "/images/default-cover.jpg",
 
     category: "Adventure",

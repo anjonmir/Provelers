@@ -43,8 +43,8 @@ function TripSidebar({
           <div
             key={trip.id}
             className={`trip-item ${trip.id === selectedTripId
-                ? "active-trip"
-                : ""
+              ? "active-trip"
+              : ""
               }`}
             onClick={() =>
               onSelectTrip(trip.id)
@@ -64,6 +64,16 @@ function TripSidebar({
               <strong>
                 {trip.title}
               </strong>
+              <div>
+
+                <small>
+                  {trip.status ===
+                    "published"
+                    ? "🟢 Published"
+                    : "🟡 Draft"}
+                </small>
+
+              </div>
 
               <small>
                 {trip.category}

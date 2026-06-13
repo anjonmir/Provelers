@@ -5,6 +5,17 @@ import {
   FaRegBookmark,
   FaEllipsisH,
 } from "react-icons/fa";
+import {
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  timeAgo,
+} from "../../utils/timeAgo";
+
+import {
+  mockSavedPosts,
+} from "../../data/mockSavedPosts";
 
 import "./feed.css";
 
@@ -15,10 +26,25 @@ type Props = {
 function FeedPostCard({
   post,
 }: Props) {
+  console.log(post);//for debug. I need to delete it
+
+  const navigate =
+  useNavigate();
+  
   const [showComments, setShowComments] =
     useState(false);
 
   const [showMenu, setShowMenu] =
+    useState(false);
+
+  const [liked, setLiked] =
+    useState(false);
+
+  const [reactionCount,
+    setReactionCount] =
+    useState(post.reactions);
+
+  const [saved, setSaved] =
     useState(false);
 
   return (
@@ -49,7 +75,11 @@ function FeedPostCard({
               </span>
 
               <span>
-                🕒 {post.createdAt}
+                🕒 {
+                  timeAgo(
+                    post.createdAt
+                  )
+                }
               </span>
 
             </div>
@@ -92,9 +122,38 @@ function FeedPostCard({
 
       {/* DESCRIPTION */}
 
-      <p className="post-description">
-        {post.description}
-      </p>
+      <div className="post-trip-origin">
+
+        {post.tripTitle && (
+
+          <button
+            className="trip-origin-badge"
+            onClick={() => {
+
+              localStorage.setItem(
+                "selectedTripId",
+                String(post.tripId)
+              );
+
+              navigate("/trips");
+            }}
+          >
+
+            🏔 Part of:
+
+            <strong>
+              {post.tripTitle}
+            </strong>
+
+          </button>
+
+        )}
+
+        <p className="post-description">
+          {post.description}
+        </p>
+
+      </div>
 
       {/* IMAGES */}
 
@@ -120,7 +179,7 @@ function FeedPostCard({
 
           {post.images.length > 3 && (
             <div className="more-images">
-              +{post.images.length - 4}
+              +{post.images.length - 3}
             </div>
           )}
 
@@ -131,11 +190,33 @@ function FeedPostCard({
 
       <div className="post-actions">
 
-        <button>
-          <FaHeart />
+        <button
+          onClick={() => {
 
-          {post.reactions}
+            if (liked) {
+              setReactionCount(
+                reactionCount - 1
+              );
+            } else {
+              setReactionCount(
+                reactionCount + 1
+              );
+            }
+
+            setLiked(!liked);
+          }}
+        >
+          <FaHeart
+            color={
+              liked
+                ? "#a48ce0"
+                : undefined
+            }
+          />
+
+          {reactionCount}
         </button>
+
 
         <button
           onClick={() =>
@@ -147,10 +228,36 @@ function FeedPostCard({
           💬 Comment
         </button>
 
-        <button>
+        <button
+          onClick={() => {
+
+            if (!saved) {
+
+              const alreadySaved =
+                mockSavedPosts.some(
+                  (savedPost) =>
+                    savedPost.id === post.id
+                );
+
+              if (!alreadySaved) {
+
+                mockSavedPosts.unshift(
+                  post
+                );
+
+              }
+
+              setSaved(true);
+
+            }
+
+          }}
+        >
           <FaRegBookmark />
 
-          Save
+          {saved
+            ? "Saved"
+            : "Save"}
         </button>
 
       </div>
@@ -183,16 +290,24 @@ function FeedPostCard({
           <div className="comment-box">
 
             <div className="comment-avatar">
-              A
+              {post.user.name
+                .charAt(0)
+                .toUpperCase()}
             </div>
 
-            <input
-              placeholder="Write a comment..."
-            />
+            <div className="comment-input-wrapper">
 
-            <button>
-              Post
-            </button>
+              <input
+                placeholder="Share your thoughts..."
+              />
+
+              <button
+                className="comment-post-btn"
+              >
+                Post
+              </button>
+
+            </div>
 
           </div>
 

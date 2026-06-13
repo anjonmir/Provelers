@@ -1,28 +1,90 @@
+import { mockTrips }
+  from "../../data/mockTrips";
+
 import "./profile.css";
 
 function RecentTrips() {
   return (
     <div className="profile-card">
 
-      <h2>
-        Recent Trips
-      </h2>
+      <h2>My Trips</h2>
 
-      <div className="trip-card">
+      <div className="trip-list-grid">
 
-        <img
-          src="/images/default-cover.jpg"
-          alt=""
-        />
+        {mockTrips.map(
+          (trip) => {
 
-        <h3>
-          Sylhet Adventure
-        </h3>
+            const totalStops =
+              trip.days.reduce(
+                (
+                  total,
+                  day
+                ) =>
+                  total +
+                  day.stops.length,
+                0
+              );
 
-        <p>
-          Exploring tea gardens
-          and waterfalls.
-        </p>
+            const totalPhotos =
+              trip.days.reduce(
+                (
+                  total,
+                  day
+                ) =>
+                  total +
+                  day.stops.reduce(
+                    (
+                      stopTotal,
+                      stop
+                    ) =>
+                      stopTotal +
+                      (
+                        stop.media?.length ||
+                        0
+                      ),
+                    0
+                  ),
+                0
+              );
+
+            return (
+              <div
+                key={trip.id}
+                className="trip-card"
+              >
+
+                <img
+                  src={
+                    trip.coverImage ||
+                    "/images/default-cover.jpg"
+                  }
+                  alt=""
+                />
+
+                <h3>
+                  {trip.title}
+                </h3>
+
+                <p>
+                  {trip.category}
+                </p>
+
+                <div className="trip-status published">
+                  Published
+                </div>
+
+                <small>
+                  {trip.days.length}
+                  {" "}Days •{" "}
+                  {totalStops}
+                  {" "}Stops •{" "}
+                  {totalPhotos}
+                  {" "}Photos
+                </small>
+              </div>
+            );
+          }
+        )}
 
       </div>
 

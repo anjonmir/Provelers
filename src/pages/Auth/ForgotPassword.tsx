@@ -3,7 +3,7 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 
 type Props = {
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 function ForgotPassword({
@@ -60,7 +60,7 @@ function ForgotPassword({
       <div className="forgot-modal">
         <button
           className="auth-close-btn"
-          onClick={onClose}
+          onClick={() => onClose?.()}
         >
           ✕
         </button>

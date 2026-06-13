@@ -785,3 +785,80 @@
 
   margin-bottom: 0;
 }
+/* ==========================
+   TRIP PROGRESS
+========================== */
+
+.trip-progress {
+  margin-bottom: 24px;
+}
+
+.trip-progress-header {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-bottom: 8px;
+
+  font-weight: 600;
+}
+
+.trip-progress-bar {
+  height: 12px;
+
+  border-radius: 999px;
+
+  background: #e5e7eb;
+
+  overflow: hidden;
+}
+
+.trip-progress-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #10b981,
+      #059669
+    );
+
+  transition:
+    width .4s ease;
+}
+
+.trip-progress-text {
+  display: block;
+
+  margin-top: 8px;
+
+  color: #64748b;
+
+  font-size: .85rem;
+}
+.trip-progress-guide {
+  margin-top: 14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.guide-step {
+  font-size: .85rem;
+
+  color: #94a3b8;
+
+  transition: .25s;
+}
+
+.guide-step.active {
+  color: #10b981;
+
+  font-weight: 600;
+}

@@ -1,26 +1,56 @@
 import "./profile.css";
 
+import { mockTrips }
+  from "../../data/mockTrips";
+
 function PhotosGrid() {
+
+  const photos =
+    mockTrips.flatMap(
+      (trip) =>
+        trip.days.flatMap(
+          (day) =>
+            day.stops.flatMap(
+              (stop) =>
+                stop.media || []
+            )
+        )
+    );
+
   return (
     <div className="profile-card">
 
       <h2>
-        Photos
+        Travel Photos
+        ({photos.length})
       </h2>
 
-      <div className="photo-grid">
+      {photos.length === 0 ? (
 
-        {[1,2,3,4,5,6].map(
-          (item) => (
-            <img
-              key={item}
-              src="/images/default-cover.jpg"
-              alt=""
-            />
-          )
-        )}
+        <p>
+          No travel photos yet.
+        </p>
 
-      </div>
+      ) : (
+
+        <div className="photo-grid">
+
+          {photos.map(
+            (
+              photo,
+              index
+            ) => (
+              <img
+                key={index}
+                src={photo}
+                alt=""
+              />
+            )
+          )}
+
+        </div>
+
+      )}
 
     </div>
   );
