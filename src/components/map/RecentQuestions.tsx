@@ -6,18 +6,20 @@ function RecentQuestions() {
   ];
 
   return (
-    <div className="map-card glass-card">
+    <div className="map-card">
 
       <h5>Recent Questions</h5>
 
       {questions.map(
         (question, index) => (
+
           <div
             key={index}
-            className="question-item"
+            className="question-card"
           >
-            {question}
+            ❓ {question}
           </div>
+
         )
       )}
 

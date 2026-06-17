@@ -48,7 +48,7 @@ function MapSidebar() {
 
       </div>
 
-      <hr />
+      <div className="sidebar-divider" />
 
       <div className="sidebar-section">
 

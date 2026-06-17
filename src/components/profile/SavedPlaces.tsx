@@ -1,8 +1,8 @@
 import "./profile.css";
 
 import {
-  mockSavedPosts,
-} from "../../data/mockSavedPosts";
+  mockSavedPlaces,
+} from "../../data/mockSavedPlaces";
 
 function SavedPlaces() {
   return (
@@ -10,10 +10,10 @@ function SavedPlaces() {
 
       <h2>
         Saved Places
-        ({mockSavedPosts.length})
+        ({mockSavedPlaces.length})
       </h2>
 
-      {mockSavedPosts.length === 0 ? (
+      {mockSavedPlaces.length === 0 ? (
 
         <p>
           No saved places yet.
@@ -23,40 +23,36 @@ function SavedPlaces() {
 
         <div className="saved-posts">
 
-          {mockSavedPosts.map(
+          {mockSavedPlaces.map(
             (
-              post: any,
+              place: any,
               index: number
             ) => (
+
               <div
                 key={index}
                 className="saved-place-card"
               >
 
-                {post.images?.[0] && (
-                  <img
-                    src={
-                      post.images[0]
-                    }
-                    alt=""
-                  />
-                )}
+                <img
+                  src={place.image}
+                  alt=""
+                />
 
                 <div>
 
                   <h4>
-                    {post.location}
+                    {place.name}
                   </h4>
 
                   <p>
-                    {
-                      post.description
-                    }
+                    {place.location}
                   </p>
 
                 </div>
 
               </div>
+
             )
           )}
 

@@ -15,19 +15,25 @@ function NearbyPlaces() {
   ];
 
   return (
-    <div className="map-card glass-card">
+    <div className="map-card">
 
       <h5>Nearby Places</h5>
 
       {places.map((place, index) => (
+
         <div
           key={index}
-          className="map-list-item"
+          className="place-card-item"
         >
-          <strong>{place.name}</strong>
 
-          <span>{place.type}</span>
+          <h6>{place.name}</h6>
+
+          <span className="place-type">
+            {place.type}
+          </span>
+
         </div>
+
       ))}
 
     </div>

@@ -1,5 +1,16 @@
-import { useMemo, useState } from "react";
+import {
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
+
+import PlaceDetailModal from "./PlaceDetailModal";
+
 import TripCreateModal from "../trip/TripCreateModal";
+
+import type {
+  Place,
+} from "../../data/mockPlaces";
 
 import Map, {
   Marker,
@@ -24,20 +35,49 @@ import "./map.css";
 function MapContainer() {
 
   const [selectedFilter, setSelectedFilter] =
-    useState("All");
+    useState("All")
+
+  const [searchTerm,
+    setSearchTerm] =
+    useState("");
 
   const places = getPlaces();
 
   const filteredPlaces = useMemo(() => {
-    if (selectedFilter === "All") {
-      return places;
-    }
 
     return places.filter(
-      (place) =>
-        place.category === selectedFilter
+      (place: Place) => {
+
+        const matchesFilter =
+          selectedFilter === "All" ||
+          place.category === selectedFilter;
+
+        const matchesSearch =
+          place.name
+            .toLowerCase()
+            .includes(
+              searchTerm.toLowerCase()
+            ) ||
+
+          place.location
+            .toLowerCase()
+            .includes(
+              searchTerm.toLowerCase()
+            );
+
+        return (
+          matchesFilter &&
+          matchesSearch
+        );
+
+      }
     );
-  }, [places, selectedFilter]);
+
+  }, [
+    places,
+    selectedFilter,
+    searchTerm,
+  ]);
 
   const getPinColor = (
     category: string
@@ -61,6 +101,90 @@ function MapContainer() {
   };
 
   const [showModal, setShowModal] = useState(false);
+  const [selectedPlace,
+    setSelectedPlace] =
+    useState<any>(null);
+
+  const [showPlaceModal,
+    setShowPlaceModal] =
+    useState(false);
+  const [viewState,
+    setViewState] =
+    useState({
+      longitude: 90.4125,
+      latitude: 23.8103,
+      zoom: 6,
+    });
+
+  const [userLocation,
+    setUserLocation] =
+    useState<{
+      lat: number;
+      lng: number;
+    } | null>(null);
+
+  useEffect(() => {
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+
+        const lat =
+          position.coords.latitude;
+
+        const lng =
+          position.coords.longitude;
+
+        setUserLocation({
+          lat,
+          lng,
+        });
+
+        setViewState({
+          latitude: lat,
+          longitude: lng,
+          zoom: 12,
+        });
+
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+  }, []);
+  const handleSearch = () => {
+
+    const foundPlace =
+      places.find(
+        (place: Place) =>
+
+          place.name
+            .toLowerCase()
+            .includes(
+              searchTerm.toLowerCase()
+            )
+      );
+
+    if (!foundPlace) return;
+
+    setViewState({
+      latitude:
+        foundPlace.lat,
+
+      longitude:
+        foundPlace.lng,
+
+      zoom: 12,
+    });
+
+    setSelectedPlace(
+      foundPlace
+    );
+
+    setShowPlaceModal(
+      true
+    );
+  };
   return (
     <section className="map-page">
 
@@ -76,7 +200,24 @@ function MapContainer() {
 
             <input
               className="map-search-input"
-              placeholder="Search places, cities, categories..."
+
+              value={searchTerm}
+
+              onChange={(e) =>
+                setSearchTerm(
+                  e.target.value
+                )
+              }
+
+              onKeyDown={(e) => {
+
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+
+              }}
+
+              placeholder="Search Sajek, Cox's Bazar..."
             />
 
             <SmartFilters
@@ -87,11 +228,13 @@ function MapContainer() {
           </div>
 
           <Map
-            initialViewState={{
-              longitude: 90.4125,
-              latitude: 23.8103,
-              zoom: 6,
-            }}
+            {...viewState}
+
+            onMove={(evt) =>
+              setViewState(
+                evt.viewState
+              )
+            }
             mapStyle="mapbox://styles/mapbox/navigation-day-v1"
             mapboxAccessToken={
               import.meta.env
@@ -99,15 +242,58 @@ function MapContainer() {
             }
           >
             <NavigationControl />
+            {userLocation && (
+
+              <Marker
+                longitude={
+                  userLocation.lng
+                }
+                latitude={
+                  userLocation.lat
+                }
+              >
+
+                <div
+                  style={{
+                    width: "18px",
+                    height: "18px",
+                    borderRadius: "50%",
+                    background:
+                      "#2563eb",
+                    border:
+                      "3px solid white",
+                    boxShadow:
+                      "0 0 0 6px rgba(37,99,235,.25)",
+                  }}
+                />
+
+              </Marker>
+
+            )}
 
             {filteredPlaces.map(
-              (place) => (
+              (place: any) => (
                 <Marker
                   key={place.id}
                   longitude={place.lng}
                   latitude={place.lat}
                 >
-                  <button className="marker-btn">
+
+                  <button
+                    className="marker-btn"
+                    onClick={() => {
+
+                      console.log(
+                        "MARKER CLICKED",
+                        place
+                      );
+
+                      setSelectedPlace(place);
+
+                      setShowPlaceModal(true);
+
+                    }}
+                  >
                     <div
                       className="map-pin"
                       style={{
@@ -149,6 +335,20 @@ function MapContainer() {
       <TripCreateModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
+        onCreateTrip={() => { }}
+      />
+      <PlaceDetailModal
+        isOpen={
+          showPlaceModal
+        }
+        onClose={() =>
+          setShowPlaceModal(
+            false
+          )
+        }
+        place={
+          selectedPlace
+        }
       />
 
 

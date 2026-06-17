@@ -1,13 +1,9 @@
-import { Container } from "react-bootstrap";
 
-import MapContainer from "../../components/map/MapContainer";
+import MapContainer
+  from "../../components/map/MapContainer";
 
 function MapPage() {
-  return (
-    <Container fluid>
-      <MapContainer />
-    </Container>
-  );
+  return <MapContainer />;
 }
 
 export default MapPage;

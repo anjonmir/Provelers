@@ -9,7 +9,6 @@ const filters = [
   "Museum",
   "Beach",
   "Hiking",
-  "Hidden Gem",
 ];
 
 function SmartFilters({

@@ -1,51 +1,437 @@
 export const mockTrips = [
   {
     id: 1,
-
     title: "Bangladesh Highlights",
     status: "published",
     coverImage: "/images/default-cover.jpg",
-
     category: "Adventure",
-
-    description: "Explore Bangladesh",
-
+    description:
+      "Discover the rich history, food, culture, and natural beauty of Bangladesh.",
     location: "Dhaka",
-
     privacy: "Public",
-
     days: [
       {
         id: 1,
-
-        title: "Day 1",
-
+        title: "Day 1 - Old Dhaka Exploration",
         stops: [
           {
             id: 1,
-
             title: "Lalbagh Fort",
-
             location: "Dhaka",
-
-            time: "10:00 AM",
-
-            description: "Historic Mughal fort.",
-
+            time: "09:00 AM",
+            description: "Explore the famous Mughal fort.",
             media: [],
           },
-
           {
             id: 2,
-
-            title: "Old Town Biryani",
-
+            title: "Ahsan Manzil",
+            location: "Dhaka",
+            time: "11:00 AM",
+            description: "Visit the historic Pink Palace.",
+            media: [],
+          },
+          {
+            id: 3,
+            title: "Haji Biryani",
             location: "Old Dhaka",
+            time: "01:00 PM",
+            description: "Taste the legendary kacchi biryani.",
+            media: [],
+          },
+          {
+            id: 4,
+            title: "Sadarghat River Port",
+            location: "Dhaka",
+            time: "04:00 PM",
+            description: "Experience the busiest river terminal.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Day 2 - Modern Dhaka",
+        stops: [
+          {
+            id: 5,
+            title: "National Parliament House",
+            location: "Sher-e-Bangla Nagar",
+            time: "09:30 AM",
+            description: "Admire Louis Kahn's masterpiece.",
+            media: [],
+          },
+          {
+            id: 6,
+            title: "Liberation War Museum",
+            location: "Agargaon",
+            time: "11:30 AM",
+            description: "Learn about Bangladesh's history.",
+            media: [],
+          },
+          {
+            id: 7,
+            title: "Jamuna Future Park",
+            location: "Dhaka",
+            time: "02:00 PM",
+            description: "Shopping and entertainment.",
+            media: [],
+          },
+          {
+            id: 8,
+            title: "Hatirjheel",
+            location: "Dhaka",
+            time: "06:00 PM",
+            description: "Evening walk by the lake.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Day 3 - Sonargaon Day Trip",
+        stops: [
+          {
+            id: 9,
+            title: "Panam City",
+            location: "Sonargaon",
+            time: "09:00 AM",
+            description: "Explore the abandoned historic city.",
+            media: [],
+          },
+          {
+            id: 10,
+            title: "Folk Art Museum",
+            location: "Sonargaon",
+            time: "11:00 AM",
+            description: "Traditional Bangladeshi culture and crafts.",
+            media: [],
+          },
+          {
+            id: 11,
+            title: "Local Riverside Lunch",
+            location: "Sonargaon",
+            time: "01:00 PM",
+            description: "Fresh local fish and rice.",
+            media: [],
+          },
+          {
+            id: 12,
+            title: "Meghna River Cruise",
+            location: "Sonargaon",
+            time: "04:00 PM",
+            description: "Relaxing sunset boat ride.",
+            media: [],
+          },
+        ],
+      },
+    ],
+  },
 
-            time: "1:00 PM",
+  {
+    id: 2,
+    title: "Cox's Bazar Beach Escape",
+    status: "published",
+    coverImage: "/images/default-cover.jpg",
+    category: "Beach",
+    description:
+      "Enjoy the world's longest natural sea beach and nearby attractions.",
+    location: "Cox's Bazar",
+    privacy: "Public",
+    days: [
+      {
+        id: 1,
+        title: "Day 1 - Beach Relaxation",
+        stops: [
+          {
+            id: 1,
+            title: "Laboni Beach",
+            location: "Cox's Bazar",
+            time: "09:00 AM",
+            description: "Morning beach walk.",
+            media: [],
+          },
+          {
+            id: 2,
+            title: "Beachfront Seafood Lunch",
+            location: "Cox's Bazar",
+            time: "01:00 PM",
+            description: "Fresh seafood experience.",
+            media: [],
+          },
+          {
+            id: 3,
+            title: "Sunset Point",
+            location: "Cox's Bazar",
+            time: "05:30 PM",
+            description: "Watch a beautiful sunset.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Day 2 - Himchari & Inani",
+        stops: [
+          {
+            id: 4,
+            title: "Himchari National Park",
+            location: "Cox's Bazar",
+            time: "09:00 AM",
+            description: "Hike and enjoy waterfalls.",
+            media: [],
+          },
+          {
+            id: 5,
+            title: "Inani Beach",
+            location: "Cox's Bazar",
+            time: "12:00 PM",
+            description: "Famous coral stone beach.",
+            media: [],
+          },
+          {
+            id: 6,
+            title: "Beach BBQ Dinner",
+            location: "Cox's Bazar",
+            time: "07:00 PM",
+            description: "Fresh grilled seafood.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Day 3 - Marine Drive",
+        stops: [
+          {
+            id: 7,
+            title: "Marine Drive Road",
+            location: "Cox's Bazar",
+            time: "09:00 AM",
+            description: "Scenic coastal drive.",
+            media: [],
+          },
+          {
+            id: 8,
+            title: "Patuartek Viewpoint",
+            location: "Cox's Bazar",
+            time: "11:00 AM",
+            description: "Amazing sea views.",
+            media: [],
+          },
+          {
+            id: 9,
+            title: "Local Market",
+            location: "Cox's Bazar",
+            time: "04:00 PM",
+            description: "Buy souvenirs and dry fish.",
+            media: [],
+          },
+        ],
+      },
+    ],
+  },
 
-            description: "Famous biryani spot.",
+  {
+    id: 3,
+    title: "Sylhet Nature Adventure",
+    status: "published",
+    coverImage: "/images/default-cover.jpg",
+    category: "Nature",
+    description:
+      "Experience tea gardens, waterfalls, and scenic landscapes.",
+    location: "Sylhet",
+    privacy: "Public",
+    days: [
+      {
+        id: 1,
+        title: "Day 1 - Tea Garden Tour",
+        stops: [
+          {
+            id: 1,
+            title: "Malnichhara Tea Estate",
+            location: "Sylhet",
+            time: "09:00 AM",
+            description: "Bangladesh's oldest tea garden.",
+            media: [],
+          },
+          {
+            id: 2,
+            title: "Tea Tasting Session",
+            location: "Sylhet",
+            time: "11:00 AM",
+            description: "Sample local teas.",
+            media: [],
+          },
+          {
+            id: 3,
+            title: "Shahjalal Shrine",
+            location: "Sylhet",
+            time: "03:00 PM",
+            description: "Important religious landmark.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Day 2 - Jaflong",
+        stops: [
+          {
+            id: 4,
+            title: "Jaflong",
+            location: "Sylhet",
+            time: "09:00 AM",
+            description: "Border landscape and river views.",
+            media: [],
+          },
+          {
+            id: 5,
+            title: "Piyain River Boat Ride",
+            location: "Jaflong",
+            time: "11:00 AM",
+            description: "Scenic boat tour.",
+            media: [],
+          },
+          {
+            id: 6,
+            title: "Stone Collection Area",
+            location: "Jaflong",
+            time: "02:00 PM",
+            description: "Observe local stone workers.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Day 3 - Ratargul Swamp Forest",
+        stops: [
+          {
+            id: 7,
+            title: "Ratargul Swamp Forest",
+            location: "Sylhet",
+            time: "09:00 AM",
+            description: "Boat through the swamp forest.",
+            media: [],
+          },
+          {
+            id: 8,
+            title: "Watch Tower",
+            location: "Ratargul",
+            time: "11:00 AM",
+            description: "Panoramic forest view.",
+            media: [],
+          },
+          {
+            id: 9,
+            title: "Local Village Lunch",
+            location: "Sylhet",
+            time: "01:00 PM",
+            description: "Traditional Bangladeshi cuisine.",
+            media: [],
+          },
+        ],
+      },
+    ],
+  },
 
+  {
+    id: 4,
+    title: "Sajek Valley Adventure",
+    status: "draft",
+    coverImage: "/images/default-cover.jpg",
+    category: "Mountain",
+    description:
+      "Explore clouds, hills, indigenous culture, and stunning viewpoints.",
+    location: "Sajek Valley",
+    privacy: "Public",
+    days: [
+      {
+        id: 1,
+        title: "Day 1 - Journey to Sajek",
+        stops: [
+          {
+            id: 1,
+            title: "Khagrachari Town",
+            location: "Khagrachari",
+            time: "10:00 AM",
+            description: "Breakfast stop.",
+            media: [],
+          },
+          {
+            id: 2,
+            title: "Alutila Cave",
+            location: "Khagrachari",
+            time: "12:00 PM",
+            description: "Explore the famous cave.",
+            media: [],
+          },
+          {
+            id: 3,
+            title: "Sajek Resort Check-in",
+            location: "Sajek",
+            time: "04:00 PM",
+            description: "Settle into your accommodation.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Day 2 - Viewpoints & Culture",
+        stops: [
+          {
+            id: 4,
+            title: "Sunrise Point",
+            location: "Sajek",
+            time: "05:30 AM",
+            description: "Watch clouds below the hills.",
+            media: [],
+          },
+          {
+            id: 5,
+            title: "Ruilui Para",
+            location: "Sajek",
+            time: "10:00 AM",
+            description: "Visit indigenous village.",
+            media: [],
+          },
+          {
+            id: 6,
+            title: "Konglak Hill",
+            location: "Sajek",
+            time: "03:00 PM",
+            description: "Highest viewpoint in the area.",
+            media: [],
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Day 3 - Return Journey",
+        stops: [
+          {
+            id: 7,
+            title: "Morning Coffee with View",
+            location: "Sajek",
+            time: "08:00 AM",
+            description: "Relax before departure.",
+            media: [],
+          },
+          {
+            id: 8,
+            title: "Dighinala Market",
+            location: "Khagrachari",
+            time: "12:00 PM",
+            description: "Local shopping stop.",
+            media: [],
+          },
+          {
+            id: 9,
+            title: "Return to Dhaka",
+            location: "Dhaka",
+            time: "09:00 PM",
+            description: "Trip ends.",
             media: [],
           },
         ],
