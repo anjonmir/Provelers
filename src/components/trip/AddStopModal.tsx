@@ -2,6 +2,7 @@ import {
     useState,
     useEffect,
 } from "react";
+import { createPortal } from "react-dom";
 import {
     FaInfoCircle,
     FaMapMarkerAlt,
@@ -47,9 +48,6 @@ function AddStopModal({
     const [search, setSearch] =
         useState("");
 
-    const [showHiddenGem, setShowHiddenGem] =
-        useState(false);
-
     const [hiddenGemName, setHiddenGemName] =
         useState("");
     const [media, setMedia] =
@@ -58,6 +56,19 @@ function AddStopModal({
     const [hiddenGemDescription,
         setHiddenGemDescription] =
         useState("");
+    const [hiddenGemLat,
+        setHiddenGemLat] =
+        useState<number | null>(null);
+
+    const [hiddenGemLng,
+        setHiddenGemLng] =
+        useState<number | null>(null);
+    const [stopType,
+        setStopType] =
+        useState<
+            "existing" |
+            "hiddenGem"
+        >("existing");
     useEffect(() => {
         if (!editingStop) return;
 
@@ -80,15 +91,23 @@ function AddStopModal({
 
 
     const handleSave = () => {
-        if (!title.trim()) return;
-        if (!locationName.trim()) {
+
+        if (!title.trim()) {
             alert(
-                "Please select a location."
+                "Please enter stop name."
             );
 
             return;
         }
-        if (!locationName.trim()) {
+
+        const finalLocation =
+
+            stopType === "hiddenGem"
+                ? hiddenGemName
+                : locationName;
+
+        if (!finalLocation.trim()) {
+
             alert(
                 "Please select a location."
             );
@@ -97,6 +116,7 @@ function AddStopModal({
         }
 
         const newStop = {
+
             id:
                 editingStop?.id ??
                 Date.now(),
@@ -108,29 +128,36 @@ function AddStopModal({
             description,
 
             location:
-                locationName,
+                finalLocation,
 
-            lat: null,
+            lat:
+                stopType === "hiddenGem"
+                    ? hiddenGemLat
+                    : null,
 
-            lng: null,
+            lng:
+                stopType === "hiddenGem"
+                    ? hiddenGemLng
+                    : null,
 
             source:
-                showHiddenGem
+                stopType === "hiddenGem"
                     ? "user-pin"
                     : "database",
 
             reviewStatus:
-                showHiddenGem
+                stopType === "hiddenGem"
                     ? "pending"
                     : "approved",
 
             media,
+
         };
 
+        if (stopType === "hiddenGem") {
 
-
-        if (showHiddenGem) {
             mockHiddenGemQueue.push({
+
                 id: Date.now(),
 
                 name:
@@ -139,29 +166,51 @@ function AddStopModal({
                 description:
                     hiddenGemDescription,
 
+                location:
+                    hiddenGemName,
+
+                category:
+                    "Hidden Gem",
+
                 reviewStatus:
                     "pending",
 
-                lat: null,
+                createdBy:
+                    "Anjon Mir",
 
-                lng: null,
+                lat:
+                    hiddenGemLat,
+
+                lng:
+                    hiddenGemLng,
+
             });
+
+            alert(
+                "🎉 Hidden Gem Submitted!"
+            );
+
         }
+
         onSave(newStop);
 
         setTitle("");
         setTime("");
         setDescription("");
         setLocationName("");
+        setHiddenGemName("");
+        setHiddenGemDescription("");
 
         setActiveTab("details");
 
         onClose();
+
     };
 
     if (!isOpen) return null;
 
-    return (
+    return createPortal(
+
         <div className="trip-modal-overlay">
 
             <div className="trip-modal">
@@ -350,79 +399,104 @@ function AddStopModal({
                         <div className="trip-modal-body">
 
                             <div className="trip-form-group full-width">
+                                <div className="stop-type-selector">
 
-                                <label>
-                                    Search Existing Place
-                                </label>
+                                    <button
+                                        className={
+                                            stopType === "existing"
+                                                ? "active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            setStopType(
+                                                "existing"
+                                            )
+                                        }
+                                    >
+                                        Existing Place
+                                    </button>
 
-                                <input
-                                    placeholder="Search place..."
-                                    value={search}
-                                    onChange={(e) =>
-                                        setSearch(
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                                <div className="place-results">
-
-                                    {mockPlaces
-                                        .filter((place) => {
-                                            if (!search.trim()) {
-                                                return true;
-                                            }
-
-                                            return place.name
-                                                .toLowerCase()
-                                                .includes(
-                                                    search.toLowerCase()
-                                                );
-                                        })
-                                        .slice(
-                                            0,
-                                            search.trim() ? 2 : 2
-                                        )
-                                        .map((place) => (
-                                            <button
-                                                key={place.id}
-                                                className="place-result"
-                                                onClick={() => {
-                                                    setLocationName(
-                                                        place.name
-                                                    );
-
-                                                    setSearch(
-                                                        place.name
-                                                    );
-                                                }}
-                                            >
-                                                📍 {place.name}
-                                            </button>
-                                        ))}
+                                    <button
+                                        className={
+                                            stopType === "hiddenGem"
+                                                ? "active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            setStopType(
+                                                "hiddenGem"
+                                            )
+                                        }
+                                    >
+                                        Hidden Gem
+                                    </button>
 
                                 </div>
+
+                                {stopType === "existing" && (
+                                    <>
+                                        <label>
+                                            Search Existing Place
+                                        </label>
+
+                                        <input
+                                            placeholder="Search place..."
+                                            value={search}
+                                            onChange={(e) =>
+                                                setSearch(
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+
+                                        <div className="place-results">
+
+                                            {mockPlaces
+                                                .filter((place) => {
+                                                    if (!search.trim()) {
+                                                        return true;
+                                                    }
+
+                                                    return place.name
+                                                        .toLowerCase()
+                                                        .includes(
+                                                            search.toLowerCase()
+                                                        );
+                                                })
+                                                .slice(
+                                                    0,
+                                                    search.trim() ? 2 : 2
+                                                )
+                                                .map((place) => (
+                                                    <button
+                                                        key={place.id}
+                                                        className="place-result"
+                                                        onClick={() => {
+                                                            setLocationName(
+                                                                place.name
+                                                            );
+
+                                                            setSearch(
+                                                                place.name
+                                                            );
+                                                        }}
+                                                    >
+                                                        📍 {place.name}
+                                                    </button>
+                                                ))}
+
+                                        </div>
+                                    </>
+                                )}
 
                             </div>
 
                             <div className="trip-form-group full-width">
 
-                                <label>
-                                    Hidden Gem
-                                </label>
 
-                                <button
-                                    className="secondary-btn"
-                                    onClick={() =>
-                                        setShowHiddenGem(
-                                            !showHiddenGem
-                                        )
-                                    }
-                                >
-                                    + Declare a Hidden Gem
-                                </button>
 
-                                {showHiddenGem && (
+                                {stopType === "hiddenGem" && (
+
                                     <div className="hidden-gem-form">
 
                                         <input
@@ -449,16 +523,43 @@ function AddStopModal({
 
                                         <button
                                             className="secondary-btn"
-                                            onClick={() =>
-                                                alert(
-                                                    "Map pinning will be connected here."
-                                                )
-                                            }
+                                            onClick={() => {
+
+                                                navigator.geolocation.getCurrentPosition(
+
+                                                    (position) => {
+
+                                                        setHiddenGemLat(
+                                                            position.coords.latitude
+                                                        );
+
+                                                        setHiddenGemLng(
+                                                            position.coords.longitude
+                                                        );
+
+                                                        alert(
+                                                            "Current location saved."
+                                                        );
+
+                                                    },
+
+                                                    (error) => {
+
+                                                        alert(
+                                                            error.message
+                                                        );
+
+                                                    }
+
+                                                );
+
+                                            }}
                                         >
-                                            📍 Pin Location
+                                            📍 Use Current Location
                                         </button>
 
                                     </div>
+
                                 )}
                                 <div className="trip-actions">
 
@@ -487,10 +588,10 @@ function AddStopModal({
                     )}
 
 
-
             </div>
 
-        </div>
+        </div>,
+        document.body
     );
 }
 

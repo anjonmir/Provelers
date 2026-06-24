@@ -862,3 +862,28 @@
 
   font-weight: 600;
 }
+
+.stop-type-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stop-type-selector button {
+  flex: 1;
+
+  border: none;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  background: #f1f5f9;
+
+  cursor: pointer;
+}
+
+.active-type {
+  background: var(--primary) !important;
+  color: white;
+}

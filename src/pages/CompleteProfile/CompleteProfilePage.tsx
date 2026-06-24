@@ -1,11 +1,284 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
+import {
+  createUser
+} from "../../services/userService";
+
 import "./completeProfile.css";
 
+import useAuth from "../../hooks/useAuth";
+
+import { uploadProfileImage }
+  from "../../services/uploadProfileImage";
+
+
 function CompleteProfilePage() {
-  const [step, setStep] = useState(1);
+  const dobRef =
+    useRef<HTMLInputElement>(null);
+
+  const { user } = useAuth();
 
   const navigate = useNavigate();
+
+  const [step, setStep] =
+    useState(1);
+
+  const [profileData, setProfileData] =
+    useState({
+      fullName: "",
+      username: "",
+      photoURL: "",
+      bio: "",
+
+      bloodGroup: "",
+      dateOfBirth: "",
+
+      email: "",
+      phoneNumber: "",
+      emergencyContact: "",
+
+      division: "",
+      district: "",
+      homeTown: "",
+
+      occupation: "",
+      university: "",
+
+      travelerType: "",
+
+      nidNumber: "",
+
+      travelInterests: [] as string[],
+    });
+
+  useEffect(() => {
+
+    if (!user) return;
+
+    const generatedUsername =
+      (
+        user.displayName || "traveler"
+      )
+        .toLowerCase()
+        .replace(/\s+/g, "") +
+      Date.now().toString().slice(-4);
+
+    setProfileData(
+      (prev) => ({
+        ...prev,
+
+        fullName:
+          user.displayName || "",
+
+        email:
+          user.email || "",
+
+        photoURL:
+          user.photoURL || "",
+
+        username:
+          generatedUsername || "",
+      })
+    );
+
+  }, [user]);
+
+  const divisions = [
+    "Dhaka",
+    "Chattogram",
+    "Rajshahi",
+    "Khulna",
+    "Barishal",
+    "Sylhet",
+    "Rangpur",
+    "Mymensingh",
+  ];
+
+  const districts: Record<
+    string,
+    string[]
+  > = {
+    Dhaka: [
+      "Dhaka",
+      "Gazipur",
+      "Narsingdi",
+      "Tangail",
+      "Faridpur",
+      "Kishoreganj",
+    ],
+
+    Rajshahi: [
+      "Rajshahi",
+      "Natore",
+      "Naogaon",
+      "Chapainawabganj",
+      "Pabna",
+      "Sirajganj",
+    ],
+
+    Chattogram: [
+      "Chattogram",
+      "Cox's Bazar",
+      "Rangamati",
+      "Bandarban",
+      "Khagrachari",
+      "Feni",
+    ],
+
+    Khulna: [
+      "Khulna",
+      "Jessore",
+      "Satkhira",
+      "Bagerhat",
+    ],
+
+    Barishal: [
+      "Barishal",
+      "Patuakhali",
+      "Bhola",
+    ],
+
+    Sylhet: [
+      "Sylhet",
+      "Moulvibazar",
+      "Habiganj",
+      "Sunamganj",
+    ],
+
+    Rangpur: [
+      "Rangpur",
+      "Dinajpur",
+      "Nilphamari",
+    ],
+
+    Mymensingh: [
+      "Mymensingh",
+      "Jamalpur",
+      "Sherpur",
+    ],
+  };
+
+  const handleCompleteProfile =
+    async () => {
+
+      if (!user) return;
+
+      const badges = [];
+
+      if (
+        profileData.nidNumber
+      ) {
+        badges.push(
+          "Authentic"
+        );
+      }
+
+      const userData = {
+
+        firebaseUid:
+          user.uid,
+
+        email:
+          profileData.email,
+
+        fullName:
+          profileData.fullName,
+
+        username:
+          profileData.username,
+
+        photoURL:
+          profileData.photoURL,
+
+        bio:
+          profileData.bio,
+
+        bloodGroup:
+          profileData.bloodGroup,
+
+        dateOfBirth:
+          profileData.dateOfBirth,
+
+        phoneNumber:
+          profileData.phoneNumber,
+
+        emergencyContact:
+          profileData.emergencyContact,
+
+        division:
+          profileData.division,
+
+        district:
+          profileData.district,
+
+        homeTown:
+          profileData.homeTown,
+
+        occupation:
+          profileData.occupation,
+
+        university:
+          profileData.university,
+
+        travelerType:
+          profileData.travelerType,
+
+        nidNumber:
+          profileData.nidNumber,
+
+        explorerPoints: 0,
+
+        badges,
+      };
+
+      try {
+
+        await createUser(
+          userData
+        );
+
+        navigate(
+          "/feed"
+        );
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+      }
+
+    };
+
+
+  const completedFields = [
+
+    profileData.fullName,
+    profileData.photoURL,
+    profileData.bio,
+    profileData.bloodGroup,
+    profileData.dateOfBirth,
+
+    profileData.phoneNumber,
+
+    profileData.division,
+    profileData.district,
+
+    profileData.occupation,
+    profileData.university,
+
+    profileData.travelerType,
+
+  ].filter(Boolean).length;
+
+  const completionPercentage =
+    Math.round(
+      (completedFields / 11) * 100
+    );
+
+
   const nextStep = () => {
     setStep((prev) => prev + 1);
   };
@@ -13,6 +286,17 @@ function CompleteProfilePage() {
   const prevStep = () => {
     setStep((prev) => prev - 1);
   };
+
+  const interests = [
+    "Mountains",
+    "Sea Beach",
+    "Food",
+    "Photography",
+    "Adventure",
+    "Camping",
+    "Historical Places",
+    "Religious Tourism",
+  ];
 
   return (
     <div className="complete-profile-page">
@@ -47,50 +331,121 @@ function CompleteProfilePage() {
             <h2>Personal Information</h2>
 
             <div className="photo-upload">
-              <div className="photo-preview">
-                Upload Photo
-              </div>
+
+              <label
+                htmlFor="profilePhoto"
+                className="photo-preview"
+              >
+                {profileData.photoURL ? (
+                  <img
+                    src={profileData.photoURL}
+                    alt="Profile"
+                    className="profile-image"
+                  />
+                ) : (
+                  <span>Upload Photo</span>
+                )}
+              </label>
 
               <input
+                id="profilePhoto"
                 type="file"
                 accept="image/*"
+                style={{ display: "none" }}
+                onChange={async (e) => {
+                  const file =
+                    e.target.files?.[0];
+
+                  if (!file) return;
+
+                  try {
+                    const imageUrl =
+                      await uploadProfileImage(file);
+
+                    setProfileData((prev) => ({
+                      ...prev,
+                      photoURL: imageUrl,
+                    }));
+
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
               />
+              <label
+                htmlFor="profilePhoto"
+                className="change-photo-btn"
+              >
+                Change Photo
+              </label>
+
             </div>
 
             <input
               type="text"
               placeholder="Full Name"
+
+              value={
+                profileData.fullName
+              }
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+
+                  fullName:
+                    e.target.value,
+                })
+              }
+            />
+
+            <p className="generated-username">
+              @{profileData.username}
+            </p>
+            <textarea
+              placeholder="Tell travelers about yourself..."
+
+              value={
+                profileData.bio
+              }
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+
+                  bio:
+                    e.target.value,
+                })
+              }
             />
 
             <input
-              type="text"
-              placeholder="Username"
-            />
-
-            <input
+              ref={dobRef}
               type="date"
+              value={profileData.dateOfBirth}
+              onClick={() =>
+                dobRef.current?.showPicker?.()
+              }
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  dateOfBirth:
+                    e.target.value,
+                })
+              }
             />
 
-            <select>
-              <option>
-                Select Gender
-              </option>
 
-              <option>
-                Male
-              </option>
-
-              <option>
-                Female
-              </option>
-
-              <option>
-                Other
-              </option>
-            </select>
-
-            <select>
-              <option>
+            <select
+              value={profileData.bloodGroup}
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  bloodGroup: e.target.value,
+                })
+              }
+            >
+              <option value="">
                 Blood Group
               </option>
 
@@ -116,73 +471,144 @@ function CompleteProfilePage() {
 
             <input
               type="email"
-              placeholder="Email"
-              disabled
+              value={profileData.email}
+              readOnly
             />
 
             <input
               type="text"
               placeholder="+8801712345678"
+
+              value={profileData.phoneNumber}
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  phoneNumber:
+                    e.target.value,
+                })
+              }
             />
 
-            <input
-              type="text"
-              placeholder="Alternative Phone"
-            />
 
           </div>
         )}
 
         {/* STEP 3 */}
-
         {step === 3 && (
           <div className="step-card">
 
-            <h2>Present Address</h2>
+            <h2>Location</h2>
 
-            <select>
-              <option>
-                Division
+            <select
+              value={profileData.division}
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  division: e.target.value,
+                  district: "",
+                })
+              }
+            >
+              <option value="">
+                Select Division
               </option>
+
+              {divisions.map((division) => (
+                <option
+                  key={division}
+                  value={division}
+                >
+                  {division}
+                </option>
+              ))}
             </select>
 
-            <select>
-              <option>
-                District
+            <select
+              value={profileData.district}
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  district: e.target.value,
+                })
+              }
+            >
+              <option value="">
+                Select District
               </option>
+
+              {profileData.division &&
+                districts[
+                  profileData.division
+                ]?.map((district) => (
+                  <option
+                    key={district}
+                    value={district}
+                  >
+                    {district}
+                  </option>
+                ))}
             </select>
 
-            <select>
-              <option>
-                Upazila
-              </option>
-            </select>
+            <input
+              type="text"
+              placeholder="Home Town / Upazila"
 
-            <textarea
-              placeholder="Present Address"
+              value={profileData.homeTown}
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  homeTown: e.target.value,
+                })
+              }
             />
 
           </div>
         )}
+
 
         {/* STEP 4 */}
 
         {step === 4 && (
           <div className="step-card">
 
-            <h2>Permanent Address</h2>
+            <h2>Professional Information</h2>
 
-            <label className="checkbox-row">
-              <input
-                type="checkbox"
-              />
+            <input
+              placeholder="Occupation"
 
-              Same as Present Address
-            </label>
+              value={
+                profileData.occupation
+              }
 
-            <textarea
-              placeholder="Permanent Address"
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  occupation:
+                    e.target.value,
+                })
+              }
             />
+
+            <input
+              placeholder="University"
+
+              value={
+                profileData.university
+              }
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  university:
+                    e.target.value,
+                })
+              }
+            />
+
+
+
 
           </div>
         )}
@@ -191,41 +617,18 @@ function CompleteProfilePage() {
 
         {step === 5 && (
           <div className="step-card">
-
-            <h2>Professional Information</h2>
-
-            <input
-              placeholder="Occupation"
-            />
-
-            <input
-              placeholder="Workplace"
-            />
-
-            <input
-              placeholder="University / College"
-            />
-
-            <input
-              placeholder="Website"
-            />
-
-            <input
-              placeholder="LinkedIn"
-            />
-
-          </div>
-        )}
-
-        {/* STEP 6 */}
-
-        {step === 6 && (
-          <div className="step-card">
-
             <h2>Traveler Information</h2>
 
-            <select>
-              <option>
+            <select
+              value={profileData.travelerType}
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  travelerType: e.target.value,
+                })
+              }
+            >
+              <option value="">
                 Traveler Type
               </option>
 
@@ -250,16 +653,53 @@ function CompleteProfilePage() {
               </option>
             </select>
 
-            <input
-              placeholder="NID Card Number"
-            />
+            <div className="interest-grid">
+              {interests.map((interest) => (
+                <button
+                  key={interest}
+                  type="button"
+                  className={
+                    profileData.travelInterests.includes(
+                      interest
+                    )
+                      ? "interest-chip active"
+                      : "interest-chip"
+                  }
+                  onClick={() => {
+
+                    const exists =
+                      profileData.travelInterests.includes(
+                        interest
+                      );
+
+                    setProfileData({
+                      ...profileData,
+
+                      travelInterests:
+                        exists
+                          ? profileData.travelInterests.filter(
+                            (item) =>
+                              item !== interest
+                          )
+                          : [
+                            ...profileData.travelInterests,
+                            interest,
+                          ],
+                    });
+                  }}
+                >
+                  {interest}
+                </button>
+              ))}
+            </div>
+
 
           </div>
         )}
 
-        {/* STEP 7 */}
+        {/* STEP 6 */}
 
-        {step === 7 && (
+        {step === 6 && (
           <div className="step-card">
 
             <h2>Emergency Contact</h2>
@@ -270,6 +710,18 @@ function CompleteProfilePage() {
 
             <input
               placeholder="Phone"
+
+              value={
+                profileData.emergencyContact
+              }
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  emergencyContact:
+                    e.target.value,
+                })
+              }
             />
 
             <input
@@ -278,6 +730,36 @@ function CompleteProfilePage() {
 
           </div>
         )}
+        {/* STEP 7 */}
+
+        {step === 7 && (
+          <div className="step-card">
+
+            <h2>Verification</h2>
+
+            <p>
+              Verified travelers receive
+              the Authentic badge.
+            </p>
+
+            <input
+              placeholder="NID Number"
+
+              value={
+                profileData.nidNumber
+              }
+
+              onChange={(e) =>
+                setProfileData({
+                  ...profileData,
+                  nidNumber:
+                    e.target.value,
+                })
+              }
+            />
+          </div>
+        )}
+
 
         {/* STEP 8 */}
 
@@ -286,14 +768,29 @@ function CompleteProfilePage() {
 
             <h2>Review Profile</h2>
 
-            <p>
-              Review your information
-              before submitting.
-            </p>
+            <div className="completion-box">
+
+              <h3>Profile Completion</h3>
+
+              <div className="completion-bar">
+                <div
+                  className="completion-fill"
+                  style={{
+                    width:
+                      `${completionPercentage}%`,
+                  }}
+                />
+              </div>
+
+              <p>
+                {completionPercentage}% Complete
+              </p>
+
+            </div>
 
             <button
               className="submit-btn"
-              onClick={() => navigate("/feed")}
+              onClick={handleCompleteProfile}
             >
               Complete Profile
             </button>
@@ -328,4 +825,4 @@ function CompleteProfilePage() {
   );
 }
 
-export default CompleteProfilePage;
+export default CompleteProfilePage
