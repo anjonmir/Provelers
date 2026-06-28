@@ -1,3 +1,13 @@
+import { useEffect, useState } from "react";
+
+import useAuth from "../../hooks/useAuth";
+
+import { getUser }
+  from "../../services/userService";
+
+import { UserContext }
+  from "../../context/UserContext";
+
 import ProfileCover from "../../components/profile/ProfileCover";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileStats from "../../components/profile/ProfileStats";
@@ -11,38 +21,92 @@ import FriendsList from "../../components/profile/FriendsList";
 import "../../components/profile/profile.css";
 
 function ProfilePage() {
+
+  const { user } = useAuth();
+
+  const [profile,
+    setProfile] = useState<any>(null);
+
+  const [loading,
+    setLoading] = useState(true);
+
+  useEffect(() => {
+
+    if (!user) return;
+
+    async function loadProfile() {
+
+      try {
+
+        const data =
+          await getUser(user!.uid);
+
+        setProfile(data);
+
+      } catch (err) {
+
+        console.error(err);
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }
+
+    loadProfile();
+
+  }, [user]);
+
+  if (loading) {
+
+    return <h2>Loading...</h2>;
+
+  }
+
   return (
-    <div className="profile-page">
 
-      <ProfileCover />
+    <UserContext.Provider
+      value={profile}
+    >
 
-      <ProfileHeader />
+      <div className="profile-page">
 
-      <ProfileStats />
+        <ProfileCover />
 
-      <div className="profile-layout">
+        <ProfileHeader />
 
-        <div className="profile-main">
-          <ProfileTabs />
-        </div>
+        <ProfileStats />
 
-        <div className="profile-sidebar">
+        <div className="profile-layout">
 
-          <ExplorerRankCard />
+          <div className="profile-main">
 
-          <BadgeGrid />
-          
-          <PointsHistory />
+            <ProfileTabs />
 
-          <FriendsList />
+          </div>
 
+          <div className="profile-sidebar">
+
+            <ExplorerRankCard />
+
+            <BadgeGrid />
+
+            <PointsHistory />
+
+            <FriendsList />
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
+    </UserContext.Provider>
+
   );
+
 }
 
 export default ProfilePage;

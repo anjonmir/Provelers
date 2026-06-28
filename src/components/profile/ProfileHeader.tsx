@@ -1,39 +1,34 @@
 import "./profile.css";
-import { mockUserProfile }
-  from "../../data/mockUserProfile";
+
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 function ProfileHeader() {
+  const profile = useContext(UserContext);
   return (
     <div className="profile-header-card">
 
       <h1>
-        {mockUserProfile.firstName}
-        {" "}
-        {mockUserProfile.lastName}
+        {profile?.fullName}
       </h1>
 
       <span className="username">
-        {mockUserProfile.username}
+        @{profile?.username}
       </span>
 
       <p className="profile-location">
-        {mockUserProfile.location}
+        {profile?.district}, {profile?.division}
       </p>
 
       <p className="profile-bio">
-        {mockUserProfile.bio}
+        {profile?.bio}
       </p>
 
       <div className="traveler-tags">
 
-        {mockUserProfile.travelerTypes.map(
-          (type) => (
-            <span key={type}>
-              {type}
-            </span>
-          )
-        )}
-
+        <span>
+          {profile?.travelerType}
+        </span>
       </div>
 
       <div className="profile-actions">

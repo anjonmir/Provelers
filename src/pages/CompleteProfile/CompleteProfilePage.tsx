@@ -159,99 +159,32 @@ function CompleteProfilePage() {
     ],
   };
 
-  const handleCompleteProfile =
-    async () => {
+  const handleCompleteProfile = async () => {
+    if (!user) return;
 
-      if (!user) return;
+    try {
+      const userObject = {
+        ...profileData,
 
-      const badges = [];
-
-      if (
-        profileData.nidNumber
-      ) {
-        badges.push(
-          "Authentic"
-        );
-      }
-
-      const userData = {
-
-        firebaseUid:
-          user.uid,
-
-        email:
-          profileData.email,
-
-        fullName:
-          profileData.fullName,
-
-        username:
-          profileData.username,
-
-        photoURL:
-          profileData.photoURL,
-
-        bio:
-          profileData.bio,
-
-        bloodGroup:
-          profileData.bloodGroup,
-
-        dateOfBirth:
-          profileData.dateOfBirth,
-
-        phoneNumber:
-          profileData.phoneNumber,
-
-        emergencyContact:
-          profileData.emergencyContact,
-
-        division:
-          profileData.division,
-
-        district:
-          profileData.district,
-
-        homeTown:
-          profileData.homeTown,
-
-        occupation:
-          profileData.occupation,
-
-        university:
-          profileData.university,
-
-        travelerType:
-          profileData.travelerType,
-
-        nidNumber:
-          profileData.nidNumber,
+        firebaseUid: user.uid,
 
         explorerPoints: 0,
 
-        badges,
+        badges:
+          profileData.nidNumber.trim() !== ""
+            ? ["Authentic"]
+            : [],
       };
 
-      try {
+      await createUser(userObject);
 
-        await createUser(
-          userData
-        );
+      navigate("/feed");
 
-        navigate(
-          "/feed"
-        );
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-      }
-
-    };
-
+    } catch (error) {
+      console.error("SAVE ERROR:", error);
+      alert("Failed to save profile.");
+    }
+  };
 
   const completedFields = [
 
@@ -552,7 +485,7 @@ function CompleteProfilePage() {
 
             <input
               type="text"
-              placeholder="Home Town / Upazila"
+              placeholder="Villege / Upazila"
 
               value={profileData.homeTown}
 
@@ -592,7 +525,7 @@ function CompleteProfilePage() {
             />
 
             <input
-              placeholder="University"
+              placeholder="Institute"
 
               value={
                 profileData.university

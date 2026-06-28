@@ -1,40 +1,38 @@
+require("dotenv").config();
+
+const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  firebaseUid: String,
-  email: String,
+const userRoutes = require("./routes/userRoutes");
 
-  fullName: String,
-  username: String,
-  photoURL: String,
-  bio: String,
+const app = express();
 
-  bloodGroup: String,
-  dateOfBirth: String,
+app.use(cors());
+app.use(express.json());
 
-  phoneNumber: String,
-  emergencyContact: String,
+// Routes
+app.use("/api/users", userRoutes);
 
-  division: String,
-  district: String,
-  homeTown: String,
-
-  occupation: String,
-  university: String,
-
-  travelerType: String,
-
-  travelInterests: [String],
-
-  nidNumber: String,
-
-  explorerPoints: {
-    type: Number,
-    default: 0,
-  },
-
-  badges: [String],
+// Test Route
+app.get("/api/test", (req, res) => {
+  res.json({
+    message: "Provelers API Working",
+  });
 });
 
-module.exports =
-  mongoose.model("User", userSchema);
+// MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+// Server
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server Running on ${PORT}`);
+});

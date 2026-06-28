@@ -2,34 +2,99 @@ const express = require("express");
 
 const router = express.Router();
 
-const User =
-  require("../models/User");
+const User = require("../models/User");
 
-router.post(
-  "/users",
-  async (req, res) => {
-    try {
+// =========================
+// CREATE USER
+// =========================
 
-      const user =
-        new User(req.body);
+router.post("/", async (req, res) => {
+  try {
+    const existing = await User.findOne({
+      firebaseUid: req.body.firebaseUid,
+    });
 
-      await user.save();
+    if (existing) {
+      return res.json(existing);
+    }
 
-      res.status(201).json({
-        success: true,
-        user,
+    const user = await User.create(req.body);
+
+    res.status(201).json(user);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message,
+    });
+
+  }
+});
+
+// =========================
+// GET USER
+// =========================
+
+router.get("/:firebaseUid", async (req, res) => {
+
+  try {
+
+    const user =
+      await User.findOne({
+        firebaseUid:
+          req.params.firebaseUid,
       });
 
-    } catch (error) {
+    if (!user) {
 
-      res.status(500).json({
-        success: false,
-        message:
-          error.message,
+      return res.status(404).json({
+        message: "User not found",
       });
 
     }
+
+    res.json(user);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message,
+    });
+
   }
-);
+
+});
+
+// =========================
+// UPDATE USER
+// =========================
+
+router.put("/:firebaseUid", async (req, res) => {
+
+  try {
+
+    const user =
+      await User.findOneAndUpdate(
+        {
+          firebaseUid:
+            req.params.firebaseUid,
+        },
+        req.body,
+        {
+          new: true,
+        }
+      );
+
+    res.json(user);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message,
+    });
+
+  }
+
+});
 
 module.exports = router;

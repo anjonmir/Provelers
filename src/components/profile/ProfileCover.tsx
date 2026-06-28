@@ -1,7 +1,17 @@
+import { useContext } from "react";
+
+import { UserContext }
+  from "../../context/UserContext";
+
 import "./profile.css";
 
 function ProfileCover() {
+
+  const profile =
+    useContext(UserContext);
+
   return (
+
     <div className="profile-cover">
 
       <img
@@ -13,13 +23,29 @@ function ProfileCover() {
       <div className="cover-overlay">
 
         <div className="profile-avatar">
-          A
+
+          {profile?.photoURL ? (
+
+            <img
+              src={profile.photoURL}
+              alt="Profile"
+              className="profile-avatar-image"
+            />
+
+          ) : (
+
+            profile?.fullName?.charAt(0)
+
+          )}
+
         </div>
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default ProfileCover;

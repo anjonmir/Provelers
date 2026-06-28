@@ -1,58 +1,49 @@
 import "./profile.css";
 
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+
 function BadgeGrid() {
-  const badges = [
-    {
-      icon: "🍜",
-      name: "Food Explorer",
-      unlocked: true,
-    },
-    {
-      icon: "🥾",
-      name: "Adventurer",
-      unlocked: true,
-    },
-    {
-      icon: "📍",
-      name: "Hidden Gem Hunter",
-      unlocked: true,
-    },
-    {
-      icon: "📸",
-      name: "Photographer",
-      unlocked: true,
-    },
-    {
-      icon: "🏞️",
-      name: "Scenic Collector",
-      unlocked: true,
-    },
-        {
-      icon: "🧭",
-      name: "Pathfinder",
-      unlocked: false,
-    },
-    {
-      icon: "🏛️",
-      name: "Heritage Seeker",
-      unlocked: false,
-    },
-    {
-      icon: "🕌",
-      name: "Spiritual Journey",
-      unlocked: false,
-    },
-    {
-      icon: "⛰️",
-      name: "Mountain Master",
-      unlocked: false,
-    },
-    {
-      icon: "🌍",
-      name: "World Explorer",
-      unlocked: false,
-    },
-  ];
+  const profile = useContext(UserContext);
+
+const badges = [
+
+  {
+    icon: "✅",
+    name: "Authentic",
+    unlocked:
+      profile?.badges?.includes("Authentic"),
+  },
+
+  {
+    icon: "📸",
+    name: "Photographer",
+    unlocked:
+      profile?.travelerType === "Photographer",
+  },
+
+  {
+    icon: "🍜",
+    name: "Food Explorer",
+    unlocked:
+      profile?.travelerType === "Food Explorer",
+  },
+
+  {
+    icon: "🥾",
+    name: "Backpacker",
+    unlocked:
+      profile?.travelerType === "Backpacker",
+  },
+
+  {
+    icon: "🧗",
+    name: "Adventurer",
+    unlocked:
+      profile?.travelerType === "Adventurer",
+  },
+
+];
 
   return (
     <div className="profile-card">

@@ -1,82 +1,54 @@
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+
 import "./profile.css";
-
-import { mockUserProfile }
-from "../../data/mockUserProfile";
-
-import { mockTrips }
-from "../../data/mockTrips";
 
 function ProfileStats() {
 
-  const totalTrips =
-    mockTrips.length;
-
-  const totalPlaces =
-    mockTrips.reduce(
-      (tripTotal, trip) =>
-        tripTotal +
-        trip.days.reduce(
-          (dayTotal, day) =>
-            dayTotal +
-            day.stops.length,
-          0
-        ),
-      0
-    );
+  const profile = useContext(UserContext);
 
   return (
+
     <div className="profile-stats">
 
       <div className="stat-card">
 
-        <h3>
-          {totalTrips}
-        </h3>
+        <h3>12</h3>
 
-        <span>
-          Trips
-        </span>
+        <span>Trips</span>
+
+      </div>
+
+      <div className="stat-card">
+
+        <h3>84</h3>
+
+        <span>Places Added</span>
 
       </div>
 
       <div className="stat-card">
 
         <h3>
-          {totalPlaces}
+          {profile?.explorerPoints ?? 0}
         </h3>
 
-        <span>
-          Places Added
-        </span>
+        <span>Explorer Points</span>
 
       </div>
 
       <div className="stat-card">
 
-        <h3>
-          {mockUserProfile.followers}
-        </h3>
+        <h3>142</h3>
 
-        <span>
-          Followers
-        </span>
-
-      </div>
-
-      <div className="stat-card">
-
-        <h3>
-          {mockUserProfile.savedPlaces}
-        </h3>
-
-        <span>
-          Saved Places
-        </span>
+        <span>Followers</span>
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default ProfileStats;
