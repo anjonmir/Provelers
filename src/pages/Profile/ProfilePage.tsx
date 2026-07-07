@@ -68,7 +68,10 @@ function ProfilePage() {
   return (
 
     <UserContext.Provider
-      value={profile}
+      value={{
+        profile,
+        setProfile,
+      }}
     >
 
       <div className="profile-page">

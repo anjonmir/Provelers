@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
   fullName: String,
   username: String,
   photoURL: String,
+  coverPhoto: {
+    type: String,
+    default: "/images/default-cover.jpg",
+  },
   bio: String,
 
   bloodGroup: String,
@@ -36,5 +40,4 @@ const userSchema = new mongoose.Schema({
   badges: [String],
 });
 
-module.exports =
-  mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

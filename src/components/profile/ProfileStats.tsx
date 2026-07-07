@@ -5,7 +5,10 @@ import "./profile.css";
 
 function ProfileStats() {
 
-  const profile = useContext(UserContext);
+  const {
+    profile,
+    setProfile,
+  } = useContext(UserContext);
 
   return (
 

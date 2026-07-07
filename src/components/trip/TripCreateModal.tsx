@@ -65,24 +65,35 @@ function TripCreateModal({
     if (!tripName.trim()) return;
 
     const newTrip = {
-      id: Date.now(),
+
+      ownerUid: "",
+
+      ownerName: "",
+
+      ownerPhoto: "",
 
       title: tripName,
-      status: "draft",
+
+      destination: location,
 
       coverImage,
 
-      category,
-
       description,
 
-      location,
+      category,
 
       privacy,
 
-      date,
+      startDate: date,
 
-      days: [],
+      endDate: date,
+
+      budget: 0,
+
+      status: "draft",
+
+      days: []
+
     };
 
 

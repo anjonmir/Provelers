@@ -5,23 +5,37 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/userRoutes");
+const tripRoutes = require("./routes/tripRoutes");
+
+// TEMPORARY
+const postRoutes = require("./routes/postRoutes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// ======================
+// ROUTES
+// ======================
+
 app.use("/api/users", userRoutes);
 
-// Test Route
+app.use("/api/trips", tripRoutes);
+
+// TEMPORARY (will remove later)
+app.use("/api/posts", postRoutes);
+
+// ======================
+
 app.get("/api/test", (req, res) => {
   res.json({
     message: "Provelers API Working",
   });
 });
 
-// MongoDB
+// ======================
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -30,7 +44,9 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-// Server
+
+// ======================
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {

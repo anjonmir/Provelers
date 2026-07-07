@@ -1,15 +1,13 @@
-import {
-  FaPlusCircle,
-} from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 import "./trip.css";
 
 type Props = {
   trips: any[];
 
-  selectedTripId: number;
+  selectedTripId: string;
 
   onSelectTrip: (
-    id: number
+    id: string
   ) => void;
 
   onCreateTrip: () => void;
@@ -40,16 +38,19 @@ function TripSidebar({
       <div className="trip-list">
 
         {trips.map((trip) => (
+
           <div
-            key={trip.id}
-            className={`trip-item ${trip.id === selectedTripId
-              ? "active-trip"
-              : ""
-              }`}
+            key={trip._id}
+            className={`trip-item ${
+              trip._id === selectedTripId
+                ? "active-trip"
+                : ""
+            }`}
             onClick={() =>
-              onSelectTrip(trip.id)
+              onSelectTrip(trip._id)
             }
           >
+
             <img
               src={
                 trip.coverImage ||
@@ -64,11 +65,11 @@ function TripSidebar({
               <strong>
                 {trip.title}
               </strong>
+
               <div>
 
                 <small>
-                  {trip.status ===
-                    "published"
+                  {trip.status === "published"
                     ? "🟢 Published"
                     : "🟡 Draft"}
                 </small>
@@ -82,6 +83,7 @@ function TripSidebar({
             </div>
 
           </div>
+
         ))}
 
       </div>

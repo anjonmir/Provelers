@@ -36,7 +36,7 @@ function AddStopModal({
     const [title, setTitle] =
         useState("");
 
-    const [time, setTime] =
+    const [arrivalTime, setArrivalTime] =
         useState("");
 
     const [description, setDescription] =
@@ -50,19 +50,22 @@ function AddStopModal({
 
     const [hiddenGemName, setHiddenGemName] =
         useState("");
-    const [media, setMedia] =
-        useState<string[]>([]);
 
     const [hiddenGemDescription,
         setHiddenGemDescription] =
         useState("");
-    const [hiddenGemLat,
-        setHiddenGemLat] =
+
+    const [media, setMedia] =
+        useState<string[]>([]);
+
+    const [latitude,
+        setLatitude] =
         useState<number | null>(null);
 
-    const [hiddenGemLng,
-        setHiddenGemLng] =
+    const [longitude,
+        setLongitude] =
         useState<number | null>(null);
+
     const [stopType,
         setStopType] =
         useState<
@@ -76,8 +79,8 @@ function AddStopModal({
             editingStop.title || ""
         );
 
-        setTime(
-            editingStop.time || ""
+        setArrivalTime(
+            editingStop.arrivalTime || ""
         );
 
         setDescription(
@@ -117,28 +120,35 @@ function AddStopModal({
 
         const newStop = {
 
-            id:
-                editingStop?.id ??
-                Date.now(),
+            _id:
+                editingStop?._id ??
+                Date.now().toString(),
+
+            placeId: "",
+
+            placeName: finalLocation,
 
             title,
 
-            time,
-
             description,
 
-            location:
-                finalLocation,
+            location: finalLocation,
 
-            lat:
+            latitude:
                 stopType === "hiddenGem"
-                    ? hiddenGemLat
+                    ? latitude
                     : null,
 
-            lng:
+            longitude:
                 stopType === "hiddenGem"
-                    ? hiddenGemLng
+                    ? longitude
                     : null,
+
+            arrivalTime,
+
+            media,
+
+            expenses: 0,
 
             source:
                 stopType === "hiddenGem"
@@ -150,7 +160,13 @@ function AddStopModal({
                     ? "pending"
                     : "approved",
 
-            media,
+            published: false,
+
+            likes: 0,
+
+            likedBy: [],
+
+            comments: [],
 
         };
 
@@ -178,11 +194,9 @@ function AddStopModal({
                 createdBy:
                     "Anjon Mir",
 
-                lat:
-                    hiddenGemLat,
+                latitude,
 
-                lng:
-                    hiddenGemLng,
+                longitude,
 
             });
 
@@ -195,7 +209,7 @@ function AddStopModal({
         onSave(newStop);
 
         setTitle("");
-        setTime("");
+        setArrivalTime("");
         setDescription("");
         setLocationName("");
         setHiddenGemName("");
@@ -293,11 +307,10 @@ function AddStopModal({
 
                                 <input
                                     type="time"
-                                    value={time}
+                                    value={arrivalTime}
+
                                     onChange={(e) =>
-                                        setTime(
-                                            e.target.value
-                                        )
+                                        setArrivalTime(e.target.value)
                                     }
                                 />
 
@@ -529,11 +542,11 @@ function AddStopModal({
 
                                                     (position) => {
 
-                                                        setHiddenGemLat(
+                                                        setLatitude(
                                                             position.coords.latitude
                                                         );
 
-                                                        setHiddenGemLng(
+                                                        setLongitude(
                                                             position.coords.longitude
                                                         );
 

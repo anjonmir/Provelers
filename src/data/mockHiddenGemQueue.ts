@@ -1,4 +1,5 @@
 export type HiddenGem = {
+
   id: number;
 
   name: string;
@@ -17,9 +18,10 @@ export type HiddenGem = {
 
   createdBy: string;
 
-  lat: number | null;
+  latitude: number | null;
 
-  lng: number | null;
+  longitude: number | null;
+
 };
 
 export const mockHiddenGemQueue: HiddenGem[] = [];

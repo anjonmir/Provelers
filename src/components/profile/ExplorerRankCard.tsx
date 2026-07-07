@@ -7,8 +7,10 @@ import "./profile.css";
 
 function ExplorerRankCard() {
 
-  const profile =
-    useContext(UserContext);
+  const {
+  profile,
+  setProfile,
+} = useContext(UserContext);
 
   const points =
     profile?.explorerPoints ?? 0;

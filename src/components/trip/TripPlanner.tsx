@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 import {
   Container,
@@ -13,7 +13,16 @@ import MiniMapPreview from "./MiniMapPreview";
 
 import TripEditor from "./TripEditor";
 
-import { mockTrips } from "../../data/mockTrips";
+import { useEffect, useState } from "react";
+
+import useAuth from "../../hooks/useAuth";
+
+import {
+  createTrip,
+  getTrips,
+  // updateTrip,
+  // publishTrip,
+} from "../../services/tripService";
 import { mockFeed }
   from "../../data/mockFeed";
 
@@ -23,8 +32,15 @@ function TripPlanner() {
   const [showModal, setShowModal] =
     useState(false);
 
+  const { user } = useAuth();
+
   const [trips, setTrips] =
-    useState(mockTrips);
+    useState<any[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+ 
 
   const storedTripId =
     localStorage.getItem(
@@ -33,31 +49,55 @@ function TripPlanner() {
 
   const [selectedTripId,
     setSelectedTripId] =
-    useState(
-      storedTripId
-        ? Number(
-          storedTripId
-        )
-        : mockTrips[0].id
+    useState<string>(
+      storedTripId || ""
     );
 
   const selectedTrip =
     trips.find(
-      (trip) =>
-        trip.id === selectedTripId
+      trip =>
+        trip._id === selectedTripId
     );
-  const handleCreateTrip = (
-    newTrip: any
-  ) => {
-    setTrips((prev) => [
-      newTrip,
-      ...prev,
-    ]);
+  const handleCreateTrip =
+    async (trip: any) => {
 
-    setSelectedTripId(
-      newTrip.id
-    );
-  };
+      try {
+
+        const savedTrip =
+          await createTrip({
+
+            ...trip,
+
+            ownerUid:
+              user?.uid,
+
+            ownerName:
+              user?.displayName,
+
+            ownerPhoto:
+              user?.photoURL,
+
+          });
+
+        setTrips(prev => [
+
+          savedTrip,
+
+          ...prev,
+
+        ]);
+
+        setSelectedTripId(
+          savedTrip._id
+        );
+
+      } catch (err) {
+
+        console.error(err);
+
+      }
+
+    };
 
   const handleEditStop = (
     dayId: number,
@@ -279,6 +319,52 @@ function TripPlanner() {
       "Trip Published!"
     );
   };
+  useEffect(() => {
+
+    if (!user) return;
+
+    loadTrips();
+
+  }, [user]);
+
+  async function loadTrips() {
+
+    try {
+
+      const data =
+        await getTrips(user!.uid);
+
+      setTrips(data);
+
+      if (data.length > 0) {
+
+        if (storedTripId) {
+
+          setSelectedTripId(
+            storedTripId
+          );
+
+        } else {
+
+          setSelectedTripId(
+            data[0]._id
+          );
+
+        }
+
+      }
+
+    } catch (err) {
+
+      console.error(err);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  }
 
   return (
     <section className="trip-page">

@@ -4,7 +4,10 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 function ProfileHeader() {
-  const profile = useContext(UserContext);
+  const {
+    profile,
+    setProfile,
+  } = useContext(UserContext);
   return (
     <div className="profile-header-card">
 

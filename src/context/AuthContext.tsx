@@ -76,6 +76,7 @@ export function AuthProvider({
     email: string,
     password: string
   ) => {
+
     const result =
       await createUserWithEmailAndPassword(
         auth,
@@ -83,14 +84,30 @@ export function AuthProvider({
         password
       );
 
-    if (result.user) {
+    console.log("User created");
+
+    try {
+
       await updateProfile(
         result.user,
         {
           displayName: name,
         }
       );
+
+      console.log("Profile updated");
+
+    } catch (error) {
+
+      console.error(
+        "updateProfile Error:",
+        error
+      );
+
+      throw error;
+
     }
+
   };
 
   // LOGOUT
