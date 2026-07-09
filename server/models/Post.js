@@ -2,47 +2,84 @@ const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
   firebaseUid: String,
+
   username: String,
+
   photoURL: String,
-  comment: String,
+
+  text: String,
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-const postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema(
+  {
+    ownerUid: String,
 
-  firebaseUid: String,
+    ownerName: String,
 
-  username: String,
+    ownerPhoto: String,
 
-  photoURL: String,
+    tripId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Trip",
+    },
 
-  description: String,
+    stopId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
 
-  location: String,
+    tripTitle: String,
 
-  images: [String],
+    tripCover: String,
 
-  likes: {
-    type: Number,
-    default: 0,
+    dayTitle: String,
+
+    placeId: String,
+
+    placeName: String,
+
+    title: String,
+
+    description: String,
+
+    location: String,
+
+    latitude: Number,
+
+    longitude: Number,
+
+    images: {
+      type: [String],
+      default: [],
+    },
+
+    likes: {
+      type: Number,
+      default: 0,
+    },
+
+    likedBy: {
+      type: [String],
+      default: [],
+    },
+
+    comments: {
+      type: [commentSchema],
+      default: [],
+    },
+
+    saves: {
+      type: Number,
+      default: 0,
+    },
   },
-
-  likedBy: [String],
-
-  comments: [commentSchema],
-
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  {
+    timestamps: true,
   },
-
-});
-
-module.exports =
-mongoose.model(
-  "Post",
-  postSchema
 );
+
+module.exports = mongoose.model("Post", postSchema);

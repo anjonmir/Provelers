@@ -26,11 +26,27 @@ type Props = {
 function FeedPostCard({
   post,
 }: Props) {
-  console.log(post);//for debug. I need to delete it
 
   const navigate =
-  useNavigate();
-  
+    useNavigate();
+  const authorName =
+    post.user?.name ||
+    post.ownerName ||
+    "Unknown Traveler";
+
+  const authorAvatar =
+    post.user?.avatar ||
+    post.ownerPhoto ||
+    "";
+
+  const reactionTotal =
+    post.reactions ??
+    post.likes ??
+    0;
+
+  const comments =
+    post.comments || [];
+
   const [showComments, setShowComments] =
     useState(false);
 
@@ -42,7 +58,7 @@ function FeedPostCard({
 
   const [reactionCount,
     setReactionCount] =
-    useState(post.reactions);
+    useState(reactionTotal)
 
   const [saved, setSaved] =
     useState(false);
@@ -57,16 +73,28 @@ function FeedPostCard({
         <div className="post-user">
 
           <div className="post-avatar">
-            {post.user.name
-              .charAt(0)
-              .toUpperCase()}
+
+            {authorAvatar ? (
+
+              <img
+                src={authorAvatar}
+                alt=""
+              />
+
+            ) : (
+
+              authorName.charAt(0).toUpperCase()
+
+            )}
+
           </div>
 
           <div>
 
             <h4>
-              {post.user.name}
+              {authorName}
             </h4>
+
 
             <div className="post-meta">
 
@@ -267,7 +295,7 @@ function FeedPostCard({
       {showComments && (
         <div className="comments-section">
 
-          {post.comments.map(
+          {comments.map(
             (
               comment: any,
               index: number
@@ -277,7 +305,7 @@ function FeedPostCard({
                 className="comment-item"
               >
                 <strong>
-                  {comment.user}
+                  {comment.user || comment.username}
                 </strong>
 
                 <p>
@@ -290,9 +318,7 @@ function FeedPostCard({
           <div className="comment-box">
 
             <div className="comment-avatar">
-              {post.user.name
-                .charAt(0)
-                .toUpperCase()}
+              {authorName.charAt(0).toUpperCase()}
             </div>
 
             <div className="comment-input-wrapper">

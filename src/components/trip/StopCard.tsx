@@ -6,15 +6,17 @@ import {
 } from "react-icons/fa";
 
 type Props = {
+
     stop: any;
 
     onDelete: (
-        stopId: number
+        stopId: string
     ) => void;
 
     onEdit: (
         stop: any
     ) => void;
+
 };
 
 function StopCard({
@@ -74,7 +76,7 @@ function StopCard({
                 <button
                     className="trip-icon-btn danger"
                     onClick={() =>
-                        onDelete(stop.id)
+                        onDelete(stop._id)
                     }
                 >
                     <FaTrash />

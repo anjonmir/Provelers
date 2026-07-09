@@ -8,17 +8,17 @@ type Props = {
     day: any;
 
     onAddStop: (
-        dayId: number,
+        dayId: string,
         stop: any
     ) => void;
 
     onDeleteStop: (
-        dayId: number,
-        stopId: number
+        dayId: string,
+        stopId: string
     ) => void;
 
     onEditStop: (
-        dayId: number,
+        dayId: string,
         stop: any
     ) => void;
 };
@@ -34,6 +34,13 @@ function DayCard({
     const [editingStop,
         setEditingStop] =
         useState<any>(null);
+
+    console.log(
+        "DayCard",
+        day.title,
+        day._id,
+        day.stops.length
+    );
     return (
 
         <div className="day-card">
@@ -56,11 +63,11 @@ function DayCard({
             {day.stops.map(
                 (stop: any) => (
                     <StopCard
-                        key={stop.id}
+                        key={stop._id}
                         stop={stop}
                         onDelete={(stopId) =>
                             onDeleteStop(
-                                day.id,
+                                day._id,
                                 stopId
                             )
                         }
@@ -84,14 +91,20 @@ function DayCard({
                     setEditingStop(null);
                 }}
                 onSave={(stop) => {
+
+                    console.log(
+                        "Saving into",
+                        day.title,
+                        day._id
+                    );
                     if (editingStop) {
                         onEditStop(
-                            day.id,
+                            day._id,
                             stop
                         );
                     } else {
                         onAddStop(
-                            day.id,
+                            day._id,
                             stop
                         );
                     }

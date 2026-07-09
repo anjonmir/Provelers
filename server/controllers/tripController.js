@@ -1,4 +1,5 @@
 const Trip = require("../models/Trip");
+const Post = require("../models/Post");
 
 // =======================================
 // CREATE TRIP
@@ -6,17 +7,13 @@ const Trip = require("../models/Trip");
 
 exports.createTrip = async (req, res) => {
   try {
-
     const trip = await Trip.create(req.body);
 
     res.status(201).json(trip);
-
   } catch (err) {
-
     res.status(500).json({
       message: err.message,
     });
-
   }
 };
 
@@ -26,7 +23,6 @@ exports.createTrip = async (req, res) => {
 
 exports.getUserTrips = async (req, res) => {
   try {
-
     const trips = await Trip.find({
       ownerUid: req.params.ownerUid,
     }).sort({
@@ -34,13 +30,10 @@ exports.getUserTrips = async (req, res) => {
     });
 
     res.json(trips);
-
   } catch (err) {
-
     res.status(500).json({
       message: err.message,
     });
-
   }
 };
 
@@ -49,31 +42,21 @@ exports.getUserTrips = async (req, res) => {
 // =======================================
 
 exports.getTrip = async (req, res) => {
-
   try {
-
-    const trip = await Trip.findById(
-      req.params.tripId
-    );
+    const trip = await Trip.findById(req.params.tripId);
 
     if (!trip) {
-
       return res.status(404).json({
         message: "Trip not found",
       });
-
     }
 
     res.json(trip);
-
   } catch (err) {
-
     res.status(500).json({
       message: err.message,
     });
-
   }
-
 };
 
 // =======================================
@@ -84,30 +67,30 @@ exports.updateTrip = async (req, res) => {
 
   try {
 
-    const trip =
-      await Trip.findByIdAndUpdate(
+    console.log("========== UPDATE TRIP ==========");
+    console.log(JSON.stringify(req.body, null, 2));
 
-        req.params.tripId,
-
-        req.body,
-
-        {
-          new: true,
-        }
-
-      );
+    const trip = await Trip.findByIdAndUpdate(
+      req.params.tripId,
+      req.body,
+      {
+        returnDocument: "after",
+        runValidators: true,
+      }
+    );
 
     if (!trip) {
-
       return res.status(404).json({
         message: "Trip not found",
       });
-
     }
 
     res.json(trip);
 
   } catch (err) {
+
+    console.error("========== UPDATE ERROR ==========");
+    console.error(err);
 
     res.status(500).json({
       message: err.message,
@@ -122,25 +105,17 @@ exports.updateTrip = async (req, res) => {
 // =======================================
 
 exports.deleteTrip = async (req, res) => {
-
   try {
-
-    await Trip.findByIdAndDelete(
-      req.params.tripId
-    );
+    await Trip.findByIdAndDelete(req.params.tripId);
 
     res.json({
       success: true,
     });
-
   } catch (err) {
-
     res.status(500).json({
       message: err.message,
     });
-
   }
-
 };
 
 // =======================================
@@ -149,43 +124,109 @@ exports.deleteTrip = async (req, res) => {
 
 exports.publishTrip = async (req, res) => {
 
-  try {
+    try {
 
-    const trip =
-      await Trip.findById(
-        req.params.tripId
-      );
+        const trip = await Trip.findById(req.params.tripId);
 
-    if (!trip) {
+        if (!trip) {
 
-      return res.status(404).json({
-        message: "Trip not found",
-      });
+            return res.status(404).json({
+                message: "Trip not found",
+            });
+
+        }
+
+        trip.status = "published";
+
+        const createdPosts = [];
+
+        for (const day of trip.days) {
+
+            for (const stop of day.stops) {
+
+                stop.published = true;
+
+                const alreadyExists = await Post.findOne({
+
+                    tripId: trip._id,
+
+                    stopId: stop._id,
+
+                });
+
+                if (alreadyExists) continue;
+
+                const post = await Post.create({
+
+                    ownerUid: trip.ownerUid,
+
+                    ownerName: trip.ownerName,
+
+                    ownerPhoto: trip.ownerPhoto,
+
+                    tripId: trip._id,
+
+                    stopId: stop._id,
+
+                    tripTitle: trip.title,
+
+                    tripCover: trip.coverImage,
+
+                    dayTitle: day.title,
+
+                    placeId: stop.placeId,
+
+                    placeName: stop.placeName,
+
+                    title: stop.title,
+
+                    description: stop.description,
+
+                    location: stop.location,
+
+                    latitude: stop.latitude,
+
+                    longitude: stop.longitude,
+
+                    images: stop.media,
+
+                    createdAt: stop.createdAt,
+
+                    likes: 0,
+
+                    comments: [],
+
+                    saves: 0,
+
+                });
+
+                createdPosts.push(post);
+
+            }
+
+        }
+
+        await trip.save();
+
+        res.json({
+
+            trip,
+
+            posts: createdPosts,
+
+        });
 
     }
 
-    trip.status = "published";
+    catch (err) {
 
-    trip.days.forEach(day => {
+        console.log(err);
 
-      day.stops.forEach(stop => {
+        res.status(500).json({
 
-        stop.published = true;
+            message: err.message,
 
-      });
+        });
 
-    });
-
-    await trip.save();
-
-    res.json(trip);
-
-  } catch (err) {
-
-    res.status(500).json({
-      message: err.message,
-    });
-
-  }
-
+    }
 };

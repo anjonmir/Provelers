@@ -8,17 +8,17 @@ type Props = {
     onAddDay: () => void;
 
     onAddStop: (
-        dayId: number,
+        dayId: string,
         stop: any
     ) => void;
 
     onDeleteStop: (
-        dayId: number,
-        stopId: number
+        dayId: string,
+        stopId: string
     ) => void;
 
     onEditStop: (
-        dayId: number,
+        dayId: string,
         stop: any
     ) => void;
 };
@@ -30,6 +30,12 @@ function TripEditor({
     onDeleteStop,
     onEditStop,
 }: Props) {
+    console.log(
+        trip.days.map((day: any) => ({
+            title: day.title,
+            id: day._id ?? day.id,
+        }))
+    );
     return (
         <div className="trip-editor glass-card">
 
@@ -89,7 +95,7 @@ function TripEditor({
             {trip.days.map(
                 (day: any) => (
                     <DayCard
-                        key={day.id}
+                        key={day._id}
                         day={day}
                         onAddStop={onAddStop}
                         onDeleteStop={onDeleteStop}

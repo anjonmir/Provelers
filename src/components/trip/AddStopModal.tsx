@@ -120,9 +120,9 @@ function AddStopModal({
 
         const newStop = {
 
-            _id:
-                editingStop?._id ??
-                Date.now().toString(),
+            ...(editingStop?._id && {
+                _id: editingStop._id,
+            }),
 
             placeId: "",
 

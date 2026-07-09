@@ -20,11 +20,11 @@ import useAuth from "../../hooks/useAuth";
 import {
   createTrip,
   getTrips,
-  // updateTrip,
-  // publishTrip,
+  updateTrip,
+  publishTrip,
 } from "../../services/tripService";
-import { mockFeed }
-  from "../../data/mockFeed";
+
+
 
 import "./trip.css";
 
@@ -40,7 +40,7 @@ function TripPlanner() {
   const [loading, setLoading] =
     useState(true);
 
- 
+
 
   const storedTripId =
     localStorage.getItem(
@@ -99,225 +99,163 @@ function TripPlanner() {
 
     };
 
-  const handleEditStop = (
-    dayId: number,
+  const handleEditStop = async (
+    dayId: string,
     updatedStop: any
   ) => {
-    setTrips((prevTrips) =>
-      prevTrips.map((trip) => {
-        if (
-          trip.id !== selectedTripId
-        ) {
-          return trip;
-        }
-
-        return {
-          ...trip,
-
-          days: trip.days.map(
-            (day: any) => {
-              if (
-                day.id !== dayId
-              ) {
-                return day;
-              }
-
-              return {
-                ...day,
-
-                stops:
-                  day.stops.map(
-                    (
-                      stop: any
-                    ) =>
-                      stop.id ===
-                        updatedStop.id
-                        ? updatedStop
-                        : stop
-                  ),
-              };
-            }
-          ),
-        };
-      })
-    );
-  };
-
-  const handleAddDay = () => {
-    setTrips((prevTrips) =>
-      prevTrips.map((trip) => {
-        if (
-          trip.id !== selectedTripId
-        ) {
-          return trip;
-        }
-
-        const newDay = {
-          id: Date.now(),
-
-          title: `Day ${trip.days.length + 1
-            }`,
-
-          stops: [],
-        };
-
-        return {
-          ...trip,
-
-          days: [
-            ...trip.days,
-            newDay,
-          ],
-        };
-      })
-    );
-  };
-  const handleAddStop = (
-    dayId: number,
-    newStop: any
-  ) => {
-    setTrips((prevTrips) =>
-      prevTrips.map((trip) => {
-        if (
-          trip.id !== selectedTripId
-        ) {
-          return trip;
-        }
-
-        return {
-          ...trip,
-
-          days: trip.days.map(
-            (day: any) => {
-              if (
-                day.id !== dayId
-              ) {
-                return day;
-              }
-
-              return {
-                ...day,
-
-                stops: [
-                  ...day.stops,
-                  newStop,
-                ],
-              };
-            }
-          ),
-        };
-      })
-    );
-  };
-
-  const handleDeleteStop = (
-    dayId: number,
-    stopId: number
-  ) => {
-    setTrips((prevTrips) =>
-      prevTrips.map((trip) => {
-        if (
-          trip.id !== selectedTripId
-        ) {
-          return trip;
-        }
-
-        return {
-          ...trip,
-
-          days: trip.days.map(
-            (day: any) => {
-              if (
-                day.id !== dayId
-              ) {
-                return day;
-              }
-
-              return {
-                ...day,
-
-                stops:
-                  day.stops.filter(
-                    (stop: any) =>
-                      stop.id !== stopId
-                  ),
-              };
-            }
-          ),
-        };
-      })
-    );
-  };
-  const handlePublishTrip = () => {
 
     if (!selectedTrip) return;
 
-    setTrips((prevTrips) =>
-      prevTrips.map((trip) =>
-        trip.id === selectedTripId
-          ? {
-            ...trip,
-            status: "published",
-          }
-          : trip
-      )
+    const updatedTrip = {
+
+      ...selectedTrip,
+
+      days: selectedTrip.days.map((day: any) => {
+
+        if (day._id !== dayId) return day;
+
+        return {
+
+          ...day,
+
+          stops: day.stops.map((stop: any) =>
+
+            stop._id === updatedStop._id
+              ? updatedStop
+              : stop
+
+          ),
+
+        };
+
+      }),
+
+    };
+
+    await saveTrip(updatedTrip);
+
+  };
+
+  const handleAddDay = async () => {
+
+    if (!selectedTrip) return;
+
+    const updatedTrip = {
+
+      ...selectedTrip,
+
+      days: [
+
+        ...selectedTrip.days,
+
+        {
+
+          id: Date.now(),
+
+          title: `Day ${selectedTrip.days.length + 1}`,
+
+          stops: [],
+
+        },
+
+      ],
+
+    };
+
+    await saveTrip(updatedTrip);
+
+  };
+  const handleAddStop = async (
+    dayId: string,
+    newStop: any
+  ) => {
+
+    if (!selectedTrip) return;
+
+    const updatedTrip = {
+
+      ...selectedTrip,
+
+      days: selectedTrip.days.map((day: any) => {
+
+        if (day._id !== dayId) return day;
+
+        return {
+
+          ...day,
+
+          stops: [
+
+            ...day.stops,
+
+            newStop,
+
+          ],
+
+        };
+
+      }),
+
+    };
+
+    console.log(
+      JSON.stringify(updatedTrip.days, null, 2)
     );
+    await saveTrip(updatedTrip);
 
-    selectedTrip.days.forEach(
-      (day: any) => {
+  };
 
-        day.stops.forEach(
-          (stop: any) => {
+  const handleDeleteStop = async (
+    dayId: string,
+    stopId: string
+  ) => {
 
-            mockFeed.unshift({
-              id:
-                Date.now() +
-                Math.random(),
+    if (!selectedTrip) return;
 
-              user: {
-                name:
-                  "Anjon Mir",
+    const updatedTrip = {
 
-                avatar: "",
-              },
-              tripId:
-                selectedTrip.id,
+      ...selectedTrip,
 
-              tripTitle:
-                selectedTrip.title,
+      days: selectedTrip.days.map((day: any) => {
 
-              tripCover:
-                selectedTrip.coverImage,
+        if (day._id !== dayId) return day;
 
+        return {
 
-              location:
-                stop.location,
+          ...day,
 
-              createdAt:
-                new Date().toISOString(),
+          stops: day.stops.filter(
+            (stop: any) =>
+              stop._id !== stopId
+          ),
 
-              description:
-                stop.description,
+        };
 
-              images:
-                stop.media || [],
+      }),
 
-              reactions: 0,
+    };
 
-              comments: [],
+    await saveTrip(updatedTrip);
 
-              saves: 0,
-            });
+  };
+  const handlePublishTrip = async () => {
 
-          }
-        );
+    if (!selectedTrip) return;
 
-      }
-    );
+    try {
 
-    alert(
-      "Trip Published!"
-    );
+      await publishTrip(selectedTrip._id);
+
+      await loadTrips();
+
+      alert("Trip Published!");
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
   };
   useEffect(() => {
 
@@ -361,6 +299,31 @@ function TripPlanner() {
     } finally {
 
       setLoading(false);
+
+    }
+
+  }
+
+  async function saveTrip(updatedTrip: any) {
+
+    try {
+
+      const savedTrip = await updateTrip(
+        updatedTrip._id,
+        updatedTrip
+      );
+
+      setTrips(prev =>
+        prev.map(trip =>
+          trip._id === savedTrip._id
+            ? savedTrip
+            : trip
+        )
+      );
+
+    } catch (err) {
+
+      console.error(err);
 
     }
 
