@@ -1,15 +1,14 @@
-import { mockPlaces }
-  from "../data/mockPlaces";
+import { mockPlaces } from "../data/mockPlaces";
+import { mockHiddenGemQueue } from "../data/mockHiddenGemQueue";
 
-import {
-  mockHiddenGemQueue,
-} from "../data/mockHiddenGemQueue";
+export function getPlaces() {
 
-export const getPlaces = () => {
+    return [
 
-  return [
-    ...mockPlaces,
-    ...mockHiddenGemQueue,
-  ];
+        ...mockPlaces,
 
-};
+        ...mockHiddenGemQueue,
+
+    ];
+
+}

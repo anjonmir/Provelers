@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { mockTrips }
-  from "../../data/mockTrips";
+import {
+  getTrips,
+  updateTrip,
+} from "../../services/tripService";
+
+import useAuth
+  from "../../hooks/useAuth";
 
 import "./map.css";
 
@@ -29,9 +34,41 @@ function PlaceDetailModal({
   const [selectedDayId,
     setSelectedDayId] =
     useState("");
+  const { user } = useAuth();
+
+  const [trips, setTrips] =
+    useState<any[]>([]);
+
+  const [showTripSelector, setShowTripSelector] = useState(false);
+
+  useEffect(() => {
+
+    if (!user) return;
+
+    loadTrips();
+
+  }, [user]);
 
   if (!isOpen || !place)
     return null;
+
+
+  async function loadTrips() {
+
+    try {
+
+      const data =
+        await getTrips(user!.uid);
+
+      setTrips(data);
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  }
 
   return (
     <div className="place-modal-overlay">
@@ -68,85 +105,13 @@ function PlaceDetailModal({
           <p className="modal-description">
             {place.description}
           </p>
-          <div className="trip-link-section">
 
-            <label>
-              Select Trip
-            </label>
 
-            <select
-              value={selectedTripId}
-              onChange={(e) =>
-                setSelectedTripId(
-                  e.target.value
-                )
-              }
-            >
 
-              <option value="">
-                Choose Trip
-              </option>
 
-              {mockTrips.map(
-                (trip) => (
-                  <option
-                    key={trip.id}
-                    value={trip.id}
-                  >
-                    {trip.title}
-                  </option>
-                )
-              )}
 
-            </select>
 
-            {selectedTripId && (
 
-              <>
-
-                <label>
-                  Select Day
-                </label>
-
-                <select
-                  value={selectedDayId}
-                  onChange={(e) =>
-                    setSelectedDayId(
-                      e.target.value
-                    )
-                  }
-                >
-
-                  <option value="">
-                    Choose Day
-                  </option>
-
-                  {mockTrips
-                    .find(
-                      (trip) =>
-                        trip.id ===
-                        Number(
-                          selectedTripId
-                        )
-                    )
-                    ?.days.map(
-                      (day) => (
-                        <option
-                          key={day.id}
-                          value={day.id}
-                        >
-                          {day.title}
-                        </option>
-                      )
-                    )}
-
-                </select>
-
-              </>
-
-            )}
-
-          </div>
 
           <div className="modal-actions">
 
@@ -183,81 +148,194 @@ function PlaceDetailModal({
               Save Place
             </button>
 
+            {showTripSelector && (
+
+              <div className="trip-link-section">
+
+                <label>Select Trip</label>
+
+                <select
+                  value={selectedTripId}
+                  onChange={(e) =>
+                    setSelectedTripId(e.target.value)
+                  }
+                >
+
+                  <option value="">
+                    Choose Trip
+                  </option>
+
+                  {trips.map((trip) => (
+
+                    <option
+                      key={trip._id}
+                      value={trip._id}
+                    >
+                      {trip.title}
+                    </option>
+
+                  ))}
+
+                </select>
+
+                {selectedTripId && (
+
+                  <>
+
+                    <label>Select Day</label>
+
+                    <select
+                      value={selectedDayId}
+                      onChange={(e) =>
+                        setSelectedDayId(e.target.value)
+                      }
+                    >
+
+                      <option value="">
+                        Choose Day
+                      </option>
+
+                      {trips
+                        .find(
+                          trip =>
+                            trip._id === selectedTripId
+                        )
+                        ?.days.map((day: any) => (
+
+                          <option
+                            key={day._id}
+                            value={day._id}
+                          >
+                            {day.title}
+                          </option>
+
+                        ))}
+
+                    </select>
+
+                    <button
+                      className="primary-btn"
+                      style={{ marginTop: "15px" }}
+                      onClick={async () => {
+
+                        if (
+                          !selectedTripId ||
+                          !selectedDayId
+                        ) {
+                          alert("Select trip and day.");
+                          return;
+                        }
+
+                        const trip = trips.find(
+                          trip =>
+                            trip._id === selectedTripId
+                        );
+
+                        if (!trip) return;
+
+                        const updatedTrip = {
+
+                          ...trip,
+
+                          days: trip.days.map((day: any) => {
+
+                            if (
+                              day._id !== selectedDayId
+                            )
+                              return day;
+
+                            if (
+                              day.stops.some(
+                                (stop: any) =>
+                                  stop.placeName ===
+                                  place.name
+                              )
+                            ) {
+                              alert(
+                                "Already exists."
+                              );
+
+                              return day;
+                            }
+
+                            return {
+
+                              ...day,
+
+                              stops: [
+
+                                ...day.stops,
+
+                                {
+
+                                  placeId: place.id,
+
+                                  placeName: place.name,
+
+                                  title: place.name,
+
+                                  location: place.location,
+
+                                  latitude: place.lat,
+
+                                  longitude: place.lng,
+
+                                  arrivalTime: "09:00",
+
+                                  description:
+                                    place.description,
+
+                                  media: place.image
+                                    ? [place.image]
+                                    : [],
+
+                                  source: "database",
+
+                                },
+
+                              ],
+
+                            };
+
+                          }),
+
+                        };
+
+                        await updateTrip(
+                          trip._id,
+                          updatedTrip
+                        );
+
+                        setSelectedTripId("");
+                        setSelectedDayId("");
+                        setShowTripSelector(false);
+
+                        alert("Added to Trip!");
+
+                        onClose();
+
+                        loadTrips();
+
+                      }}
+                    >
+
+                      Confirm Add
+
+                    </button>
+
+                  </>
+
+                )}
+
+              </div>
+
+            )}
+
             <button
               className="secondary-btn"
-              onClick={() => {
-
-                if (
-                  !selectedTripId ||
-                  !selectedDayId
-                ) {
-                  alert(
-                    "Select trip and day."
-                  );
-
-                  return;
-                }
-
-                const trip =
-                  mockTrips.find(
-                    (trip) =>
-                      trip.id ===
-                      Number(
-                        selectedTripId
-                      )
-                  );
-
-                const day =
-                  trip?.days.find(
-                    (day) =>
-                      day.id ===
-                      Number(
-                        selectedDayId
-                      )
-                  );
-
-                const alreadyExists =
-                  day?.stops.some(
-                    (stop) =>
-                      stop.title ===
-                      place.name
-                  );
-
-                if (
-                  alreadyExists
-                ) {
-                  alert(
-                    "This place already exists in this day."
-                  );
-
-                  return;
-                }
-
-                day?.stops.push({
-                  id: Date.now(),
-
-                  title:
-                    place.name,
-
-                  location:
-                    place.location,
-
-                  time:
-                    "09:00",
-
-                  description:
-                    place.description,
-
-                  media: [],
-                });
-
-                alert(
-                  "Place added successfully!"
-                );
-
-                onClose();
-
-              }}
+              onClick={() =>
+                setShowTripSelector(true)
+              }
             >
               Add To Trip
             </button>

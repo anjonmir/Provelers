@@ -245,40 +245,29 @@ function TripCreateModal({
           </div>
 
           <div className="trip-form-group">
-            <label>Privacy</label>
+            <label className="form-label">Privacy</label>
 
-            <div className="privacy-pills">
-
+            <div className="privacy-toggle">
               <button
                 type="button"
-                className={
-                  privacy === "Public"
-                    ? "active-pill"
-                    : ""
-                }
-                onClick={() =>
-                  setPrivacy("Public")
-                }
+                className={`privacy-btn ${privacy === "Public" ? "active" : ""
+                  }`}
+                onClick={() => setPrivacy("Public")}
               >
-                Public
+                🌍 Public
+                <span>Anyone can view</span>
               </button>
 
               <button
                 type="button"
-                className={
-                  privacy === "Private"
-                    ? "active-pill"
-                    : ""
-                }
-                onClick={() =>
-                  setPrivacy("Private")
-                }
+                className={`privacy-btn ${privacy === "Private" ? "active" : ""
+                  }`}
+                onClick={() => setPrivacy("Private")}
               >
-                Private
+                🔒 Private
+                <span>Only you can view</span>
               </button>
-
             </div>
-
           </div>
 
 

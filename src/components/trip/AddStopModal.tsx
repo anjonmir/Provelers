@@ -3,6 +3,9 @@ import {
     useEffect,
 } from "react";
 import { createPortal } from "react-dom";
+
+import useAuth from "../../hooks/useAuth";
+
 import {
     FaInfoCircle,
     FaMapMarkerAlt,
@@ -30,6 +33,7 @@ function AddStopModal({
     onSave,
     editingStop,
 }: Props) {
+    const { user } = useAuth();
     const [activeTab, setActiveTab] =
         useState("details");
 
@@ -173,31 +177,35 @@ function AddStopModal({
         if (stopType === "hiddenGem") {
 
             mockHiddenGemQueue.push({
-
                 id: Date.now(),
 
-                name:
-                    hiddenGemName,
+                name: hiddenGemName,
 
-                description:
-                    hiddenGemDescription,
+                location: hiddenGemName,
 
-                location:
-                    hiddenGemName,
+                postalAddress: hiddenGemName,
 
-                category:
-                    "Hidden Gem",
+                category: "Hidden Gem",
 
-                reviewStatus:
-                    "pending",
+                image: "/images/default-cover.jpg",
 
-                createdBy:
-                    "Anjon Mir",
+                description: hiddenGemDescription,
+
+                rating: 0,
+
+                reviews: 0,
+
+                savedCount: 0,
 
                 latitude,
 
                 longitude,
 
+                hiddenGem: true,
+
+                createdBy: user?.displayName || "Anonymous",
+
+                reviewStatus: "pending",
             });
 
             alert(

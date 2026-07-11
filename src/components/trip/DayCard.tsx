@@ -35,12 +35,7 @@ function DayCard({
         setEditingStop] =
         useState<any>(null);
 
-    console.log(
-        "DayCard",
-        day.title,
-        day._id,
-        day.stops.length
-    );
+   
     return (
 
         <div className="day-card">

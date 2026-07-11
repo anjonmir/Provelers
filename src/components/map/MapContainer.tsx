@@ -8,9 +8,7 @@ import PlaceDetailModal from "./PlaceDetailModal";
 
 import TripCreateModal from "../trip/TripCreateModal";
 
-import type {
-  Place,
-} from "../../data/mockPlaces";
+import HiddenGemButton from "./HiddenGemButton";
 
 import Map, {
   Marker,
@@ -42,11 +40,14 @@ function MapContainer() {
     useState("");
 
   const places = getPlaces();
+  const [showHiddenGemModal,
+    setShowHiddenGemModal] =
+    useState(false);
 
   const filteredPlaces = useMemo(() => {
 
     return places.filter(
-      (place: Place) => {
+      (place: any) => {
 
         const matchesFilter =
           selectedFilter === "All" ||
@@ -156,7 +157,7 @@ function MapContainer() {
 
     const foundPlace =
       places.find(
-        (place: Place) =>
+        (place: any) =>
 
           place.name
             .toLowerCase()
@@ -241,6 +242,11 @@ function MapContainer() {
                 .VITE_MAPBOX_TOKEN
             }
           >
+            <HiddenGemButton
+              onClick={() =>
+                setShowHiddenGemModal(true)
+              }
+            />
             <NavigationControl />
             {userLocation && (
 
@@ -283,10 +289,7 @@ function MapContainer() {
                     className="marker-btn"
                     onClick={() => {
 
-                      console.log(
-                        "MARKER CLICKED",
-                        place
-                      );
+
 
                       setSelectedPlace(place);
 

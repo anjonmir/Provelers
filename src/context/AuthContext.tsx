@@ -84,7 +84,6 @@ export function AuthProvider({
         password
       );
 
-    console.log("User created");
 
     try {
 
@@ -95,7 +94,6 @@ export function AuthProvider({
         }
       );
 
-      console.log("Profile updated");
 
     } catch (error) {
 

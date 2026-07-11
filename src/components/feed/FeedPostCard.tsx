@@ -19,16 +19,28 @@ import {
 
 import "./feed.css";
 
+import useAuth
+  from "../../hooks/useAuth";
+
+import {
+
+  likePost,
+
+  addComment,
+
+}
+  from "../../services/postService";
+
 type Props = {
   post: any;
 };
 
-function FeedPostCard({
-  post,
-}: Props) {
+function FeedPostCard({ post }: Props) {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
+
+  const { user } = useAuth();
+
   const authorName =
     post.user?.name ||
     post.ownerName ||
@@ -45,7 +57,7 @@ function FeedPostCard({
     0;
 
   const comments =
-    post.comments || [];
+    post.comments ?? [];
 
   const [showComments, setShowComments] =
     useState(false);
@@ -54,7 +66,11 @@ function FeedPostCard({
     useState(false);
 
   const [liked, setLiked] =
-    useState(false);
+    useState(
+      user
+        ? post.likedBy?.includes(user.uid)
+        : false
+    );
 
   const [reactionCount,
     setReactionCount] =
@@ -62,6 +78,13 @@ function FeedPostCard({
 
   const [saved, setSaved] =
     useState(false);
+
+  const [commentText,
+    setCommentText] =
+    useState("");
+  const [commentList,
+    setCommentList] =
+    useState(comments);
 
   return (
     <div className="feed-post-card">
@@ -195,10 +218,10 @@ function FeedPostCard({
             .map(
               (
                 image: string,
-                index: number
+
               ) => (
                 <img
-                  key={index}
+                  key={image}
                   src={image}
                   alt=""
                 />
@@ -219,19 +242,42 @@ function FeedPostCard({
       <div className="post-actions">
 
         <button
-          onClick={() => {
+          onClick={async () => {
 
-            if (liked) {
+            if (!post._id) {
+
               setReactionCount(
-                reactionCount - 1
+                liked
+                  ? reactionCount - 1
+                  : reactionCount + 1
               );
-            } else {
-              setReactionCount(
-                reactionCount + 1
-              );
+
+              setLiked(!liked);
+
+              return;
             }
 
-            setLiked(!liked);
+            if (!user) return;
+
+            try {
+
+              const updated = await likePost(
+                post._id,
+                user.uid
+              );
+
+              setReactionCount(updated.likes);
+
+              setLiked(
+                updated.likedBy.includes(user.uid)
+              );
+
+            } catch (err) {
+
+              console.error(err);
+
+            }
+
           }}
         >
           <FaHeart
@@ -264,7 +310,8 @@ function FeedPostCard({
               const alreadySaved =
                 mockSavedPosts.some(
                   (savedPost) =>
-                    savedPost.id === post.id
+                    (savedPost._id || savedPost.id) ===
+                    (post._id || post.id)
                 );
 
               if (!alreadySaved) {
@@ -294,14 +341,14 @@ function FeedPostCard({
 
       {showComments && (
         <div className="comments-section">
+          {commentList.map(
 
-          {comments.map(
             (
               comment: any,
               index: number
             ) => (
               <div
-                key={index}
+                key={comment._id || index}
                 className="comment-item"
               >
                 <strong>
@@ -324,13 +371,53 @@ function FeedPostCard({
             <div className="comment-input-wrapper">
 
               <input
+                value={commentText}
+                onChange={(e) =>
+                  setCommentText(e.target.value)
+                }
                 placeholder="Share your thoughts..."
               />
 
+
               <button
                 className="comment-post-btn"
+
+                onClick={async () => {
+
+                  if (!commentText.trim()) return;
+
+                  if (!post._id) return;
+
+                  if (!user) return;
+
+                  try {
+
+                    const updated = await addComment(
+                      post._id,
+                      {
+                        firebaseUid: user.uid,
+                        username: user.displayName,
+                        photoURL: user.photoURL,
+                        text: commentText,
+                      }
+                    );
+
+                    setCommentList(updated.comments);
+
+                    setCommentText("");
+
+                  } catch (err) {
+
+                    console.error(err);
+
+                  }
+
+                }}
+
               >
+
                 Post
+
               </button>
 
             </div>
