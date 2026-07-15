@@ -18,6 +18,24 @@ export async function createUser(userData: any) {
   return response.json();
 }
 
+export async function getProfile(
+  firebaseUid: string
+) {
+
+  const response = await fetch(
+    `${API}/${firebaseUid}/profile`
+  );
+
+  if (!response.ok) {
+
+    throw new Error("Failed");
+
+  }
+
+  return response.json();
+
+}
+
 export async function getUser(firebaseUid: string) {
   const response = await fetch(`${API}/${firebaseUid}`);
 
@@ -51,4 +69,36 @@ export async function updateUser(
   }
 
   return response.json();
+}
+export async function savePlace(
+  firebaseUid: string,
+  place: any
+) {
+
+  const response = await fetch(
+
+    `${API}/${firebaseUid}/save-place`,
+
+    {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(place),
+
+    }
+
+  );
+
+  if (!response.ok) {
+
+    throw new Error("Failed to save place");
+
+  }
+
+  return response.json();
+
 }

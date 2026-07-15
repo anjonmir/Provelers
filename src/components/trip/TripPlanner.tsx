@@ -18,6 +18,14 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 
 import {
+  useParams,
+} from "react-router-dom"
+
+import TravelerCard from "./TravelerCard";
+
+import { getProfile } from "../../services/userService";
+
+import {
   createTrip,
   getTrips,
   updateTrip,
@@ -34,11 +42,21 @@ function TripPlanner() {
 
   const { user } = useAuth();
 
+  const {
+    ownerUid,
+    tripId,
+  } = useParams();
+  const isOwner =
+    !ownerUid ||
+    ownerUid === user?.uid;
+
+  const [ownerProfile, setOwnerProfile] =
+    useState<any>(null);
+
   const [trips, setTrips] =
     useState<any[]>([]);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [, setLoading] = useState(true);
 
 
 
@@ -269,26 +287,36 @@ function TripPlanner() {
 
     try {
 
+      const uid =
+        ownerUid || user!.uid;
+
       const data =
-        await getTrips(user!.uid);
+        await getTrips(uid);
 
       setTrips(data);
 
-      if (data.length > 0) {
+      if (!isOwner && data.length > 0) {
 
-        if (storedTripId) {
+        const profile =
+          await getProfile(ownerUid!);
 
-          setSelectedTripId(
-            storedTripId
-          );
+        setOwnerProfile(profile);
 
-        } else {
+        
 
-          setSelectedTripId(
-            data[0]._id
-          );
+      }
 
-        }
+      if (tripId) {
+
+        setSelectedTripId(tripId);
+
+      } else if (storedTripId) {
+
+        setSelectedTripId(storedTripId);
+
+      } else if (data.length > 0) {
+
+        setSelectedTripId(data[0]._id);
 
       }
 
@@ -349,14 +377,18 @@ function TripPlanner() {
 
           </div>
 
-          <button
-            className="primary-btn"
-            onClick={() =>
-              setShowModal(true)
-            }
-          >
-            Create Trip
-          </button>
+          {isOwner && (
+
+            <button
+              className="primary-btn"
+              onClick={() =>
+                setShowModal(true)
+              }
+            >
+              Create Trip
+            </button>
+
+          )}
 
         </div>
 
@@ -368,15 +400,10 @@ function TripPlanner() {
 
             <TripSidebar
               trips={trips}
-              selectedTripId={
-                selectedTripId
-              }
-              onSelectTrip={
-                setSelectedTripId
-              }
-              onCreateTrip={() =>
-                setShowModal(true)
-              }
+              selectedTripId={selectedTripId}
+              isOwner={isOwner}
+              onSelectTrip={setSelectedTripId}
+              onCreateTrip={() => setShowModal(true)}
             />
 
           </Col>
@@ -387,15 +414,19 @@ function TripPlanner() {
 
             {selectedTrip && (
               <TripEditor
+
                 trip={selectedTrip}
+
+                isOwner={isOwner}
+
                 onAddDay={handleAddDay}
+
                 onAddStop={handleAddStop}
-                onDeleteStop={
-                  handleDeleteStop
-                }
-                onEditStop={
-                  handleEditStop
-                }
+
+                onDeleteStop={handleDeleteStop}
+
+                onEditStop={handleEditStop}
+
               />
             )}
 
@@ -407,11 +438,35 @@ function TripPlanner() {
 
             <div className="trip-right-panel">
 
-              <MiniMapPreview />
+              {isOwner ? (
 
-              <TripStats
-                trip={selectedTrip}
-              />
+                <>
+                  <MiniMapPreview />
+
+                  <TripStats
+                    trip={selectedTrip}
+                  />
+                </>
+
+              ) : (
+
+                <>
+                  {selectedTrip && (
+
+                    
+                    <TravelerCard
+                      trip={selectedTrip}
+                      profile={ownerProfile}
+                    />
+
+
+                  )}
+
+                  <MiniMapPreview />
+
+                </>
+
+              )}
 
             </div>
 
@@ -456,22 +511,25 @@ function TripPlanner() {
 
         </div>
 
-        <div className="trip-actions">
+        {isOwner && (
 
-          <button className="secondary-btn">
-            Save Draft
-          </button>
+          <div className="trip-actions">
 
-          <button
-            className="primary-btn"
-            onClick={
-              handlePublishTrip
-            }
-          >
-            Publish Trip
-          </button>
+            <button className="secondary-btn">
+              Save Draft
+            </button>
 
-        </div>
+            <button
+              className="primary-btn"
+              onClick={
+                handlePublishTrip
+              }
+            >
+              Publish Trip
+            </button>
+
+          </div>
+        )}
 
       </Container>
 

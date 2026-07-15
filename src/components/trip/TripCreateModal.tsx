@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { uploadPostImage } from "../../services/uploadPostImage";
+
 type Props = {
   isOpen: boolean;
 
@@ -280,18 +282,26 @@ function TripCreateModal({
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => {
+              onChange={async (e) => {
 
-                const file =
-                  e.target.files?.[0];
+                const file = e.target.files?.[0];
 
                 if (!file) return;
 
-                setCoverImage(
-                  URL.createObjectURL(
-                    file
-                  )
-                );
+                try {
+
+                  const imageUrl = await uploadPostImage(file);
+
+                  setCoverImage(imageUrl);
+
+                } catch (err) {
+
+                  console.error(err);
+
+                  alert("Image upload failed.");
+
+                }
+
               }}
             />
             <img

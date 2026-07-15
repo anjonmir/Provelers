@@ -4,44 +4,71 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 function ProfileHeader() {
+
   const {
     profile,
-    setProfile,
+    isOwner,
   } = useContext(UserContext);
+
+  const user =
+    profile?.user;
+
   return (
+
     <div className="profile-header-card">
 
       <h1>
-        {profile?.fullName}
+        {user?.fullName}
       </h1>
 
       <span className="username">
-        @{profile?.username}
+        @{user?.username}
       </span>
 
       <p className="profile-location">
-        {profile?.district}, {profile?.division}
+        {user?.district}, {user?.division}
       </p>
 
       <p className="profile-bio">
-        {profile?.bio}
+        {user?.bio}
       </p>
 
       <div className="traveler-tags">
 
         <span>
-          {profile?.travelerType}
+          {user?.travelerType}
         </span>
+
       </div>
 
       <div className="profile-actions">
 
+        {isOwner ? (
 
+          <button className="primary-btn">
+            Edit Profile
+          </button>
+
+        ) : (
+
+          <>
+            <button className="primary-btn">
+              Follow
+            </button>
+
+            <button className="secondary-btn">
+              Message
+            </button>
+          </>
+
+        )}
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default ProfileHeader;

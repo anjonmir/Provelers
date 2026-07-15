@@ -76,8 +76,15 @@ function FeedPostCard({ post }: Props) {
     setReactionCount] =
     useState(reactionTotal)
 
-  const [saved, setSaved] =
-    useState(false);
+  const [saved, setSaved] = useState(() => {
+
+    return mockSavedPosts.some(
+      (savedPost) =>
+        (savedPost._id || savedPost.id) ===
+        (post._id || post.id)
+    );
+
+  });
 
   const [commentText,
     setCommentText] =
@@ -86,6 +93,37 @@ function FeedPostCard({ post }: Props) {
     setCommentList] =
     useState(comments);
 
+  const images =
+    post.images ||
+    post.media ||
+    [];
+
+
+  const toggleSavePost = () => {
+
+    const postId = post._id || post.id;
+
+    const index = mockSavedPosts.findIndex(
+      (savedPost) =>
+        (savedPost._id || savedPost.id) === postId
+    );
+
+    if (index >= 0) {
+
+      mockSavedPosts.splice(index, 1);
+
+      setSaved(false);
+
+    } else {
+
+      mockSavedPosts.unshift(post);
+
+      setSaved(true);
+
+    }
+
+  };
+
   return (
     <div className="feed-post-card">
 
@@ -93,7 +131,13 @@ function FeedPostCard({ post }: Props) {
 
       <div className="post-header">
 
-        <div className="post-user">
+        <div
+          className="post-user"
+          style={{ cursor: "pointer" }}
+          onClick={() =>
+            navigate(`/profile/${post.ownerUid}`)
+          }
+        >
 
           <div className="post-avatar">
 
@@ -114,7 +158,16 @@ function FeedPostCard({ post }: Props) {
 
           <div>
 
-            <h4>
+            <h4
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                navigate(
+                  `/profile/${post.ownerUid}`
+                )
+              }
+            >
               {authorName}
             </h4>
 
@@ -152,26 +205,41 @@ function FeedPostCard({ post }: Props) {
           {showMenu && (
             <div className="post-dropdown">
 
-              <button>
-                Save Post
+              <button onClick={toggleSavePost}>
+                {saved ? "Remove Save" : "Save Post"}
               </button>
 
-              <button>
+              <button
+                onClick={() => {
+
+                  navigate(
+                    `/trips/${post.ownerUid}/${post.tripId}/${post.stopId}`
+                  );
+
+                  alert("Link copied!");
+
+                }}
+              >
                 Copy Link
               </button>
 
-              <button>
+              <button
+                onClick={() =>
+                  alert("Report submitted.")
+                }
+              >
                 Report
               </button>
 
             </div>
           )}
-
         </div>
-
       </div>
 
+
+
       {/* DESCRIPTION */}
+
 
       <div className="post-trip-origin">
 
@@ -181,12 +249,10 @@ function FeedPostCard({ post }: Props) {
             className="trip-origin-badge"
             onClick={() => {
 
-              localStorage.setItem(
-                "selectedTripId",
-                String(post.tripId)
+              navigate(
+                `/trips/${post.ownerUid}/${post.tripId}/${post.stopId}`
               );
 
-              navigate("/trips");
             }}
           >
 
@@ -208,34 +274,36 @@ function FeedPostCard({ post }: Props) {
 
       {/* IMAGES */}
 
-      {post.images?.length > 0 && (
-        <div
-          className={`post-images image-count-${post.images.length}`}
-        >
+      {
+        images?.length > 0 && (
+          <div
+            className={`post-images image-count-${images.length}`}
+          >
 
-          {post.images
-            .slice(0, 3)
-            .map(
-              (
-                image: string,
+            {images
+              .slice(0, 3)
+              .map(
+                (
+                  image: string,
+                  index: number
+                ) => (
+                  <img
+                    key={`${image}-${index}`}
+                    src={image}
+                    alt=""
+                  />
+                )
+              )}
 
-              ) => (
-                <img
-                  key={image}
-                  src={image}
-                  alt=""
-                />
-              )
+            {images.length > 3 && (
+              <div className="more-images">
+                +{images.length - 3}
+              </div>
             )}
 
-          {post.images.length > 3 && (
-            <div className="more-images">
-              +{post.images.length - 3}
-            </div>
-          )}
-
-        </div>
-      )}
+          </div>
+        )
+      }
 
       {/* ACTIONS */}
 
@@ -303,30 +371,7 @@ function FeedPostCard({ post }: Props) {
         </button>
 
         <button
-          onClick={() => {
-
-            if (!saved) {
-
-              const alreadySaved =
-                mockSavedPosts.some(
-                  (savedPost) =>
-                    (savedPost._id || savedPost.id) ===
-                    (post._id || post.id)
-                );
-
-              if (!alreadySaved) {
-
-                mockSavedPosts.unshift(
-                  post
-                );
-
-              }
-
-              setSaved(true);
-
-            }
-
-          }}
+          onClick={toggleSavePost}
         >
           <FaRegBookmark />
 
@@ -339,95 +384,97 @@ function FeedPostCard({ post }: Props) {
 
       {/* COMMENTS */}
 
-      {showComments && (
-        <div className="comments-section">
-          {commentList.map(
+      {
+        showComments && (
+          <div className="comments-section">
+            {commentList.map(
 
-            (
-              comment: any,
-              index: number
-            ) => (
-              <div
-                key={comment._id || index}
-                className="comment-item"
-              >
-                <strong>
-                  {comment.user || comment.username}
-                </strong>
+              (
+                comment: any,
+                index: number
+              ) => (
+                <div
+                  key={comment._id || index}
+                  className="comment-item"
+                >
+                  <strong>
+                    {comment.user || comment.username}
+                  </strong>
 
-                <p>
-                  {comment.text}
-                </p>
+                  <p>
+                    {comment.text}
+                  </p>
+                </div>
+              )
+            )}
+
+            <div className="comment-box">
+
+              <div className="comment-avatar">
+                {authorName.charAt(0).toUpperCase()}
               </div>
-            )
-          )}
 
-          <div className="comment-box">
+              <div className="comment-input-wrapper">
 
-            <div className="comment-avatar">
-              {authorName.charAt(0).toUpperCase()}
-            </div>
-
-            <div className="comment-input-wrapper">
-
-              <input
-                value={commentText}
-                onChange={(e) =>
-                  setCommentText(e.target.value)
-                }
-                placeholder="Share your thoughts..."
-              />
-
-
-              <button
-                className="comment-post-btn"
-
-                onClick={async () => {
-
-                  if (!commentText.trim()) return;
-
-                  if (!post._id) return;
-
-                  if (!user) return;
-
-                  try {
-
-                    const updated = await addComment(
-                      post._id,
-                      {
-                        firebaseUid: user.uid,
-                        username: user.displayName,
-                        photoURL: user.photoURL,
-                        text: commentText,
-                      }
-                    );
-
-                    setCommentList(updated.comments);
-
-                    setCommentText("");
-
-                  } catch (err) {
-
-                    console.error(err);
-
+                <input
+                  value={commentText}
+                  onChange={(e) =>
+                    setCommentText(e.target.value)
                   }
+                  placeholder="Share your thoughts..."
+                />
 
-                }}
 
-              >
+                <button
+                  className="comment-post-btn"
 
-                Post
+                  onClick={async () => {
 
-              </button>
+                    if (!commentText.trim()) return;
+
+                    if (!post._id) return;
+
+                    if (!user) return;
+
+                    try {
+
+                      const updated = await addComment(
+                        post._id,
+                        {
+                          firebaseUid: user.uid,
+                          username: user.displayName,
+                          photoURL: user.photoURL,
+                          text: commentText,
+                        }
+                      );
+
+                      setCommentList(updated.comments);
+
+                      setCommentText("");
+
+                    } catch (err) {
+
+                      console.error(err);
+
+                    }
+
+                  }}
+
+                >
+
+                  Post
+
+                </button>
+
+              </div>
 
             </div>
 
           </div>
+        )
+      }
 
-        </div>
-      )}
-
-    </div>
+    </div >
   );
 }
 

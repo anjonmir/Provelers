@@ -6,6 +6,8 @@ type Props = {
 
   selectedTripId: string;
 
+  isOwner: boolean;
+
   onSelectTrip: (
     id: string
   ) => void;
@@ -16,6 +18,7 @@ type Props = {
 function TripSidebar({
   trips,
   selectedTripId,
+  isOwner,
   onSelectTrip,
   onCreateTrip,
 }: Props) {
@@ -26,12 +29,16 @@ function TripSidebar({
 
         <h4>My Trips</h4>
 
-        <button
-          className="trip-create-btn"
-          onClick={onCreateTrip}
-        >
-          <FaPlusCircle />
-        </button>
+        {isOwner && (
+
+          <button
+            className="trip-create-btn"
+            onClick={onCreateTrip}
+          >
+            <FaPlusCircle />
+          </button>
+
+        )}
 
       </div>
 
@@ -41,11 +48,10 @@ function TripSidebar({
 
           <div
             key={trip._id}
-            className={`trip-item ${
-              trip._id === selectedTripId
-                ? "active-trip"
-                : ""
-            }`}
+            className={`trip-item ${trip._id === selectedTripId
+              ? "active-trip"
+              : ""
+              }`}
             onClick={() =>
               onSelectTrip(trip._id)
             }

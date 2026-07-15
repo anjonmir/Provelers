@@ -8,11 +8,10 @@ import {
 import useAuth
   from "../../hooks/useAuth";
 
+import { savePlace } from "../../services/userService";
+
 import "./map.css";
 
-import {
-  mockSavedPlaces,
-} from "../../data/mockSavedPlaces";
 
 
 type Props = {
@@ -107,7 +106,15 @@ function PlaceDetailModal({
           </p>
 
 
-
+          <button
+            className="trip-origin-badge"
+            onClick={() => {
+              window.open(place.wikipediaUrl!, "_blank", "noopener,noreferrer");
+            }}
+          >
+            📖 Learn more about
+            <strong>{place.name}</strong>
+          </button>
 
 
 
@@ -115,33 +122,34 @@ function PlaceDetailModal({
 
           <div className="modal-actions">
 
+
             <button
               className="primary-btn"
-              onClick={() => {
+              onClick={async () => {
 
-                const exists =
-                  mockSavedPlaces.some(
-                    (saved) =>
-                      saved.name ===
-                      place.name
+                if (!user) return;
+
+                try {
+
+                  await savePlace(
+                    user.uid,
+                    {
+                      placeId: place.id,
+                      placeName: place.name,
+                      image: place.image,
+                      location: place.location,
+                    }
                   );
 
-                if (exists) {
+                  alert("Place saved successfully!");
 
-                  alert(
-                    "Already saved."
-                  );
+                } catch (err) {
 
-                  return;
+                  console.error(err);
+
+                  alert("Failed to save place.");
+
                 }
-
-                mockSavedPlaces.push(
-                  place
-                );
-
-                alert(
-                  "Place saved successfully!"
-                );
 
               }}
             >

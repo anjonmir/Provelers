@@ -410,7 +410,7 @@ function CompleteProfilePage() {
 
             <input
               type="text"
-              placeholder="+8801712345678"
+              placeholder="+880xxxxxxxxxx"
 
               value={profileData.phoneNumber}
 

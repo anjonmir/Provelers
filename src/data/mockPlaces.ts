@@ -24,6 +24,8 @@ export type Place = {
   lat: number;
 
   lng: number;
+
+  wikipediaUrl?: string;
 };
 export const mockPlaces = [
   {
@@ -32,9 +34,12 @@ export const mockPlaces = [
     location: "Rangamati",
     postalAddress: "Sajek Valley, Baghaichhari, Rangamati",
     category: "Hill Station",
-    image: "images/places/bangladesh/sajek.jpg",
-    description:
-      "Beautiful mountain valley famous for clouds and scenic views.",
+    image: "images/places/bangladesh/sajek-1.jpeg",
+    description: `
+Sajek Valley is often called the "Queen of Hills" and the "Roof of Rangamati" - and for good reason.
+Sitting at about 1,800 feet above sea level, this stunning hill station offers some of the most breathtaking views in Bangladesh.
+When you stand here and look out, you see endless layers of green hills disappearing into the horizon, often wrapped in fluffy white clouds that float below you.
+`,
     rating: 4.8,
     reviews: 1247,
     savedCount: 543,
@@ -42,6 +47,7 @@ export const mockPlaces = [
     lng: 92.2937,
     hiddenGem: false,
     createdBy: "system",
+    wikipediaUrl: "https://en.wikipedia.org/wiki/Sajek_Valley",
   },
 
   {
@@ -97,19 +103,21 @@ export const mockPlaces = [
 
   {
     id: 5,
-    name: "Bandarban Nilgiri",
-    location: "Bandarban",
-    postalAddress: "Nilgiri Tourist Center, Bandarban",
-    category: "Mountain",
-    image: "images/places/bangladesh/nilgiri.jpg",
-    description: "One of the most beautiful mountain viewpoints in Bangladesh.",
+    name: "Nilgiri Hills (নীলগিরি হিলস)",
+    location: "Thanchi Road, Bandarban, Chattogram, Bangladesh",
+    postalAddress:
+      "Nilgiri Tourist Resort, Thanchi Road, Kaprupara Area, Bandarban Sadar Upazila, Bandarban - 4600, Chattogram Division, Bangladesh",
+    category: "Mountain Peak & Hill Resort",
+    image: "public/images/places/bangladesh/nilachal-1.webp",
+    description: `Nilgiri Hills is one of the highest, most spectacular tourist destinations in Bangladesh, perched at an elevation of approximately 2,200 feet above sea level in Bandarban. Managed efficiently by the Bangladesh Army, this premier hill resort offers a breathtaking panoramic viewpoint where visitors find themselves surrounded by endless rolling mountain ridges and a shifting sea of white clouds. Its unique high-altitude geography allows travelers to touch passing clouds during the monsoon season, while offering clear, starry night skies and dramatic sunrises over the hills in the winter. Equipped with modern cottage accommodations, well-maintained viewing decks, and high-security infrastructure, it stands as a jewel of eco-tourism in the Chittagong Hill Tracts.`,
     rating: 4.8,
-    reviews: 2800,
-    savedCount: 1600,
-    lat: 21.96,
-    lng: 92.47,
+    reviews: 1247,
+    savedCount: 543,
+    lat: 22.01944,
+    lng: 92.3275,
     hiddenGem: false,
     createdBy: "system",
+    wikipediaUrl: "https://en.wikipedia.org/wiki/Nilgiri_Hills,_Bandarban",
   },
 
   {

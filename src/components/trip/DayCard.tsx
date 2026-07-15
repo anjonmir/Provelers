@@ -3,9 +3,15 @@ import { FaPlusCircle } from "react-icons/fa";
 import "./trip.css";
 import { useState } from "react";
 import AddStopModal from "./AddStopModal";
+import { useParams } from "react-router-dom";
+
+
 
 type Props = {
+
     day: any;
+
+    isOwner: boolean;
 
     onAddStop: (
         dayId: string,
@@ -21,21 +27,33 @@ type Props = {
         dayId: string,
         stop: any
     ) => void;
+
+
 };
 
 function DayCard({
+
     day,
+
+    isOwner,
+
     onAddStop,
+
     onDeleteStop,
+
     onEditStop,
+
 }: Props) {
+
+    const { stopId } = useParams();
+
     const [showModal, setShowModal] =
         useState(false);
-    const [editingStop,
-        setEditingStop] =
+
+    const [editingStop, setEditingStop] =
         useState<any>(null);
 
-   
+
     return (
 
         <div className="day-card">
@@ -44,14 +62,20 @@ function DayCard({
 
                 <h3>{day.title}</h3>
 
-                <button
-                    className="trip-icon-btn"
-                    onClick={() =>
-                        setShowModal(true)
-                    }
-                >
-                    <FaPlusCircle />
-                </button>
+                {isOwner && (
+
+                    <button
+                        className="trip-icon-btn"
+                        onClick={() =>
+                            setShowModal(true)
+                        }
+                    >
+
+                        <FaPlusCircle />
+
+                    </button>
+
+                )}
 
             </div>
 
@@ -60,15 +84,13 @@ function DayCard({
                     <StopCard
                         key={stop._id}
                         stop={stop}
+                        active={stop._id === stopId}
+                        isOwner={isOwner}
                         onDelete={(stopId) =>
-                            onDeleteStop(
-                                day._id,
-                                stopId
-                            )
+                            onDeleteStop(day._id, stopId)
                         }
                         onEdit={(stop) => {
                             setEditingStop(stop);
-
                             setShowModal(true);
                         }}
                     />

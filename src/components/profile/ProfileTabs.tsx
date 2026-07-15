@@ -1,4 +1,11 @@
-import { useState } from "react";
+import {
+  useState,
+  useContext,
+  useEffect,
+} from "react";
+
+import { UserContext }
+  from "../../context/UserContext";
 
 import PersonalDetails from "./PersonalDetails";
 import RecentTrips from "./RecentTrips";
@@ -10,9 +17,19 @@ import BlogSection from "./BlogSection";
 import "./profile.css";
 
 function ProfileTabs() {
-  const [activeTab, setActiveTab] =
-    useState("details");
+  const {
+    tab,
+  } = useContext(UserContext);
 
+  const [activeTab, setActiveTab] =
+    useState(
+      tab || "details"
+    );
+  useEffect(() => {
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
   return (
     <div className="profile-tabs-wrapper">
 
@@ -104,33 +121,33 @@ function ProfileTabs() {
 
         {activeTab ===
           "details" && (
-          <PersonalDetails />
-        )}
+            <PersonalDetails />
+          )}
 
         {activeTab ===
           "trips" && (
-          <RecentTrips />
-        )}
+            <RecentTrips />
+          )}
 
         {activeTab ===
           "photos" && (
-          <PhotosGrid />
-        )}
+            <PhotosGrid />
+          )}
 
         {activeTab ===
           "travelers" && (
-          <FollowersList />
-        )}
+            <FollowersList />
+          )}
 
         {activeTab ===
           "saved" && (
-          <SavedPlaces />
-        )}
+            <SavedPlaces />
+          )}
 
         {activeTab ===
           "blog" && (
-          <BlogSection />
-        )}
+            <BlogSection />
+          )}
 
       </div>
 

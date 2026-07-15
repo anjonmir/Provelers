@@ -1,68 +1,133 @@
+import { useContext } from "react";
+
+import { UserContext } from "../../context/UserContext";
+
 import "./profile.css";
 
 function PersonalDetails() {
+
+  const { profile } =
+    useContext(UserContext);
+
+  const user =
+    profile?.user;
+
   return (
+
     <div className="profile-card">
 
-      <h2>Personal Details</h2>
+      <h2>
+
+        Personal Details
+
+      </h2>
 
       <div className="details-grid">
 
         <div>
-          <strong>
-            Lives In
-          </strong>
+
+          <strong>Lives In</strong>
 
           <p>
-            Rajshahi
+
+            {user?.district},
+            {" "}
+            {user?.division}
+
           </p>
+
         </div>
 
         <div>
-          <strong>
-            Hometown
-          </strong>
+
+          <strong>Hometown</strong>
 
           <p>
-            Rajshahi
+
+            {user?.homeTown || "-"}
+
           </p>
+
         </div>
 
         <div>
-          <strong>
-            Workplace
-          </strong>
+
+          <strong>Occupation</strong>
 
           <p>
-            Provelers
+
+            {user?.occupation || "-"}
+
           </p>
+
         </div>
 
         <div>
-          <strong>
-            Blood Group
-          </strong>
+
+          <strong>University</strong>
 
           <p>
-            O+
+
+            {user?.university || "-"}
+
           </p>
+
         </div>
 
         <div>
-          <strong>
-            NID
-          </strong>
+
+          <strong>Blood Group</strong>
 
           <p>
-            1234567891234
+
+            {user?.bloodGroup || "-"}
+
           </p>
+
         </div>
 
+        <div>
+
+          <strong>Date of Birth</strong>
+
+          <p>
+
+            {user?.dateOfBirth || "-"}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <strong>Traveler Type</strong>
+
+          <p>
+
+            {user?.travelerType || "-"}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <strong>Email</strong>
+
+          <p>
+
+            {user?.email || "-"}
+
+          </p>
+
+        </div>
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default PersonalDetails;

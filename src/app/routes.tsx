@@ -98,6 +98,15 @@ function AppRoutes() {
         />
 
         <Route
+          path="/profile/:firebaseUid"
+          element={<ProfilePage />}
+        />
+        <Route
+          path="/trips/:ownerUid/:tripId/:stopId?"
+          element={<TripPage />}
+        />
+
+        <Route
           path="/settings"
           element={<SettingsPage />}
         />
@@ -131,6 +140,7 @@ function AppRoutes() {
         path="*"
         element={<NotFound />}
       />
+
 
 
     </Routes>

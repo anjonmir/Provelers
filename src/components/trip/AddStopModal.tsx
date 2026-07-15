@@ -6,6 +6,8 @@ import { createPortal } from "react-dom";
 
 import useAuth from "../../hooks/useAuth";
 
+import { uploadPostImage } from "../../services/uploadPostImage";
+
 import {
     FaInfoCircle,
     FaMapMarkerAlt,
@@ -353,20 +355,28 @@ function AddStopModal({
                                     type="file"
                                     multiple
                                     accept="image/*"
-                                    onChange={(e) => {
-                                        const files =
-                                            Array.from(
-                                                e.target.files || []
-                                            );
+                                    onChange={async (e) => {
+                                        const files = Array.from(e.target.files || []);
 
-                                        const previews =
-                                            files.map((file) =>
-                                                URL.createObjectURL(
-                                                    file
-                                                )
-                                            );
+                                        const uploadedImages: string[] = [];
 
-                                        setMedia(previews);
+                                        for (const file of files) {
+
+                                            try {
+
+                                                const url = await uploadPostImage(file);
+
+                                                uploadedImages.push(url);
+
+                                            } catch (err) {
+
+                                                console.error(err);
+
+                                            }
+
+                                        }
+
+                                        setMedia(uploadedImages);
                                     }}
                                 />
                                 {media.length > 0 && (

@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 
 import useAuth from "../../hooks/useAuth";
 
-import { getUser }
+import { getProfile }
   from "../../services/userService";
 
 import { UserContext }
   from "../../context/UserContext";
-
 import ProfileCover from "../../components/profile/ProfileCover";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileStats from "../../components/profile/ProfileStats";
@@ -17,6 +16,10 @@ import ExplorerRankCard from "../../components/profile/ExplorerRankCard";
 import BadgeGrid from "../../components/profile/BadgeGrid";
 import PointsHistory from "../../components/profile/PointsHistory";
 import FriendsList from "../../components/profile/FriendsList";
+import {
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 import "../../components/profile/profile.css";
 
@@ -26,6 +29,23 @@ function ProfilePage() {
 
   const [profile,
     setProfile] = useState<any>(null);
+
+  const { firebaseUid } = useParams();
+  const isOwner =
+    !firebaseUid ||
+    firebaseUid === user?.uid;
+
+  const [searchParams] =
+    useSearchParams();
+
+  const tab =
+    searchParams.get("tab");
+
+  const tripId =
+    searchParams.get("trip");
+
+  const stopId =
+    searchParams.get("stop");
 
   const [loading,
     setLoading] = useState(true);
@@ -38,8 +58,13 @@ function ProfilePage() {
 
       try {
 
+        const uid =
+          firebaseUid || user?.uid;
+
+        if (!uid) return;
+
         const data =
-          await getUser(user!.uid);
+          await getProfile(uid);
 
         setProfile(data);
 
@@ -57,7 +82,7 @@ function ProfilePage() {
 
     loadProfile();
 
-  }, [user]);
+  }, [user, firebaseUid]);
 
   if (loading) {
 
@@ -71,6 +96,12 @@ function ProfilePage() {
       value={{
         profile,
         setProfile,
+        isOwner,
+        tab,
+
+        tripId,
+
+        stopId,
       }}
     >
 

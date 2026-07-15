@@ -1,53 +1,87 @@
+import { useContext } from "react";
+
+import { UserContext } from "../../context/UserContext";
+
 import "./profile.css";
 
-import {
-  mockSavedPlaces,
-} from "../../data/mockSavedPlaces";
-
 function SavedPlaces() {
+
+  const {
+    profile,
+    isOwner,
+  } = useContext(UserContext);
+
+  const savedPlaces =
+    profile?.savedPlaces || [];
+
   return (
+
     <div className="profile-card">
 
       <h2>
+
         Saved Places
-        ({mockSavedPlaces.length})
+
+        ({savedPlaces.length})
+
       </h2>
 
-      {mockSavedPlaces.length === 0 ? (
+      {savedPlaces.length === 0 ? (
 
         <p>
+
           No saved places yet.
+
         </p>
 
       ) : (
 
         <div className="saved-posts">
 
-          {mockSavedPlaces.map(
+          {savedPlaces.map(
             (
               place: any,
               index: number
             ) => (
 
               <div
-                key={index}
+                key={place.placeId || index}
                 className="saved-place-card"
               >
 
                 <img
-                  src={place.image}
-                  alt=""
+                  src={
+                    place.image ||
+                    "/images/default-place.jpg"
+                  }
+                  alt={place.placeName}
                 />
 
-                <div>
+                <div className="saved-place-info">
 
                   <h4>
-                    {place.name}
+
+                    {place.placeName}
+
                   </h4>
 
                   <p>
-                    {place.location}
+
+                    📍 {place.location}
+
                   </p>
+
+                  {isOwner && (
+
+                    <button
+                      className="secondary-btn"
+                    >
+
+                      Remove
+
+                    </button>
+
+                  )}
 
                 </div>
 
@@ -61,7 +95,9 @@ function SavedPlaces() {
       )}
 
     </div>
+
   );
+
 }
 
 export default SavedPlaces;

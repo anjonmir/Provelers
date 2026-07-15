@@ -3,28 +3,24 @@ import DayCard from "./DayCard";
 import "./trip.css";
 
 type Props = {
+
     trip: any;
+
+    isOwner: boolean;
 
     onAddDay: () => void;
 
-    onAddStop: (
-        dayId: string,
-        stop: any
-    ) => void;
+    onAddStop: any;
 
-    onDeleteStop: (
-        dayId: string,
-        stopId: string
-    ) => void;
+    onDeleteStop: any;
 
-    onEditStop: (
-        dayId: string,
-        stop: any
-    ) => void;
-};
+    onEditStop: any;
+
+}
 
 function TripEditor({
     trip,
+    isOwner,
     onAddDay,
     onAddStop,
     onDeleteStop,
@@ -83,12 +79,16 @@ function TripEditor({
 
             <div className="trip-editor-header">
 
-                <button
-                    className="primary-btn"
-                    onClick={onAddDay}
-                >
-                    + Add Day
-                </button>
+                {isOwner && (
+
+                    <button
+                        className="primary-btn"
+                        onClick={onAddDay}
+                    >
+                        + Add Day
+                    </button>
+
+                )}
 
             </div>
 
@@ -97,6 +97,7 @@ function TripEditor({
                     <DayCard
                         key={day._id}
                         day={day}
+                        isOwner={isOwner}
                         onAddStop={onAddStop}
                         onDeleteStop={onDeleteStop}
                         onEditStop={onEditStop}

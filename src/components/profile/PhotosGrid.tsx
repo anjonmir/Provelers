@@ -1,50 +1,57 @@
-import "./profile.css";
+import { useContext } from "react";
 
-import { mockTrips }
-  from "../../data/mockTrips";
+import { UserContext } from "../../context/UserContext";
+
+import "./profile.css";
 
 function PhotosGrid() {
 
-  const photos =
-    mockTrips.flatMap(
-      (trip) =>
-        trip.days.flatMap(
-          (day) =>
-            day.stops.flatMap(
-              (stop) =>
-                stop.media || []
-            )
-        )
-    );
+  const { profile } =
+    useContext(UserContext);
+
+  const posts =
+    profile?.posts || [];
+
+  const photos = posts.flatMap(
+    (post: any) =>
+      post.images || []
+  );
 
   return (
+
     <div className="profile-card">
 
       <h2>
-        Travel Photos
-        ({photos.length})
+
+        Photos ({photos.length})
+
       </h2>
 
       {photos.length === 0 ? (
 
         <p>
-          No travel photos yet.
+
+          No photos uploaded yet.
+
         </p>
 
       ) : (
 
-        <div className="photo-grid">
+        <div className="photos-grid">
 
           {photos.map(
             (
-              photo,
-              index
+              photo: string,
+              index: number
             ) => (
+
               <img
                 key={index}
                 src={photo}
                 alt=""
+                className="profile-photo"
               />
+
             )
           )}
 
@@ -53,7 +60,9 @@ function PhotosGrid() {
       )}
 
     </div>
+
   );
+
 }
 
 export default PhotosGrid;

@@ -12,45 +12,50 @@ function ProfileCover() {
   const {
     profile,
     setProfile,
+    isOwner,
   } = useContext(UserContext);
+
+  const user = profile?.user;
 
   const coverInputRef =
     useRef<HTMLInputElement>(null);
 
-  const handleCoverUpload =
-    async (
-      e: React.ChangeEvent<HTMLInputElement>
-    ) => {
 
-      const file =
-        e.target.files?.[0];
+  const handleCoverUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
 
-      if (!file) return;
+    const file = e.target.files?.[0];
 
-      try {
+    if (!file || !user) return;
 
-        const imageUrl =
-          await uploadProfileImage(file);
+    try {
 
-        await updateUser(
-          profile.firebaseUid,
-          {
-            coverPhoto: imageUrl,
-          }
-        );
+      const imageUrl =
+        await uploadProfileImage(file);
 
-        setProfile({
-          ...profile,
+      await updateUser(
+        user.firebaseUid,
+        {
           coverPhoto: imageUrl,
-        });
+        }
+      );
 
-      } catch (err) {
+      setProfile({
+        ...profile,
+        user: {
+          ...user,
+          coverPhoto: imageUrl,
+        },
+      });
 
-        console.error(err);
+    } catch (err) {
 
-      }
+      console.error(err);
 
-    };
+    }
+
+  };
 
   return (
 
@@ -58,46 +63,49 @@ function ProfileCover() {
 
       <img
         src={
-          profile?.coverPhoto ||
+          user?.coverPhoto ||
           "/images/map-preview.jpg"
         }
-        alt="cover"
+        alt=""
         className="cover-image"
       />
 
       <input
+        hidden
         ref={coverInputRef}
         type="file"
         accept="image/*"
-        hidden
         onChange={handleCoverUpload}
       />
 
-      <button
-        className="change-cover-btn"
-        onClick={() =>
-          coverInputRef.current?.click()
-        }
-      >
-        📷 Change Cover
-      </button>
+      {isOwner && (
+
+        <button
+          className="change-cover-btn"
+          onClick={() =>
+            coverInputRef.current?.click()
+          }
+        >
+          📷 Change Cover
+        </button>
+
+      )}
 
       <div className="cover-overlay">
 
         <div className="profile-avatar">
 
-          {profile?.photoURL ? (
+          {user?.photoURL ? (
 
             <img
-              src={profile.photoURL}
+              src={user.photoURL}
               alt=""
               className="profile-avatar-image"
             />
 
           ) : (
 
-            profile?.fullName
-              ?.charAt(0)
+            user?.fullName?.charAt(0)
 
           )}
 

@@ -38,6 +38,51 @@ const userSchema = new mongoose.Schema({
   },
 
   badges: [String],
+  savedPlaces: [
+    {
+        placeId: String,
+        placeName: String,
+        image: String,
+        location: String,
+        savedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    },
+],
+
+draftTrips: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Trip",
+    },
+],
+
+publishedTrips: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Trip",
+    },
+],
+
+publishedPosts: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+    },
+],
+
+followers: [
+    {
+        type: String,
+    },
+],
+
+following: [
+    {
+        type: String,
+    },
+],
 });
 
 module.exports = mongoose.model("User", userSchema);

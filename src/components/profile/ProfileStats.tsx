@@ -1,14 +1,19 @@
 import { useContext } from "react";
+
 import { UserContext } from "../../context/UserContext";
 
 import "./profile.css";
 
 function ProfileStats() {
 
-  const {
-    profile,
-    setProfile,
-  } = useContext(UserContext);
+  const { profile } =
+    useContext(UserContext);
+
+  const user =
+    profile?.user;
+
+  const stats =
+    profile?.stats;
 
   return (
 
@@ -16,35 +21,49 @@ function ProfileStats() {
 
       <div className="stat-card">
 
-        <h3>12</h3>
+        <h3>
+          {stats?.totalTrips || 0}
+        </h3>
 
-        <span>Trips</span>
-
-      </div>
-
-      <div className="stat-card">
-
-        <h3>84</h3>
-
-        <span>Places Added</span>
+        <span>
+          Trips
+        </span>
 
       </div>
 
       <div className="stat-card">
 
         <h3>
-          {profile?.explorerPoints ?? 0}
+          {stats?.totalSavedPlaces || 0}
         </h3>
 
-        <span>Explorer Points</span>
+        <span>
+          Saved Places
+        </span>
 
       </div>
 
       <div className="stat-card">
 
-        <h3>142</h3>
+        <h3>
+          {user?.explorerPoints || 0}
+        </h3>
 
-        <span>Followers</span>
+        <span>
+          Explorer Points
+        </span>
+
+      </div>
+
+      <div className="stat-card">
+
+        <h3>
+          {user?.followers?.length || 0}
+        </h3>
+
+        <span>
+          Followers
+        </span>
 
       </div>
 

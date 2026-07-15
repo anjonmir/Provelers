@@ -1,3 +1,7 @@
+import {
+    useEffect,
+    useRef,
+} from "react";
 import "./trip.css";
 
 import {
@@ -8,6 +12,10 @@ import {
 type Props = {
 
     stop: any;
+
+    active?: boolean;
+
+    isOwner: boolean;
 
     onDelete: (
         stopId: string
@@ -20,12 +28,42 @@ type Props = {
 };
 
 function StopCard({
+
     stop,
+
+    active,
+
+    isOwner,
+
     onDelete,
+
     onEdit,
+
 }: Props) {
+    const cardRef =
+        useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+
+        if (active) {
+
+            cardRef.current?.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "center",
+
+            });
+
+        }
+
+    }, [active]);
     return (
-        <div className="stop-card">
+        <div
+            ref={cardRef}
+            className={`stop-card ${active ? "active-stop" : ""
+                }`}
+        >
 
             <div className="stop-header">
 
@@ -62,27 +100,31 @@ function StopCard({
                 </div>
             )}
 
-            <div className="stop-actions">
+            {isOwner && (
 
-                <button
-                    className="trip-icon-btn"
-                    onClick={() =>
-                        onEdit(stop)
-                    }
-                >
-                    <FaEdit />
-                </button>
+                <div className="stop-actions">
 
-                <button
-                    className="trip-icon-btn danger"
-                    onClick={() =>
-                        onDelete(stop._id)
-                    }
-                >
-                    <FaTrash />
-                </button>
 
-            </div>
+                    <button
+                        className="trip-icon-btn"
+                        onClick={() =>
+                            onEdit(stop)
+                        }
+                    >
+                        <FaEdit />
+                    </button>
+
+                    <button
+                        className="trip-icon-btn danger"
+                        onClick={() =>
+                            onDelete(stop._id)
+                        }
+                    >
+                        <FaTrash />
+                    </button>
+
+                </div>
+            )}
 
         </div>
     );
