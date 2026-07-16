@@ -6,6 +6,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import SearchBar from "../SearchBar/SearchBar";
+
 import {
   HiOutlineSearch,
 } from "react-icons/hi";
@@ -65,12 +67,7 @@ function Navbar() {
         {user && (
           <div className="navbar-search">
 
-            <HiOutlineSearch />
-
-            <input
-              type="text"
-              placeholder="Search places, travelers..."
-            />
+            <SearchBar />
 
           </div>
         )}

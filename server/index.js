@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/userRoutes");
 const tripRoutes = require("./routes/tripRoutes");
+const searchRoutes =
+require("./routes/searchRoutes");
 
 // TEMPORARY
 const postRoutes = require("./routes/postRoutes");
@@ -14,6 +16,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(
+    "/api/search",
+    searchRoutes
+);
 
 // ======================
 // ROUTES
