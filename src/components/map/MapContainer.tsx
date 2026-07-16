@@ -4,6 +4,10 @@ import {
   useEffect,
 } from "react";
 
+import {
+  useLocation,
+} from "react-router-dom";
+
 import PlaceDetailModal from "./PlaceDetailModal";
 
 import TripCreateModal from "../trip/TripCreateModal";
@@ -31,6 +35,8 @@ import "./map.css";
 
 
 function MapContainer() {
+
+  const location = useLocation();
 
   const [selectedFilter, setSelectedFilter] =
     useState("All")
@@ -153,12 +159,46 @@ function MapContainer() {
     );
 
   }, []);
-  const handleSearch = () => {
+
+  useEffect(() => {
+
+    const params =
+      new URLSearchParams(location.search);
+
+    const placeName =
+      params.get("place");
+
+    if (!placeName) return;
 
     const foundPlace =
       places.find(
         (place: any) =>
+          place.name === placeName
+      ) as any;
+    if (!foundPlace) return;
 
+    setViewState({
+
+      latitude: foundPlace.lat,
+
+      longitude: foundPlace.lng,
+
+      zoom: 12,
+
+    });
+
+    setSelectedPlace(foundPlace);
+
+    setShowPlaceModal(true);
+
+  }, [location.search]);
+
+
+  const handleSearch = () => {
+
+    const foundPlace: any =
+      places.find(
+        (place: any) =>
           place.name
             .toLowerCase()
             .includes(
@@ -169,22 +209,13 @@ function MapContainer() {
     if (!foundPlace) return;
 
     setViewState({
-      latitude:
-        foundPlace.lat,
-
-      longitude:
-        foundPlace.lng,
-
+      latitude: foundPlace.lat,
+      longitude: foundPlace.lng,
       zoom: 12,
     });
 
-    setSelectedPlace(
-      foundPlace
-    );
-
-    setShowPlaceModal(
-      true
-    );
+    setSelectedPlace(foundPlace);
+    setShowPlaceModal(true);
   };
   return (
     <section className="map-page">

@@ -31,10 +31,9 @@ export async function getPosts() {
 
   if (!res.ok) throw new Error("Failed");
 
-  if (!res.ok)
-    throw new Error("Request failed");
+  if (!res.ok) throw new Error("Request failed");
 
-return res.json();
+  return res.json();
 }
 
 // =========================
@@ -54,10 +53,9 @@ export async function likePost(postId: string, firebaseUid: string) {
     }),
   });
 
-  if (!res.ok)
-    throw new Error("Request failed");
+  if (!res.ok) throw new Error("Request failed");
 
-return res.json();
+  return res.json();
 }
 
 // =========================
@@ -76,6 +74,50 @@ export async function addComment(postId: string, comment: any) {
   });
 
   if (!res.ok) throw new Error("Request failed");
+
+  return res.json();
+}
+export async function deleteComment(
+  postId: string,
+
+  commentId: string,
+
+  firebaseUid: string,
+) {
+  const res = await fetch(
+    `${API}/${postId}/comment/${commentId}`,
+
+    {
+      method: "DELETE",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        firebaseUid,
+      }),
+    },
+  );
+
+  return res.json();
+}
+export async function deletePost(postId: string, firebaseUid: string) {
+  const res = await fetch(
+    `${API}/${postId}`,
+
+    {
+      method: "DELETE",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        firebaseUid,
+      }),
+    },
+  );
 
   return res.json();
 }

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 import {
   FaHeart,
@@ -28,12 +29,17 @@ import {
 
   addComment,
 
-}
-  from "../../services/postService";
+  deleteComment,
+
+} from "../../services/postService";
+
+import { socket } from "../../services/socket";
 
 type Props = {
   post: any;
 };
+
+
 
 function FeedPostCard({ post }: Props) {
 
@@ -75,6 +81,35 @@ function FeedPostCard({ post }: Props) {
   const [reactionCount,
     setReactionCount] =
     useState(reactionTotal)
+  useEffect(() => {
+
+    function handleLike(data: any) {
+
+      if (data.postId !== post._id) return;
+
+      setReactionCount(data.likes);
+
+      if (user) {
+
+        setLiked(
+
+          data.likedBy.includes(user.uid)
+
+        );
+
+      }
+
+    }
+
+    socket.on("post-liked", handleLike);
+
+    return () => {
+
+      socket.off("post-liked", handleLike);
+
+    };
+
+  }, [post._id, user]);
 
   const [saved, setSaved] = useState(() => {
 
@@ -397,13 +432,80 @@ function FeedPostCard({ post }: Props) {
                   key={comment._id || index}
                   className="comment-item"
                 >
-                  <strong>
-                    {comment.user || comment.username}
-                  </strong>
+                  <img
+                    src={comment.photoURL}
+                    className="comment-photo"
+                    alt=""
+                  />
 
-                  <p>
-                    {comment.text}
-                  </p>
+                  <div>
+
+                    <strong>
+
+                      {comment.username}
+
+                    </strong>
+
+                    <small className="comment-time">
+
+                      {timeAgo(comment.createdAt)}
+
+                    </small>
+
+                    <p>
+
+                      {comment.text}
+
+                    </p>
+
+                    {
+
+                      user?.uid === comment.firebaseUid && (
+
+                        <button
+
+                          className="comment-delete"
+
+                          onClick={async () => {
+
+                            if (!user) return;
+
+                            try {
+
+                              const updated = await deleteComment(
+
+                                post._id,
+
+                                comment._id,
+
+                                user.uid
+
+                              );
+
+                              setCommentList(updated.comments);
+
+                            }
+
+                            catch (err) {
+
+                              console.error(err);
+
+                            }
+
+                          }}
+
+                        >
+
+                          Delete
+
+                        </button>
+
+                      )
+
+                    }
+
+                  </div>
+
                 </div>
               )
             )}
@@ -411,7 +513,20 @@ function FeedPostCard({ post }: Props) {
             <div className="comment-box">
 
               <div className="comment-avatar">
-                {authorName.charAt(0).toUpperCase()}
+
+                {user?.photoURL ? (
+
+                  <img
+                    src={user.photoURL}
+                    alt=""
+                  />
+
+                ) : (
+
+                  user?.displayName?.charAt(0).toUpperCase()
+
+                )}
+
               </div>
 
               <div className="comment-input-wrapper">

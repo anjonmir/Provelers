@@ -6,8 +6,7 @@ const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/userRoutes");
 const tripRoutes = require("./routes/tripRoutes");
-const searchRoutes =
-require("./routes/searchRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 // TEMPORARY
 const postRoutes = require("./routes/postRoutes");
@@ -16,10 +15,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(
-    "/api/search",
-    searchRoutes
-);
+app.use("/api/search", searchRoutes);
 
 // ======================
 // ROUTES
@@ -53,8 +49,16 @@ mongoose
 
 // ======================
 
+const http = require("http");
+
+const { initSocket } = require("./socket");
+
+const server = http.createServer(app);
+
+initSocket(server);
+
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server Running on ${PORT}`);
 });
