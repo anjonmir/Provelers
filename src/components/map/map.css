@@ -287,37 +287,148 @@
 .map-list-item:last-child {
   border-bottom: none;
 }
-
 /* ==========================================
-   TRAVELERS
+   DISCOVER TRAVELERS
 ========================================== */
+
+.traveler-header {
+  margin-bottom: 16px;
+}
+
+.traveler-header h5 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.traveler-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.traveler-list {
+  display: flex;
+  flex-direction: column;
+}
 
 .traveler-item {
   display: flex;
 
-  align-items: center;
+  align-items: flex-start;
 
-  gap: 10px;
+  gap: 12px;
 
-  padding: 8px 0;
+  padding: 12px 0;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.traveler-item:last-child {
+  border-bottom: none;
+
+  padding-bottom: 0;
 }
 
 .traveler-avatar {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+
+  height: 42px;
+
+  min-width: 42px;
 
   border-radius: 50%;
 
   display: flex;
 
   align-items: center;
+
   justify-content: center;
+
+  background: linear-gradient(135deg, var(--primary), #4fa3d1);
 
   color: white;
 
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.traveler-body {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.traveler-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 12px;
+}
+
+.traveler-name-group {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.traveler-name-group h6 {
+  margin: 0;
+
+  font-size: 15px;
+
   font-weight: 700;
 
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #0f172a;
+}
+
+.traveler-name-group span {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+.traveler-bottom {
+  margin-top: 5px;
+
+  font-size: 12px;
+
+  color: #94a3b8;
+}
+
+.follow-btn {
+  border: none;
+
+  background: #e7f3ff;
+
+  color: #1877f2;
+
+  padding: 6px 16px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: 0.25s;
+}
+
+.follow-btn:hover {
+  background: #d8ebff;
 }
 
 /* ==========================================
@@ -410,8 +521,7 @@
 
   cursor: pointer;
 
-  box-shadow:
-    0 4px 15px rgba(0,0,0,.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 .modal-category {
   font-weight: bold;
@@ -503,224 +613,176 @@
   transform: translateX(3px);
 }
 
+.hidden-gem-btn {
+  position: absolute;
 
+  bottom: 25px;
 
-.hidden-gem-btn{
+  right: 25px;
 
-position:absolute;
+  z-index: 100;
 
-bottom:25px;
+  background: #ffcc33;
 
-right:25px;
+  color: #222;
 
-z-index:100;
+  border: none;
 
-background:#ffcc33;
+  padding: 14px 22px;
 
-color:#222;
+  border-radius: 40px;
 
-border:none;
+  font-weight: 700;
 
-padding:14px 22px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 
-border-radius:40px;
-
-font-weight:700;
-
-box-shadow:0 12px 30px rgba(0,0,0,.18);
-
-transition:.25s;
-
+  transition: 0.25s;
 }
 
-.hidden-gem-btn:hover{
-
-transform:translateY(-3px);
-
+.hidden-gem-btn:hover {
+  transform: translateY(-3px);
 }
 
+.map-style-popup {
+  width: 650px;
 
+  max-width: 95%;
 
-.map-style-popup{
+  border-radius: 24px;
 
-    width:650px;
-
-    max-width:95%;
-
-    border-radius:24px;
-
-    overflow:hidden;
-
+  overflow: hidden;
 }
 
-.hidden-map-preview{
+.hidden-map-preview {
+  position: relative;
 
-    position:relative;
+  height: 220px;
 
-    height:220px;
+  margin: 20px 0;
 
-    margin:20px 0;
+  border-radius: 18px;
 
-    border-radius:18px;
+  overflow: hidden;
 
-    overflow:hidden;
-
-    background:
-    linear-gradient(
-        135deg,
-        #ddeef6,
-        #cde8d3
-    );
-
+  background: linear-gradient(135deg, #ddeef6, #cde8d3);
 }
 
-.map-grid{
+.map-grid {
+  position: absolute;
 
-    position:absolute;
+  inset: 0;
 
-    inset:0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
 
-    background-image:
+  background-size: 40px 40px;
 
-    linear-gradient(
-        rgba(255,255,255,.4) 1px,
-        transparent 1px
-    ),
-
-    linear-gradient(
-        90deg,
-        rgba(255,255,255,.4) 1px,
-        transparent 1px
-    );
-
-    background-size:40px 40px;
-
-    opacity:.45;
-
+  opacity: 0.45;
 }
 
-.gps-marker{
+.gps-marker {
+  position: absolute;
 
-    position:absolute;
+  left: 50%;
 
-    left:50%;
+  top: 50%;
 
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
+  transform: translate(-50%, -50%);
 }
 
-.gps-ring{
+.gps-ring {
+  width: 70px;
 
-    width:70px;
+  height: 70px;
 
-    height:70px;
+  border-radius: 50%;
 
-    border-radius:50%;
+  background: #2563eb55;
 
-    background:#2563eb55;
-
-    animation:pulse 2s infinite;
-
+  animation: pulse 2s infinite;
 }
 
-.gps-dot{
+.gps-dot {
+  position: absolute;
 
-    position:absolute;
+  left: 50%;
 
-    left:50%;
+  top: 50%;
 
-    top:50%;
+  width: 18px;
 
-    width:18px;
+  height: 18px;
 
-    height:18px;
+  background: #2563eb;
 
-    background:#2563eb;
+  border: 4px solid white;
 
-    border:4px solid white;
+  border-radius: 50%;
 
-    border-radius:50%;
-
-    transform:translate(-50%,-50%);
-
+  transform: translate(-50%, -50%);
 }
 
-.map-label{
+.map-label {
+  position: absolute;
 
-    position:absolute;
+  bottom: 15px;
 
-    bottom:15px;
+  left: 15px;
 
-    left:15px;
+  padding: 8px 14px;
 
-    padding:8px 14px;
+  background: white;
 
-    background:white;
+  border-radius: 30px;
 
-    border-radius:30px;
-
-    font-weight:600;
-
+  font-weight: 600;
 }
 
-@keyframes pulse{
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
 
-0%{
+    opacity: 1;
+  }
 
-transform:scale(.8);
+  100% {
+    transform: scale(2);
 
-opacity:1;
-
+    opacity: 0;
+  }
 }
 
-100%{
-
-transform:scale(2);
-
-opacity:0;
-
+.hidden-gem-preview .mapboxgl-map {
+  border-radius: 18px;
 }
 
+.hidden-gem-marker {
+  width: 18px;
+
+  height: 18px;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  border: 4px solid white;
+
+  box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.25);
 }
 
-.hidden-gem-preview .mapboxgl-map{
+.hidden-gem-note {
+  margin-bottom: 20px;
 
-    border-radius:18px;
+  padding: 12px;
 
-}
+  border-radius: 12px;
 
-.hidden-gem-marker{
+  background: #fff9d7;
 
-    width:18px;
+  color: #7a5a00;
 
-    height:18px;
+  font-size: 14px;
 
-    border-radius:50%;
-
-    background:#2563eb;
-
-    border:4px solid white;
-
-    box-shadow:0 0 0 8px rgba(37,99,235,.25);
-
-}
-
-.hidden-gem-note{
-
-margin-bottom:20px;
-
-padding:12px;
-
-border-radius:12px;
-
-background:#fff9d7;
-
-color:#7a5a00;
-
-font-size:14px;
-
-line-height:1.5;
-
+  line-height: 1.5;
 }

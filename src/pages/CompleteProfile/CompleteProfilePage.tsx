@@ -23,6 +23,14 @@ function CompleteProfilePage() {
 
   const [step, setStep] =
     useState(1);
+  const [errors, setErrors] = useState({
+    fullName: "",
+    phoneNumber: "",
+    division: "",
+    district: "",
+  });
+
+
 
   const [profileData, setProfileData] =
     useState({
@@ -158,18 +166,20 @@ function CompleteProfilePage() {
       "Sherpur",
     ],
   };
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleCompleteProfile = async () => {
     if (!user) return;
+    if (isSaving) return;
+
+    setIsSaving(true);
 
     try {
+
       const userObject = {
         ...profileData,
-
         firebaseUid: user.uid,
-
         explorerPoints: 0,
-
         badges:
           profileData.nidNumber.trim() !== ""
             ? ["Authentic"]
@@ -181,8 +191,14 @@ function CompleteProfilePage() {
       navigate("/feed");
 
     } catch (error) {
+
       console.error("SAVE ERROR:", error);
       alert("Failed to save profile.");
+
+    } finally {
+
+      setIsSaving(false);
+
     }
   };
 
@@ -211,9 +227,50 @@ function CompleteProfilePage() {
       (completedFields / 11) * 100
     );
 
+  const validateCurrentStep = () => {
+    const newErrors = {
+      fullName: "",
+      phoneNumber: "",
+      division: "",
+      district: "",
+    };
 
+    let valid = true;
+
+    if (step === 1 && !profileData.fullName.trim()) {
+      newErrors.fullName = "Full Name is required.";
+      valid = false;
+    }
+
+    if (step === 2 && !profileData.phoneNumber.trim()) {
+      newErrors.phoneNumber = "Phone Number is required.";
+      valid = false;
+    }
+
+    if (step === 3) {
+      if (!profileData.division) {
+        newErrors.division = "Division is required.";
+        valid = false;
+      }
+
+      if (!profileData.district) {
+        newErrors.district = "District is required.";
+        valid = false;
+      }
+    }
+
+    setErrors(newErrors);
+
+    return valid;
+  };
   const nextStep = () => {
+
+    if (!validateCurrentStep()) {
+      return;
+    }
+
     setStep((prev) => prev + 1);
+
   };
 
   const prevStep = () => {
@@ -242,19 +299,30 @@ function CompleteProfilePage() {
             Help travelers know more about you.
           </p>
         </div>
+        <div className="completion-box">
 
-        <div className="step-progress">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+          <h3>Profile Completion</h3>
+
+          <div className="completion-bar">
             <div
-              key={item}
-              className={
-                item <= step
-                  ? "step-dot active"
-                  : "step-dot"
-              }
+              className="completion-fill"
+              style={{
+                width:
+                  `${completionPercentage}%`,
+              }}
             />
-          ))}
+          </div>
+          <p className="step-counter">
+            Step {step} of 8
+          </p>
+
+          <p>
+            {completionPercentage}% Complete
+          </p>
+
         </div>
+
+
 
         {/* STEP 1 */}
 
@@ -313,28 +381,49 @@ function CompleteProfilePage() {
               </label>
 
             </div>
-
+            <label className="form-label">
+              Full Name
+              <span className="required">*</span>
+            </label>
             <input
               type="text"
-              placeholder="Full Name"
 
-              value={
-                profileData.fullName
-              }
+              value={profileData.fullName}
 
-              onChange={(e) =>
+
+
+              onChange={(e) => {
+
                 setProfileData({
                   ...profileData,
+                  fullName: e.target.value,
+                });
 
-                  fullName:
-                    e.target.value,
-                })
-              }
+                if (errors.fullName) {
+                  setErrors({
+                    ...errors,
+                    fullName: "",
+                  });
+                }
+
+              }}
             />
+            {
+              errors.fullName && (
+                <p className="error">
+                  {errors.fullName}
+                </p>
+              )
+            }
+
 
             <p className="generated-username">
               @{profileData.username}
             </p>
+
+            <label>
+              Biography
+            </label>
             <textarea
               placeholder="Tell travelers about yourself..."
 
@@ -351,10 +440,14 @@ function CompleteProfilePage() {
                 })
               }
             />
+            <label>
+              Date of Birth
+            </label>
 
             <input
               ref={dobRef}
               type="date"
+              max={new Date().toISOString().split("T")[0]}
               value={profileData.dateOfBirth}
               onClick={() =>
                 dobRef.current?.showPicker?.()
@@ -407,20 +500,31 @@ function CompleteProfilePage() {
               value={profileData.email}
               readOnly
             />
-
+            <label>
+              Phone Number <span className="required">*</span>
+            </label>
             <input
-              type="text"
+              type="tel"
+              inputMode="numeric"
               placeholder="+880xxxxxxxxxx"
 
               value={profileData.phoneNumber}
 
-              onChange={(e) =>
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+
                 setProfileData({
                   ...profileData,
-                  phoneNumber:
-                    e.target.value,
-                })
-              }
+                  phoneNumber: value,
+                });
+
+                if (errors.phoneNumber) {
+                  setErrors({
+                    ...errors,
+                    phoneNumber: "",
+                  });
+                }
+              }}
             />
 
 
@@ -432,16 +536,27 @@ function CompleteProfilePage() {
           <div className="step-card">
 
             <h2>Location</h2>
-
+            <label>
+              Division <span className="required">*</span>
+            </label>
             <select
               value={profileData.division}
-              onChange={(e) =>
+              onChange={(e) => {
+
                 setProfileData({
                   ...profileData,
                   division: e.target.value,
                   district: "",
-                })
-              }
+                });
+
+                if (errors.division) {
+                  setErrors({
+                    ...errors,
+                    division: "",
+                  });
+                }
+
+              }}
             >
               <option value="">
                 Select Division
@@ -456,15 +571,34 @@ function CompleteProfilePage() {
                 </option>
               ))}
             </select>
-
+            {
+              errors.division && (
+                <p className="error">
+                  {errors.division}
+                </p>
+              )
+            }
+            <label>
+              District <span className="required">*</span>
+            </label>
             <select
               value={profileData.district}
-              onChange={(e) =>
+              disabled={!profileData.division}
+              onChange={(e) => {
+
                 setProfileData({
                   ...profileData,
                   district: e.target.value,
-                })
-              }
+                });
+
+                if (errors.district) {
+                  setErrors({
+                    ...errors,
+                    district: "",
+                  });
+                }
+
+              }}
             >
               <option value="">
                 Select District
@@ -482,6 +616,13 @@ function CompleteProfilePage() {
                   </option>
                 ))}
             </select>
+            {
+              errors.district && (
+                <p className="error">
+                  {errors.district}
+                </p>
+              )
+            }
 
             <input
               type="text"
@@ -682,76 +823,67 @@ function CompleteProfilePage() {
                 profileData.nidNumber
               }
 
-              onChange={(e) =>
+              onChange={(e) => {
+
+                const value = e.target.value.replace(/\D/g, "");
+
                 setProfileData({
                   ...profileData,
-                  nidNumber:
-                    e.target.value,
-                })
-              }
+                  nidNumber: value,
+                });
+
+              }}
             />
           </div>
         )}
-
-
-        {/* STEP 8 */}
-
         {step === 8 && (
           <div className="step-card">
+            <h2>Ready to Finish?</h2>
 
-            <h2>Review Profile</h2>
+            <p>
+              Your profile is ready. Click{" "}
+              <strong>Complete Profile</strong> to continue.
+            </p>
 
-            <div className="completion-box">
+            <div className="step-actions">
+              <button
+                className="secondary-btn"
+                onClick={prevStep}
+              >
+                Back
+              </button>
 
-              <h3>Profile Completion</h3>
-
-              <div className="completion-bar">
-                <div
-                  className="completion-fill"
-                  style={{
-                    width:
-                      `${completionPercentage}%`,
-                  }}
-                />
-              </div>
-
-              <p>
-                {completionPercentage}% Complete
-              </p>
-
+              <button
+                className="submit-btn"
+                onClick={handleCompleteProfile}
+                disabled={isSaving}
+              >
+                {isSaving ? "Saving..." : "Complete Profile"}
+              </button>
             </div>
-
-            <button
-              className="submit-btn"
-              onClick={handleCompleteProfile}
-            >
-              Complete Profile
-            </button>
-
           </div>
         )}
 
-        <div className="step-actions">
 
-          {step > 1 && (
-            <button
-              className="secondary-btn"
-              onClick={prevStep}
-            >
-              Back
-            </button>
-          )}
+        {step < 8 && (
+          <div className="step-actions">
+            {step > 1 && (
+              <button
+                className="secondary-btn"
+                onClick={prevStep}
+              >
+                Back
+              </button>
+            )}
 
-          {step < 8 && (
             <button
               className="primary-btn"
               onClick={nextStep}
             >
               Next
             </button>
-          )}
-
-        </div>
+          </div>
+        )}
 
       </div>
     </div>

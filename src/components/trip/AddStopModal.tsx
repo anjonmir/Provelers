@@ -241,7 +241,7 @@ function AddStopModal({
 
                 <div className="trip-modal-header">
 
-                    <h3>Add Stop</h3>
+                    <h3>Add Spot Name</h3>
 
                     <button
                         className="trip-modal-close"

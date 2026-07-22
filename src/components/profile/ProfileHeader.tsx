@@ -17,13 +17,43 @@ function ProfileHeader() {
 
     <div className="profile-header-card">
 
-      <h1>
-        {user?.fullName}
-      </h1>
+      <div className="profile-title-row">
 
-      <span className="username">
-        @{user?.username}
-      </span>
+        <div className="profile-title">
+
+          <h1>{user?.fullName}</h1>
+
+          <span className="username">
+            @{user?.username}
+          </span>
+
+        </div>
+
+        <div className="profile-actions">
+
+          {isOwner ? (
+
+            <button className="primary-btn">
+              Edit Profile
+            </button>
+
+          ) : (
+
+            <>
+              <button className="primary-btn">
+                Follow
+              </button>
+
+              <button className="secondary-btn">
+                Message
+              </button>
+            </>
+
+          )}
+
+        </div>
+
+      </div>
 
       <p className="profile-location">
         {user?.district}, {user?.division}
@@ -34,35 +64,7 @@ function ProfileHeader() {
       </p>
 
       <div className="traveler-tags">
-
-        <span>
-          {user?.travelerType}
-        </span>
-
-      </div>
-
-      <div className="profile-actions">
-
-        {isOwner ? (
-
-          <button className="primary-btn">
-            Edit Profile
-          </button>
-
-        ) : (
-
-          <>
-            <button className="primary-btn">
-              Follow
-            </button>
-
-            <button className="secondary-btn">
-              Message
-            </button>
-          </>
-
-        )}
-
+        <span>{user?.travelerType}</span>
       </div>
 
     </div>

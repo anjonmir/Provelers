@@ -873,3 +873,45 @@ font-size:18px;
   gap:6px;
 
 }
+.profile-title-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    margin-bottom:10px;
+}
+
+.profile-title{
+    flex:1;
+}
+
+.profile-title h1{
+    margin:0;
+}
+
+.profile-title .username{
+    display:block;
+    margin-top:4px;
+}
+
+.profile-actions{
+    margin-top:0;
+    flex-shrink:0;
+}
+
+@media (max-width:768px){
+
+    .profile-title-row{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .profile-actions{
+        width:100%;
+    }
+
+    .profile-actions button{
+        width:100%;
+    }
+
+}

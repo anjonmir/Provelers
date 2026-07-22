@@ -936,8 +936,11 @@
 }
 
 .traveler-avatar{
-    width:95px;
-    height:95px;
+    width:42px;
+    height:42px;
+    min-width:42px;
+
+    font-size:17px;
 
     border-radius:50%;
     object-fit:cover;

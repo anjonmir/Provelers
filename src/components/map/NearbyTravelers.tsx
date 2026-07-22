@@ -1,36 +1,86 @@
+import "./map.css";
+
 function NearbyTravelers() {
   const travelers = [
-    "Rafiq K.",
-    "Tania A.",
-    "Minhaj S.",
+    {
+      id: 1,
+      name: "Rafiq Khan",
+      travelerType: "Explorer",
+      district: "Rajshahi",
+      trips: 42,
+      followers: 186,
+    },
+    {
+      id: 2,
+      name: "Tania Ahmed",
+      travelerType: "Food Explorer",
+      district: "Dhaka",
+      trips: 31,
+      followers: 127,
+    },
+    {
+      id: 3,
+      name: "Minhaj Sheikh",
+      travelerType: "Photographer",
+      district: "Sylhet",
+      trips: 18,
+      followers: 74,
+    },
   ];
 
   return (
     <div className="map-card glass-card">
 
-      <h5>
-        Active Nearby Travelers
-      </h5>
+      <div className="traveler-header">
+        <h5>Discover Travelers</h5>
 
-      {travelers.map(
-        (traveler, index) => (
+        <p className="traveler-subtitle">
+          Connect with fellow travelers across Bangladesh.
+        </p>
+      </div>
+
+      <div className="traveler-list">
+
+        {travelers.map((traveler) => (
           <div
-            key={index}
+            key={traveler.id}
             className="traveler-item"
           >
+
             <div className="traveler-avatar">
-              {traveler.charAt(0)}
+              {traveler.name.charAt(0)}
             </div>
 
+            <div className="traveler-body">
 
-            <span>{traveler}</span>
-            <button type="button"
-              className="btn btn-info follow-btn">
-              Follow
-            </button>
+              <div className="traveler-top">
+
+                <div className="traveler-name-group">
+
+                  <h6>{traveler.name}</h6>
+
+                  <span>
+                    {traveler.travelerType} • {traveler.district}
+                  </span>
+
+                </div>
+
+                <button className="follow-btn">
+                  Follow
+                </button>
+
+              </div>
+
+              <div className="traveler-bottom">
+                {traveler.trips} Trips • {traveler.followers} Followers
+              </div>
+
+            </div>
+
           </div>
-        )
-      )}
+        ))}
+
+      </div>
 
     </div>
   );
