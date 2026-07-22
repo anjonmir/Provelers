@@ -1,5 +1,4 @@
-const API = "http://localhost:8000/api/trips";
-
+const API = `${import.meta.env.VITE_API_URL}/api/trips`;
 // ========================
 // CREATE TRIP
 // =======================

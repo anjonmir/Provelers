@@ -1,4 +1,4 @@
-const API = "http://localhost:8000/api/users";
+const API = `${import.meta.env.VITE_API_URL}/api/users`;
 
 export async function createUser(userData: any) {
   const response = await fetch(API, {

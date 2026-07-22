@@ -1,4 +1,4 @@
-const API = "http://localhost:8000/api/search";
+const API = `${import.meta.env.VITE_API_URL}/api/search`;
 
 export async function searchEverything(
   query: string,
